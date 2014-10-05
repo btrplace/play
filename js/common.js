@@ -66,7 +66,8 @@ function createXhrObject() {
 function postToAPI(id, params, callback) {
 	var http = createXhrObject();
 	var o = parseUri(document.location.href);
-	http.open("POST", "http://" + o.authority + o.directory + "api/" + id, true);
+	//http.open("POST", "http://" + o.authority + o.directory + "api/" + id, true);
+	http.open("POST", "http://btrp.inria.fr/sandbox/api/" + id, true);
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = callback;
 	http.send(params);
