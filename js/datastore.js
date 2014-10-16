@@ -3,34 +3,42 @@ function loadUseCases(id) {
   		type: "GET",  		
   		url: entry_point + "/store/"
   	});
-  	promise.done(function (titles) {
-  		var buf = "";
+  	promise.done(function (summaries) {
+  		var buf = "";  		
   		var first = true;
-  		titles.forEach(function (t) {
-  			buf += "<option>" + t + "</option>";
-  			if (first) {
-  				loadUseCase(t);
+  		summaries.forEach(function (s) {
+  			buf += "<option value=\"" + s.key + "\">" + s.title + "</option>";  			
+  			/*if (first) {
+  				loadUseCase(s.key);
   				first = false;
-  			}
+  			}*/
   		});
-  		buf += "<option>custom ...</custom>";
+  		buf += "<option value='_'>custom ...</custom>";
   		$("#" + id).removeAttr("disabled").html(buf);  		
+  		loadUseCase();
   	})
 }
 
-function loadUseCase(id) {
-	var promise = $.ajax({
-  		type: "GET",  		
-  		url: entry_point + "/store/" + id
-  	});
-  	promise.done(function (useCase) {
-  		$("#description").html(useCase.description);
-  		$("#solve").removeAttr("disabled");  		
-  		editor.setValue(useCase.script);  		  		
-  		editor.clearSelection();
-  	})
-  	promise.fail(function (xhr) {
-  		console.log(xhr.status);
-  		console.log(xhr.responseText);  		
-  	});
+function loadUseCase(se) {
+	var k = $("#use-cases").val();
+	if (k == "_") {
+		editor.setReadOnly(false);
+		//editable configuration
+	} else {
+		var promise = $.ajax({
+  			type: "GET",  		
+  			url: entry_point + "/store/" + k
+  		});
+  		promise.done(function (useCase) {
+  			$("#description").html(useCase.description);
+  			$("#solve").removeAttr("disabled");  		
+  			editor.setValue(useCase.script);  		  		
+  			editor.clearSelection();
+  			editor.setReadOnly(true);
+  		})
+  		promise.fail(function (xhr) {
+  			console.log(xhr.status);
+  			console.log(xhr.responseText);  		
+  		});
+  	}
 }

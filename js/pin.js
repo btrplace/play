@@ -45,36 +45,11 @@ function randomConfiguration() {
     }
 }
 
-/*function generateSampleScript(cfg) {
-
-     var buf = "namespace sandbox;\n\n";
-     buf += "VM[1.." + (cfg.vms.length) + "] : myVMs;\n\n";
-         for (var i in cfg.nodes) {
-        var n = cfg.nodes[i];
-        if (n.vms.length >= 2) {
-            buf += ">>spread({" + n.vms[0].id + ", " + n.vms[1].id + "});\n";
-            break;
-        }
-     }
-     //One ban on the 3 first VMs that are placed, after vms[5]     
-     for (var x = 0; x < config.nodes.length; x++) {
-        if (config.nodes[x].vms.length > 0) {
-            buf += "ban(" + config.nodes[x].vms[0].id + ", " + config.nodes[x].id + ");\n";
-            break;
-        }        
-     }
-     //maxOnlines
-    buf += ">>maxOnline(@N[1..8], 5);\n"
-    return buf;
-}*/
-
 function init() {    
     var get = GETParameters();
     editor = ace.edit("editor");
     editor.setReadOnly(true);               
     loadUseCases("use-cases");    
     randomConfiguration();        
-    //editor.setValue(generateSampleScript(config));
     drawConfiguration("canvas");            
-    editor.clearSelection();
 }
