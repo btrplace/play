@@ -24,6 +24,7 @@ function loadUseCase(se) {
 	if (k == "_") {
 		editor.setReadOnly(false);
 		//editable configuration
+		canEdit = true;
 	} else {
 		var promise = $.ajax({
   			type: "GET",  		
@@ -35,6 +36,7 @@ function loadUseCase(se) {
   			editor.setValue(useCase.script);  		  		
   			editor.clearSelection();
   			editor.setReadOnly(true);
+  			canEdit = false;
   		})
   		promise.fail(function (xhr) {
   			console.log(xhr.status);
