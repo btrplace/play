@@ -20,10 +20,11 @@ function makeAction(unit, lbl, start, end, h){
 		actionLine = $("<div></div>").addClass("actionLine"),
     	actionContainer = $("<div></div>").addClass("actionContainer");
 	actionBar.html(lbl);
-	actionContainer.append(actionBar).append(actionLine);
+	actionContainer.append(actionBar).appen
+	actionContainer.append(actionLine);
 
-	actionBar.css({left: start * unit, width: (end - start) * unit});
-	actionLine.css("width", (h + 1) * unit);
+	//+1 to make a space from the left border
+	actionBar.css({left: (start + 1) * unit, width: (end - start) * unit});	
 	return actionContainer;
 }
 
@@ -31,13 +32,12 @@ function makeTimeline(unit, h) {
 	var timeline = $("<div></div>").addClass("graduations");
 	timeline.append($("<div></div>").addClass("actionLine"));
 	for (var i = 0; i <= h; i++) {
-		var x = i * unit;
+		var x = (i + 1) * unit;
 		var g = $("<div></div>").addClass("timestamp");			
 		var m = $("<div>" + i + "</div>").addClass("timemark");			
 		g.css({left:x});		
 		m.css({left:x});	
-		timeline.append(g).append(m);			
-		timeline.css("width", (h + 1) * unit);
+		timeline.append(g).append(m);				
 	}	
 
 	return timeline;
@@ -93,7 +93,9 @@ function createPlayer(plan, to) {
 	div.append(controler);				
 	div.append(actions);
 	div.append(makeTimeline(unit,h));		
-
+	var cursor = $("<div></div>").addClass("cursor").css("left", unit);
+	actions.append(cursor);
+	div.append();
 	schedule = prepareReconfiguration(plan.actions, h);
 	now = 0;
 }

@@ -119,10 +119,10 @@ code {
 }
 
 
-s
 /* Diagram stuff */
-#actionLines {
+.actionLines {
 	position:relative;
+	margin-top: 2em;
 }
 
 #diagramWrapper {
@@ -150,16 +150,11 @@ s
 	box-sizing:border-box;
 }
 
-#currentFrameLine {
+.cursor {
 	position:absolute;
-	border-left:1px solid rgba(20,20,20,0.5);
-	left:0;
-	top:0;
-	bottom:0;
-	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);;
-    -o-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);;
+	border-left:3px solid rgba(20,20,20,0.5);	
+	top:-1em;
+	bottom:-1em;
 }
 
 .actionContainer {
@@ -167,22 +162,9 @@ s
 }
 
 .actionLine {
-	border-top:1px solid #5cb85c;
+	border-top:1px solid #666;/*#5cb85c;*/
 	position:relative;
 	top:-14px;    	
-}
-
-.graduations .actionLine {
-	top: 10px;
-}
-
-#timeLineBar {
-	border-top:1px solid #222;
-	position:relative;
-	margin-left:-15px;
-	top:10px;
-	height:20px;
-	z-index:10;
 }
 
 
@@ -192,20 +174,24 @@ s
 	height:6px;
 }
 
+.graduations .actionLine {
+	top: 10px;	
+}
+
 .timestamp {
 	position:absolute;
 	bottom:-10px;
-	height:100%;
+	height:10px;
 	border-left: 2px solid #5cb85c;	
 }
 
 .timemark {
  	position:absolute; 	 
- 	width:3px;
- 	margin-left:-2px; 	
- 	font-size: 8pt;
+ 	width:4px;
+ 	margin-left:-3px; 	
+ 	font-size: 10pt;	
  	margin-top: 10px;
- 	color: #5cb85c;
+ 	color: #666 /*#5cb85c;*/
 }
 
 .timeLineGradLabel {

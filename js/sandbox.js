@@ -304,7 +304,8 @@ function solve() {
 	var instance = instance2JSON(config, editor.getValue())
 	var promise = $.ajax({
   		type: "POST",
-  		url: "http://murmuring-sierra-9341/solve",
+  		//url: "http://murmuring-sierra-9341/solve",
+  		url: "http://localhost:8080/solve",
   		data: JSON.stringify(instance)
   	});
   	promise.done(function (plan, statusCode) {  	  		
@@ -313,7 +314,11 @@ function solve() {
 			e.html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
 			show(e, s);
   		} else if (statusCode == "success") {
-			createPlayer(plan, "player");												
+  			if (plan.actions.length == 0) {
+  				s.html("<p>No need to reconfigure</p>");
+  			} else {
+				createPlayer(plan, "player");												
+			}
 			show(s, e);
   		} else {
   			console.log("Unsupported status: " + statusCode);
