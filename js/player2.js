@@ -86,9 +86,9 @@ function createPlayer(plan, to) {
 		actions.append(makeAction(unit, lbl, a.start, a.end, h));		
 	});
 		var controler = "<div class='controler'>"
-		+ "<a class='btn btn-default btn-green' onclick='resetPlayer()'><i class='fa fa-fast-backward'></i></a>"		
-		+ "<a class='btn btn-default btn-green btn-lg' onclick='playPause(this)'><i class='fa fa-play'></i></a>"		
-		+ "<a class='btn btn-default btn-green' onclick='finishPlay()'><i class='fa fa-fast-forward'></i></a>"
+		+ "<a class='btn btn-default btn-green' onclick='rwd()'><i class='fa fa-fast-backward'></i></a>"		
+		+ "<a class='btn btn-default btn-green' onclick='playPause(this)'><i class='fa fa-play'></i></a>"		
+		+ "<a class='btn btn-default btn-green' onclick='ffwd()'><i class='fa fa-fast-forward'></i></a>"
 		+ "</div>";
 	div.append(controler);				
 	div.append(actions);
@@ -98,6 +98,12 @@ function createPlayer(plan, to) {
 	div.append();
 	schedule = prepareReconfiguration(plan.actions, h);
 	now = 0;
+}
+
+function ffwd() {
+	$("#player").find(".btn-green").disable();
+	paused = false;
+	run(now, 3);
 }
 
 function playPause(btn) {

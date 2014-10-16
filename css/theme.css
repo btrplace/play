@@ -1,7 +1,15 @@
+.btn-info, .btn-default {
+    border: none;
+}
 #player .controler {
+    padding-top: 0.5em;
     margin-bottom: 1em;
+    text-align: center;
 }
 
+.controler .btn {
+    margin: 2px;
+}
 #editor {         
     height: 300px;
     width: 100%;         
@@ -119,43 +127,11 @@ a:focus {
     width: 200px;
 }
 
-
-.btn-circle {
-    width: 70px;
-    height: 70px;
-    margin-top: 15px;
-    padding: 7px 16px;
-    border: 2px solid #fff;
-    border-radius: 35px;
-    font-size: 40px;    
-    background: 0 0;
-    -webkit-transition: background .3s ease-in-out;
-    -moz-transition: background .3s ease-in-out;
-    transition: background .3s ease-in-out;
-}
-
-.btn-circle:hover,
-.btn-circle:focus {
-    outline: 0;    
-    background: rgba(210,216,177,.3);
-}
-
-.btn-circle i.animated {
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-}
-
-.btn-circle:hover i.animated {
-    -webkit-animation-name: pulse;
-    -moz-animation-name: pulse;
-    -webkit-animation-duration: 1.5s;
-    -moz-animation-duration: 1.5s;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-    -moz-animation-timing-function: linear;
+.btn-hg {
+    padding: 10px 16px;
+    font-size: 25px;
+    line-height: 1.5;
+    margin: 5px;
 }
 
 @-webkit-keyframes pulse {    
@@ -212,20 +188,17 @@ a:focus {
 }
 
 .btn-default {
-    border: 1px solid #cccccc;    
     background-color: #e7e7e7;
 }
 
 .btn-default:hover,
 .btn-default:focus {
-    /*border: 1px solid #219ab3;*/
     outline: 0;
     color: #000;    
     background-color: #5cb85c;
 }
 
 .btn-green {    
-    border: solid 1px #aab089;
     text-decoration: none;
     background: #d2d8b1;
     border-radius: 4px;    
