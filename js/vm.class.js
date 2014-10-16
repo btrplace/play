@@ -32,9 +32,9 @@ function VirtualMachine(id, cpu, mem) {
 	    this.box.push(t);
 
 		var self = this ;
-		foreachArray(this.box, function(element){
-			element.node.setAttribute("class","vmZone");
-			element.node.setAttribute("sandboxVMID", self.id.substr(2));
+		this.box.forEach(function(e){
+			e.node.setAttribute("class","vmZone");
+			e.node.setAttribute("sandboxVMID", self.id.substr(2));
 		});
 
 	    //Upper left corner
@@ -55,10 +55,7 @@ function VirtualMachine(id, cpu, mem) {
 	this.updateSelectionDraw = function(){
 		if( this.isSelected ){
 			this.previousColor = this.rect.attr("fill");
-			this.rect.attr({
-				'fill':'#d2d8b1'
-
-			});
+			this.rect.attr({'fill':'#d2d8b1'});
 		}
 		else {
 			this.rect.attr({'fill':this.bgColor});
@@ -76,12 +73,6 @@ function VirtualMachine(id, cpu, mem) {
 		if (doUnhost) {
 			config.getHoster(this.id).unhost(this);
 		}
-
-		//if (LOG) console.log("Splicing "+this.id+" whose config.vms index is : "+config.vms.indexOf(this));
-
 		config.vms.splice(config.vms.indexOf(this), 1);
-	}
-
-	// TODO : add changeResourcesRelatively(name, relative)
-
+	}	
 }

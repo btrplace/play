@@ -46,10 +46,10 @@ function Node(name, cpu, mem) {
 
 	    //labels
         this.boxFill.push(canvas.text(x + width - border,y + height - 10,"cpu").attr({'font-size':'12pt','text-anchor':'end','baseline-shift':'0em','fill':bgColor}));
-        this.boxFill.push(canvas.text(x + 2,y + border - 7,"memory").attr({'font-size': '12pt','text-anchor':'start','baseline-shift':'0em','fill':bgColor}));
+        this.boxFill.push(canvas.text(x + 2,y + border - 7,"mem").attr({'font-size': '12pt','text-anchor':'start','baseline-shift':'0em','fill':bgColor}));
 
 	    //Node name, bottom left
-	    this.boxFill.push(canvas.text(x - 1 + border, y + border + box_height, name).attr({'text-anchor': 'end' ,'baseline-shift': '-2em','font-size' : '16pt', 'fill' : bgColor}));
+	    this.boxFill.push(canvas.text(x + 2, y + height - 10, this.id).attr({'text-anchor': 'start' ,'baseline-shift': '0em','font-size' : '12pt', 'fill' : bgColor}));
 
         //Resource grid
 	    for (var i = 1; i < this.cpu; i+=1) {
@@ -77,9 +77,9 @@ function Node(name, cpu, mem) {
 		var self = this ;
 		// Add class data foreach drawed element, to ensure to
 		// catch the click, even on the grid line.
-		foreachArray(drawingElements, function(element){
-			element.node.setAttribute("class","nodeZone");
-			element.node.setAttribute("sandboxNodeID",self.id);
+		drawingElements.forEach(function (e) {
+			e.node.setAttribute("class","nodeZone");
+			e.node.setAttribute("sandboxNodeID",self.id);
 		});
     }
 
@@ -183,8 +183,7 @@ function Node(name, cpu, mem) {
     	// Add its VMs
     	for(var i in nodeData[3]){
     		var vmData = nodeData[3][i],
-    			vm = createVMFromStorage(vmData);//new VirtualMachine("",1,1);
-    		//vm.fromStorage(vmData);
+    			vm = createVMFromStorage(vmData);    		
     		this.host(vm);
     		config.vms.push(vm);
     	}

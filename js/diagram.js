@@ -16,12 +16,9 @@ function createGraduations(duration){
 	var graduations = $("#graduations");
 	for(var i = 0 ; i <= duration ; i++){
 		var x = i * TIME_UNIT_SIZE,
-			grad = $("<div></div>").addClass("timeLineGrad");
-			//gradLabel = $("<div></div>").addClass("timeLineGradLabel").html(i);
-			grad.css({left:x});
-			//gradLabel.css({left:x});
-			graduations.append(grad);
-			//graduations.append(gradLabel);
+			grad = $("<div></div>").addClass("timeLineGrad");			
+			grad.css({left:x});			
+			graduations.append(grad);			
 	}
 }
 

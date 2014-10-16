@@ -2,6 +2,22 @@ function Configuration (ns,vs) {
     this.vms = vs ? vs : [];
     this.nodes = ns ? ns : [];
 
+    this.getNodeIdx = function (n) {
+        for (var i in this.nodes) {
+            if (this.nodes[i].id == n.id) {
+                return parseInt(i);
+            }
+        }          
+    }
+
+    this.getVMIdx = function (v) {
+        for (var i in this.vms) {
+            if (this.vms[i].id == v.id) {                
+                return parseInt(i);
+            }
+        }              
+    }
+
     this.getNode = function (id) {
         for (var i in this.nodes) {
             if (this.nodes[i].id == id) {
@@ -24,44 +40,6 @@ function Configuration (ns,vs) {
                 return this.vms[i];
             }
         }
-    }
-
-    this.btrpToJSON = function(){
-        var json = {};
-        var nodes = {};
-        for(var i in this.nodes){
-            var n = this.nodes[i],
-                nJSON = {};
-
-        }
-    }
-
-    this.btrpSerialization = function() {
-        var buffer = "#list of nodes\n";
-        for (var i in this.nodes) {
-    	    var  n = this.nodes[i];
-    	    buffer = buffer + n.id + " 1 " + n.cpu + " " + n.mem + "\n";
-        }
-        buffer = buffer + "#list of VMs\n";
-        for (var  i in this.vms) {
-    	var vm = this.vms[i];
-    	buffer = buffer + "sandbox."+vm.id + " 1 " + vm.cpu + " " + vm.mem + "\n";
-        }
-        buffer += "#initial configuration\n";
-        for (var i in this.nodes) {
-    	var n = this.nodes[i];
-    	if (n.online) {
-    	    buffer += n.id;
-    	} else {
-    	    buffer = buffer + "(" + n.id + ")";
-    	}
-    	for (var j in n.vms) {
-    	    var vm = n.vms[j];
-    	    buffer = buffer + " sandbox." + vm.id;
-    	}
-    	buffer += "\n";
-        }
-        return buffer;
     }
 
     this.getNextNodeID = function(){

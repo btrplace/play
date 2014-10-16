@@ -10,20 +10,6 @@ body {
 	min-width:950px;
 }
 
-.blackButton {
-	color: #eee;
-	background: #666;
-	border: solid 1px #444;
-	margin-top: .2em;
-	font-size: 1.5em;
-	position: relative;
-	display: inline-block;
-	vertical-align: middle;
-	padding: .5em 1em;
-	text-decoration: none;
-	border-radius: 4px;
-}
-
 .greenButton {
 	position: relative;
 	display: inline-block;
@@ -83,123 +69,6 @@ body {
 
 }
 
-.state {
-	text-align: center;
-}
-
-#state0 {
-	display: block;
-}
-
-#state0 {
-	display: none;
-}
-
-#state1 {
-	display: none;
-}
-
-#state2 {
-	display: none;
-}
-
-#state3 {
-	display: none;
-}
-
-#state4 {
-	display: none;
-}
-
-#sandbox_logo_wrapper {
-
-}
-
-#intro_wrapper {
-	overflow:auto;
-	padding-top:20px;
-}
-
-img#sandbox_logo {
-	width:300px;
-	display:block;
-	margin:0 auto;
-	float:left;
-}
-
-#intro {
-	text-align: right;
-	float:right;
-	font-size:13px;
-	width:500px;
-}
-
-#intro p {
-	text-indent: 20px;
-	text-align: justify;
-	margin-bottom:0px;
-}
-
-#intro a {
-	text-decoration: none;
-	font-size: 9pt;
-	color: #666;
-	margin-right: 20px;
-}
-
-#sandbox {
-
-}
-
-#canvas {
-	text-align: center;
-	//height: 300px;
-	margin-top: 25px;
-}
-
-#input {
-	width: 380px;
-	margin-top: 20px;
-	float: left;
-	margin-bottom: 20px;
-}
-
-.check_button {
-		background-image:url('../img/inspect.png');
-		background-repeat:no-repeat;
-		background-position: 0px 0px;
-		width: 100px;
-		height: 28px;
-		margin-left:140px;
-		cursor: pointer;
-		display:inline-block;
-}
-
-.check_button:hover {
-	background-position: 0px -28px;
-}
-
-#restart {
-	clear: both;
-	height: 30px;
-	width: 50%;
-	text-align: center;
-}
-.restart_button {
-	background-image:url('../img/restart.png');
-	background-repeat:no-repeat;
-	background-position: 0px 0px;
-	width: 132px;
-	height: 27px;
-	position: relative;
-	float: right;
-}
-
-.restart_button:hover {
-	background-position: 0px -27px;
-	cursor: pointer;
-}
-
 .green_line {
 	background-color:#d2d8b1;
 }
@@ -216,36 +85,6 @@ img#sandbox_logo {
 
 #script {
 	float:right;
-}
-
-#output {
-	margin-bottom: 20px;
-	width: 380px;
-}
-
-/*
-#footer {
-   padding-top: 20px;
-   clear: both;
-   text-align: right;
-   font-size: 10pt;
-   padding-bottom: 5px;
-   margin-right: 20px;
-}     */
-#footer {
-	font-size: 12px;
-	background-color: #d2d8b1;
-	border-top: solid 1px #aab089;
-	color: #222;
-	clear: both;
-	text-align: center;
-	margin-top:2em;
-}
-
-
-#output p {
-	margin-top: 20px;
-	margin-bottom: 20px;
 }
 
 code {
@@ -279,134 +118,11 @@ code {
 	margin: 10px;
 }
 
-/**
-* Player part
-**/
-#player {
-	margin-left: 100px;
-}
 
-.player_button {
-	width: 20px;
-	height: 20px;
-	background-image: url('../img/player.png');
-	float: left;
-	margin-left: 5px;
-	margin-top: 20px;
-}
-
-.player_button:hover {
-	cursor: pointer;
-	background-position-y: -20px;
-}
-
-#player .invalid {
-	background-position-y: -40px;
-}
-
-
-#prev_button {
-	background-position-x: -20px;
-}
-
-#play_button {
-	background-position-x: -60px;
-}
-
-#next_button {
-	background-position-x: -80px;
-}
-
-#end_button {
-	background-position-x: -100px;
-}
-
-#pin_button {
-	background-position-x: -120px;
-}
-
-#lock_button {
-	background-position-x: -140px;
-}
-
-#unlock_button {
-	background-position-x: -160px;
-	display: none;
-}
-
-.jqmWindow .logo {
-	width: 48px;
-	float: left;
-	margin: 10px;
-	text-align: center;
-}
-
-.player_button .tt {
-	display: none;
-	padding: 2px 3px;
-	margin-left: 10px;
-	margin-top: 15px;
-	font-size: 10pt;
-}
-
-.player_button:hover .tt {
-	display: inline;
-	position: absolute;
-	background: #ffffff;
-	border: solid #cccccc 1px;
-	color: #6c6c6c;
-}
-
-#editModeButton {
-	background-image:url(../img/wrench.png);
-	background-repeat:no-repeat;
-	background-position-y:50%;
-	background-position-x: 5px;
-	padding-left:42px;
-}
-
-#configurationHelpText {
-	line-height:1.5;
-	font-size:10px;
-	overflow:auto;
-	border-radius:5px;
-	/*border: 1px solid #666;*/
-	border: 1px solid #6F7067;
-	background-color: #D4D6C5;
-	/*background-color: #BABDAE;*/
-	padding:3px;
-	padding-left:43px;
-	background-image:url(../img/info.png);
-    background-size: 30px;
-    background-repeat: no-repeat;
-    background-position-y: 50%;
-    background-position-x: 5px;
-}
-
-#configurationHelpText li {
-	width:50%;
-	display:inline;
-	float:left;
-}
-
-#configurationHelpText li:nth-child(odd):last-child {
- 	float:right;
-}
-
+s
 /* Diagram stuff */
 #actionLines {
 	position:relative;
-}
-
-#solution {
-	overflow:hidden;
-	line-height:normal;
-}
-
-#solutionBottomControls {
-	clear:both;
-	padding-top:15px;
-	text-align:center;
 }
 
 #diagramWrapper {
@@ -424,26 +140,10 @@ code {
 	line-height:180%;
 }
 
-#playerControls {
-    font-size:0.5em;
-}
 
 .disabled {
 	background-color: lightgray;
     color: #AAA;
-}
-
-#userInput {
-	float:left;
-	width:250px;
-	border:1px solid #666;
-	background-color:#DDD;
-	padding:4px;
-	color:#222;
-	border-radius:2px;
-	font-family:Monaco, Menlo, 'Ubuntu Mono', 'Droid Sans Mono', Consolas, monospace;
-	text-align:left;
-	font-size:14px
 }
 
 #diagram * {
@@ -463,16 +163,17 @@ code {
 }
 
 .actionContainer {
-	height:30px;
-	/*border:1px solid red;  */
+	height:30px;	
 }
 
 .actionLine {
-	border-top:1px solid gray;
+	border-top:1px solid #5cb85c;
 	position:relative;
-	top:14px;
-    z-index:-1;
-    margin-left:-15px;
+	top:-14px;    	
+}
+
+.graduations .actionLine {
+	top: 10px;
 }
 
 #timeLineBar {
@@ -485,24 +186,32 @@ code {
 }
 
 
-#graduations {
+.graduations {
 	position:absolute;
 	width:100%;
 	height:6px;
 }
 
-.timeLineGrad {
+.timestamp {
 	position:absolute;
 	bottom:-10px;
 	height:100%;
-	border-left: 1px solid gray ;
-	box-sizing: initial;
+	border-left: 2px solid #5cb85c;	
+}
+
+.timemark {
+ 	position:absolute; 	 
+ 	width:3px;
+ 	margin-left:-2px; 	
+ 	font-size: 8pt;
+ 	margin-top: 10px;
+ 	color: #5cb85c;
 }
 
 .timeLineGradLabel {
 	position:absolute;
 	bottom:-2.5em;
-	margin-left:-3px;
+	margin-left:3px;
 	color:gray;
 }
 
@@ -512,29 +221,16 @@ code {
 }
 
 
-.timeLineMark {
- 	position:absolute;
- 	height:10px;
- 	border:1px solid #666;
- 	border-bottom:none;
- 	width:3px;
- 	margin-left:-1px;
- 	background-color:#444;
- 	border-top-left-radius:2px;
- 	border-top-right-radius:2px;
- 	z-index:1;
- 	cursor:pointer;
-}
-
 .actionBar {
-	position:absolute;
-	border:1px solid #444;
-	background-color: #d2d8b1;
+	position:relative;	
+	background-color: #5cb85c;
 	border-radius:2px;
 	padding-left:0px;
-	font-size:10px;
+	font-size: 10pt;
+	color: white;
 	white-space: nowrap;
-	text-align: center;
+	text-align: center;	
+	z-index: 1;
 }
 
 .finishedAction {
