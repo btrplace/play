@@ -70,7 +70,7 @@ function generateSampleScript(cfg) {
 
 function init() {    
     var get = GETParameters();
-
+    loadUseCases("use-cases");
     editor = ace.edit("editor");            
     randomConfiguration();        
     editor.setValue(generateSampleScript(config));

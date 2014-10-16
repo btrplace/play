@@ -9,6 +9,8 @@ var currentView = "";
 var canSubmit = true ;
 var canEdit = true ;
 
+var entry_point = "http://localhost:8080";
+
 var selectedElement = null ;
 
 function registerSelectedElement(element){
@@ -305,7 +307,7 @@ function solve() {
 	var promise = $.ajax({
   		type: "POST",
   		//url: "http://murmuring-sierra-9341/solve",
-  		url: "http://localhost:8080/solve",
+  		url: entry_point + "/solve",
   		data: JSON.stringify(instance)
   	});
   	promise.done(function (plan, statusCode) {  	  		
