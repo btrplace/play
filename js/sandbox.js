@@ -304,7 +304,7 @@ function solve() {
 	var instance = instance2JSON(config, editor.getValue())
 	var promise = $.ajax({
   		type: "POST",
-  		url: "http://localhost:8080/solve",
+  		url: "http://murmuring-sierra-9341/solve",
   		data: JSON.stringify(instance)
   	});
   	promise.done(function (plan, statusCode) {  	  		
