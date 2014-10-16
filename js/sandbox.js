@@ -298,7 +298,7 @@ function show(target, other) {
 		}
 	}
 }
-function solve() {				
+function solve() {			
 	var s = $("#solution");
 	var e = $("#error");	
 	var instance = instance2JSON(config, editor.getValue())
@@ -314,6 +314,7 @@ function solve() {
 			e.html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
 			show(e, s);
   		} else if (statusCode == "success") {
+  			$("#solve").attr("disabled","disabled");
   			if (plan.actions.length == 0) {
   				s.html("<p>No need to reconfigure</p>");
   			} else {
