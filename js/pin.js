@@ -45,7 +45,7 @@ function randomConfiguration() {
     }
 }
 
-function generateSampleScript(cfg) {
+/*function generateSampleScript(cfg) {
 
      var buf = "namespace sandbox;\n\n";
      buf += "VM[1.." + (cfg.vms.length) + "] : myVMs;\n\n";
@@ -66,14 +66,15 @@ function generateSampleScript(cfg) {
      //maxOnlines
     buf += ">>maxOnline(@N[1..8], 5);\n"
     return buf;
-}
+}*/
 
 function init() {    
     var get = GETParameters();
-    loadUseCases("use-cases");
-    editor = ace.edit("editor");            
+    editor = ace.edit("editor");
+    editor.setReadOnly(true);               
+    loadUseCases("use-cases");    
     randomConfiguration();        
-    editor.setValue(generateSampleScript(config));
+    //editor.setValue(generateSampleScript(config));
     drawConfiguration("canvas");            
     editor.clearSelection();
 }
