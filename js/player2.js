@@ -93,7 +93,7 @@ function createPlayer(plan, to) {
 	div.append(controler);				
 	div.append(actions);
 	div.append(makeTimeline(unit,h));		
-	var cursor = $("<div></div>").addClass("cursor").css("left", unit);
+	var cursor = $("<div>&diamondsuit;</div>").addClass("cursor").css("left", unit);
 	actions.append(cursor);
 	div.append();
 	schedule = prepareReconfiguration(plan.actions, h);

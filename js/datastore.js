@@ -21,15 +21,12 @@ function loadUseCases(id, uc) {
 
 function loadUseCase(uc) {
 	var k = uc;
-	if (k == undefined) {
-		console.log("No predefined use case");
+	if (k == undefined) {		
 		k = $("#use-cases").val();
-	} else {
-		console.log("Loading use-case " + uc);
 	}
-	if (k == "_") {
-		editor.setReadOnly(false);
-		//editable configuration
+	$("#solve").removeAttr("disabled");
+	if (k == "_") {		
+		editor.setReadOnly(false);		
 		canEdit = true;
 	} else {
 		var promise = $.ajax({
@@ -37,8 +34,7 @@ function loadUseCase(uc) {
   			url: entry_point + "/store/" + k
   		});
   		promise.done(function (useCase) {
-  			$("#description").html(useCase.description);
-  			$("#solve").removeAttr("disabled");  		
+  			$("#description").html(useCase.description);  			
   			editor.setValue(useCase.script);  		  		
   			editor.clearSelection();
   			editor.setReadOnly(true);  			

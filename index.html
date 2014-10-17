@@ -30,7 +30,7 @@
           <div class="form-group">
             <label for="use-case" class="col-sm-2 control-label">Scenario </label>
             <div class="col-sm-10">
-            <select class="form-control" id="use-cases" disabled="disabled" onchange="loadUseCase()">
+            <select class="form-control" id="use-cases" onchange="loadUseCase()" disabled="disabled">
               <option>loading ...</option>
           </select>
           </div>
@@ -38,7 +38,7 @@
         </form>
         <div id="description"></div>        
         <p class="text-center">
-          <a id="solve" onclick="solve()" class="btn btn-lg btn-info" disabled="disabled">Solve</a>
+          <a id="solve" onclick="solve();" class="btn btn-lg btn-info" disabled="disabled">Solve</a>
         </p>
     </div>                  
   </div>

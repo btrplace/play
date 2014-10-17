@@ -1,7 +1,6 @@
 function JSON2Model(js) {
     //extract the views
-    var vmNs, nodeNs, cpu, mem;
-    console.log(js);
+    var vmNs, nodeNs, cpu, mem;    
     js.views.forEach(function (v) {
         if (v.id == "shareableResource") {
             if (v.rcId == "cpu") {cpu = v;}

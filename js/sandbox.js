@@ -300,7 +300,8 @@ function show(target, other) {
 		}
 	}
 }
-function solve() {			
+function solve() {	
+	console.log("solve");		
 	var s = $("#solution");
 	var e = $("#error");	
 	var instance = instance2JSON(config, editor.getValue())
