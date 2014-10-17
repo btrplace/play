@@ -9,7 +9,7 @@ var currentView = "";
 var canSubmit = true ;
 var canEdit = true ;
 
-var entry_point = "http://localhost:8080";
+var entry_point = "http://murmuring-sierra-9341.herokuapp.com";
 
 var selectedElement = null ;
 

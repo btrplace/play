@@ -12,7 +12,9 @@
 
 - [x] timeline
 - [x] play
-- [ ] pauseable play
-- [ ] ffwd
-- [ ] reset
+- [x] pauseable play
+- [ ] jump to end
+- [ ] basic-reset
+- [ ] backward reset
+- [ ] real-ffwd
 
