@@ -5,6 +5,7 @@
 
 h2 {
     margin-top: 0px;
+    margin-bottom: 5px;
     padding: 0.5em 1em;
 }
 
@@ -259,4 +260,9 @@ a:focus {
     white-space: nowrap;
     text-align: center; 
     z-index: 1;
+}
+
+#solve {
+    position: absolute;
+    right: 15px;
 }
