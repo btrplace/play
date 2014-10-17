@@ -14,5 +14,5 @@
 - [x] play
 - [x] pauseable play
 - [x] ffwd
-- [ ] reset
+- [x] reset
 

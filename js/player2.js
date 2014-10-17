@@ -7,6 +7,7 @@ var now;
 var unit = 140;
 var SPEED = 1000;
 var acceleration = 1;
+var forward = true;
 function makeSpan(actions) {
 	var h = 0;
 	actions.forEach(function (a) {
@@ -85,8 +86,8 @@ function createPlayer(plan, to) {
 		actions.append(makeAction(unit, lbl, a.start, a.end, h));		
 	});
 		var controler = "<div class='controler'>"
-		+ "<a class='btn btn-default btn-green backward' onclick='rwd()'><i class='fa fa-fast-backward'></i></a>"		
-		+ "<a class='btn btn-default btn-green forward' onclick='playPause(this)'><i class='fa fa-play'></i></a>"		
+		+ "<a class='btn btn-default btn-green backward' onclick='rwd()' disabled='disabled'><i class='fa fa-fast-backward'></i></a>"		
+		+ "<a class='btn btn-default btn-green forward' onclick='playPause()'><i id='play' class='fa fa-play'></i></a>"		
 		+ "<a class='btn btn-default btn-green forward' onclick='ffwd()'><i class='fa fa-fast-forward'></i></a>"
 		+ "</div>";
 	div.append(controler);				
@@ -105,30 +106,39 @@ function ffwd() {
 	$("#player").find(".btn-green").attr("disabled","disabled");
 	paused = false;
 	acceleration = 5;	
+	forward = true;
 	if (!playing) {
-		run(now);
-	}
-}
-
-function playPause(btn) {
-	paused = !paused;
-	var icon = $(btn).find("i");
-	if (icon.hasClass("fa-play")) {
-		icon.removeClass("fa-play");
-		icon.addClass("fa-pause");	
-		console.log("Let's run from " + now);	
-		acceleration = 1;
-		run(now);
-
-	} else {
-		icon.removeClass("fa-pause");
-		icon.addClass("fa-play");		
-		console.log("Paused at " + now)	;
+		run(now + 1);
 	}	
 }
 
-function animateCursor(step) {
-	var to = (now + step) * unit;	
+function rwd() {
+	$("#player").find(".btn-green").attr("disabled","disabled");
+	paused = false;
+	acceleration = 5;	
+	forward = false;
+	if (!playing) {
+		run(now - 1);
+	}	
+}
+
+function playPause() {
+	paused = !paused;	
+	var icon = $("#play");
+	if (icon.hasClass("fa-play")) {		
+		icon.removeClass("fa-play").addClass("fa-pause");				
+		acceleration = 1;
+		$("#player").find(".backward").removeAttr("disabled");
+		run(now + 1);
+		forward = true;
+
+	} else {
+		icon.removeClass("fa-pause").addClass("fa-play");						
+	}	
+}
+
+function animateCursor() {
+	var to = (1 + now + (forward ? 1 : -1)) * unit;	
 	var d = $.Deferred();
 	var duration = SPEED / acceleration;
 	$(".cursor").animate({left: to + "px"}, duration, "linear")
@@ -138,53 +148,61 @@ function animateCursor(step) {
  	return d.promise();
 }
 
-function run(n) {
+function run(to) {
 	if (paused) {
 		return;
 	}
 	playing = true;
-	now = n + 1;
-	console.log("run time " + n + " at speed " + acceleration);
-	var deferreds = [];
-	schedule[n].forEach(function (a) {
+	//console.log("run from " + now + " to " + to + " over " + schedule.length + " at speed " + acceleration);	
+	var deferreds = [];	
+	schedule[forward ? now : (now - 1)].forEach(function (a) {
 		deferreds.push(apply(a));		
 	})
 	//the cursor
-	deferreds.push(animateCursor(1,1));
+	deferreds.push(animateCursor());
 	$.when.apply($, deferreds).then(
-		function () {
-			console.log("Group done");
-			if (!paused) {
-				if (now < schedule.length) {
-				run (now);
-				} else {
-					console.log("Over");
-					playing = false;
-					$("#player").find(".forward").attr("disabled", "disabled");
-				}
-			} else {
-				console.log("now paused");
-				playing = false;
+		function () {	
+			playing = false;
+			now = to;
+			if (now == 0) {
+				$("#player").find(".backward").attr("disabled", "disabled");
+				$("#player").find(".forward").removeAttr("disabled");
+				$("#play").removeClass("fa-pause").addClass("fa-play");						
+				paused = true;
+				forward = true;
+			} else if (now == schedule.length) {
+				$("#player").find(".forward").attr("disabled", "disabled");
+				$("#player").find(".backward").removeAttr("disabled");
+				$("#play").removeClass("fa-pause").addClass("fa-play");						
+				paused = true;
+				forward = false;
+			} else {					
+				if (!paused) {				
+					run(forward ? now + 1 : now - 1);
+				}/* else {
+					console.log("now paused");				
+				}*/
 			}
-
 		}
 		);
 }
 
 function apply(a) {	
 	var d = $.Deferred();
-	var duration = (a.end - a.start) / (acceleration * 1000);
+	var duration = ((a.end - a.start) * SPEED) / acceleration;	
 	if (a.id == "bootNode") {
-		bootNode(config.nodes[a.node], duration)
+		if (forward) {bootNode(config.nodes[a.node], duration);}
+		else {shutdownNode(config.nodes[a.node], duration);}
 	} else if (a.id == "shutdownNode") {					
-		shutdownNode(config.nodes[a.node], duration);
+		if (forward) {shutdownNode(config.nodes[a.node], duration);}
+		else {bootNode(config.nodes[a.node], duration);}				
 	} else if (a.id == "migrateVM") {	
-		migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration);
+		if (forward) {migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration);}
+		else {migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration);}
 	} else {
 		console.log("Unsupported action " + a.id);
 	}
-	setTimeout(function() {
-		console.log("Done " + JSON.stringify(a));
+	setTimeout(function() {		
   		d.resolve();
  	}, duration);
  	return d.promise();
@@ -203,23 +221,22 @@ function prepareReconfiguration(actions, h) {
 
 //Animation for booting a node
 function bootNode(node, duration) {
-	console.log("booting " + node.id);	
+	//console.log("boot " + node.id);
     node.boxStroke.animate({'stroke': 'black'}, duration,"<>", function() {node.online = true;});
     node.boxFill.animate({'fill': 'black'}, duration,"<>", function() {});
 }
 
 // Animation for shutting down a node
 function shutdownNode(node, duration){	
-	console.log("shutdowing " + node.id);
+	//console.log("shutdown " + node.id);
     node.boxStroke.animate({'stroke': '#bbb'}, duration,"<>", function(){node.online = false;});
     node.boxFill.animate({'fill': '#bbb'}, duration,"<>");
 }
 
 //Animation for a migrate action
-function migrate(vm, src, dst, duration) {
-	if (LOG) console.log("[ANIM] Migrating "+vm.id+" from "+src.id+" to "+dst.id+" for "+duration+"ms");
+function migrate(vm, src, dst, duration) {	
 	var a = 0;
-	
+	//console.log("migration " + vm.id + " from " + src.id + " to " + dst.id);	
 	//A light gray (ghost) VM is posted on the destination
 	var ghostDst = new VirtualMachine(vm.id, vm.cpu, vm.mem);
 	ghostDst.bgColor = "#eee";
@@ -234,9 +251,7 @@ function migrate(vm, src, dst, duration) {
 	movingVM.draw(paper, vm.posX, vm.posY + vm.mem * unit_size);
 	movingVM.box.toFront();
 	
-	var callbackAlreadyCalled = false;
 	var animationEnd = function() {
-
 		//Update vm position for reverse animation
 		vm.posX = ghostDst.posX;
 		vm.posY = ghostDst.posY;
@@ -256,10 +271,8 @@ function migrate(vm, src, dst, duration) {
 		src.refresh();
 		dst.refresh();
 	}
-	//movingVM.box.animate({transform :"T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)}, fast ? 50 : (300 * vm.mem),"<>",
 	movingVM.box.animate({transform :"T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)}, duration,"<>",function(){
 	    	animationEnd();
-	    	callbackAlreadyCalled = true ;
 	    }
 	);
 }
