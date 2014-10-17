@@ -2,9 +2,11 @@ var paused = true;
 
 var schedule;
 
+var playing = false;
 var now;
 var unit = 140;
 var SPEED = 1000;
+var acceleration = 1;
 function makeSpan(actions) {
 	var h = 0;
 	actions.forEach(function (a) {
@@ -83,9 +85,9 @@ function createPlayer(plan, to) {
 		actions.append(makeAction(unit, lbl, a.start, a.end, h));		
 	});
 		var controler = "<div class='controler'>"
-		+ "<a class='btn btn-default btn-green' onclick='rwd()'><i class='fa fa-fast-backward'></i></a>"		
-		+ "<a class='btn btn-default btn-green' onclick='playPause(this)'><i class='fa fa-play'></i></a>"		
-		+ "<a class='btn btn-default btn-green' onclick='ffwd()'><i class='fa fa-fast-forward'></i></a>"
+		+ "<a class='btn btn-default btn-green backward' onclick='rwd()'><i class='fa fa-fast-backward'></i></a>"		
+		+ "<a class='btn btn-default btn-green forward' onclick='playPause(this)'><i class='fa fa-play'></i></a>"		
+		+ "<a class='btn btn-default btn-green forward' onclick='ffwd()'><i class='fa fa-fast-forward'></i></a>"
 		+ "</div>";
 	div.append(controler);				
 	div.append(makeTimeline(unit,h));
@@ -100,9 +102,12 @@ function createPlayer(plan, to) {
 }
 
 function ffwd() {
-	$("#player").find(".btn-green").disable();
+	$("#player").find(".btn-green").attr("disabled","disabled");
 	paused = false;
-	run(now, 3);
+	acceleration = 5;	
+	if (!playing) {
+		run(now);
+	}
 }
 
 function playPause(btn) {
@@ -112,7 +117,8 @@ function playPause(btn) {
 		icon.removeClass("fa-play");
 		icon.addClass("fa-pause");	
 		console.log("Let's run from " + now);	
-		run(now, 1);
+		acceleration = 1;
+		run(now);
 
 	} else {
 		icon.removeClass("fa-pause");
@@ -121,10 +127,10 @@ function playPause(btn) {
 	}	
 }
 
-function animateCursor(acc, step) {
+function animateCursor(step) {
 	var to = (now + step) * unit;	
 	var d = $.Deferred();
-	var duration = SPEED * acc;
+	var duration = SPEED / acceleration;
 	$(".cursor").animate({left: to + "px"}, duration, "linear")
 	setTimeout(function() {
   		d.resolve();
@@ -132,15 +138,16 @@ function animateCursor(acc, step) {
  	return d.promise();
 }
 
-function run(n, speed) {
+function run(n) {
 	if (paused) {
 		return;
 	}
+	playing = true;
 	now = n + 1;
-	console.log("run time " + n);
+	console.log("run time " + n + " at speed " + acceleration);
 	var deferreds = [];
 	schedule[n].forEach(function (a) {
-		deferreds.push(apply(a, speed));		
+		deferreds.push(apply(a));		
 	})
 	//the cursor
 	deferreds.push(animateCursor(1,1));
@@ -152,18 +159,21 @@ function run(n, speed) {
 				run (now);
 				} else {
 					console.log("Over");
+					playing = false;
+					$("#player").find(".forward").attr("disabled", "disabled");
 				}
 			} else {
 				console.log("now paused");
+				playing = false;
 			}
 
 		}
 		);
 }
 
-function apply(a, speed) {	
+function apply(a) {	
 	var d = $.Deferred();
-	var duration = (a.end - a.start) * (speed * 1000);
+	var duration = (a.end - a.start) / (acceleration * 1000);
 	if (a.id == "bootNode") {
 		bootNode(config.nodes[a.node], duration)
 	} else if (a.id == "shutdownNode") {					

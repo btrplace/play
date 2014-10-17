@@ -12,7 +12,7 @@
 
 - [x] timeline
 - [x] play
-- [ ] pauseable play
-- [ ] ffwd
+- [x] pauseable play
+- [x] ffwd
 - [ ] reset
 
