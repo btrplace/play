@@ -1,4 +1,4 @@
-function loadUseCases(id) {
+function loadUseCases(id, uc) {
 	var promise = $.ajax({
   		type: "GET",  		
   		url: entry_point + "/store/"
@@ -15,12 +15,18 @@ function loadUseCases(id) {
   		});
   		buf += "<option value='_'>custom ...</custom>";
   		$("#" + id).removeAttr("disabled").html(buf);  		
-  		loadUseCase();
+  		loadUseCase(uc);
   	})
 }
 
-function loadUseCase(se) {
-	var k = $("#use-cases").val();
+function loadUseCase(uc) {
+	var k = uc;
+	if (k == undefined) {
+		console.log("No predefined use case");
+		k = $("#use-cases").val();
+	} else {
+		console.log("Loading use-case " + uc);
+	}
 	if (k == "_") {
 		editor.setReadOnly(false);
 		//editable configuration
@@ -39,8 +45,12 @@ function loadUseCase(se) {
   			canEdit = false;
   		})
   		promise.fail(function (xhr) {
-  			console.log(xhr.status);
-  			console.log(xhr.responseText);  		
+  			if (xhr.status == 404) {
+  				error("Use case '" + uc + "' not found");
+  			}  else {
+  				console.log(xhr.status);
+  				console.log(xhr.responseText);  				
+  			}
   		});
   	}
 }

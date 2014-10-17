@@ -1,8 +1,14 @@
 //Check for an id
-
-
 var editor;
 
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+}
+
+function error(msg) {
+    $("#error-msg").html(msg);    
+    $("#modal").modal('toggle');
+}
 function randomConfiguration() {
     config = new Configuration();
     //Generate the 4 nodes
@@ -45,11 +51,12 @@ function randomConfiguration() {
     }
 }
 
-function init() {    
-    var get = GETParameters();
+function init() {        
+    var useCase = getURLParameter("uc");    
+    console.log(useCase);
     editor = ace.edit("editor");
     editor.setReadOnly(true);               
-    loadUseCases("use-cases");    
+    loadUseCases("use-cases", useCase);    
     randomConfiguration();        
     drawConfiguration("canvas");            
 }
