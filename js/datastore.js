@@ -19,6 +19,16 @@ function loadUseCases(id, uc) {
   	})
 }
 
+function editDescription() {
+	$("#input-description").val($("#description").html());
+	$("#modal-desc").modal('toggle');
+}
+
+function saveDescription() {
+	$("#description").html($("#input-description").val());
+	$("#modal-desc").modal('toggle');
+}
+
 function loadUseCase(uc) {
 	var k = uc;
 	//hide solution panel if needed
@@ -32,8 +42,7 @@ function loadUseCase(uc) {
 	if (k == "_") {		
 		editor.setReadOnly(false);		
 		canEdit = true;
-		$(".custom").show();			
-		$("#description").html(desc);
+		$(".custom").show();
 	} else {
 		$(".custom").hide();
 		var promise = $.ajax({

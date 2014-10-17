@@ -7,7 +7,7 @@ function getURLParameter(name) {
 
 function error(msg) {
     $("#error-msg").html(msg);    
-    $("#modal").modal('toggle');
+    $("#modal-error").modal('toggle');
 }
 
 function init() {        

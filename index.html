@@ -42,7 +42,8 @@
         <li><b>D</b> : delete the selected element</li>
         </ul>
         </div>
-        <div id="description"></div>        
+        <div id="description"><i>no description</i></div>
+        <div class="custom"><a onclick="editDescription()">edit</a></div>        
     </div>                  
   </div>
   <div id="workspace">
@@ -66,13 +67,28 @@
 </div>
       
 <!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="modal" aria-labelledby="modal-lbl" aria-hidden="true">
+<div class="modal fade" id="modal-error" tabindex="-1" role="modal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="alert alert-danger">
       <div class="modal-body">      
       <p id="error-msg"></p>
       <p class="text-center">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
+        <a class="btn btn-danger" href="index.html">Ok</a>
+      </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-desc" tabindex="-1" role="modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body"> 
+      <h2>Edit description</h2>     
+      <form>
+      <textarea id="input-description" class="form-control"></textarea>      
+      </form>
+      <p class="text-center">
+        <a class="btn btn-success" onclick="saveDescription()">save</a>
       </p>
       </div>
     </div>
