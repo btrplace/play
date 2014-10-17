@@ -116,12 +116,19 @@ code {
  	font-size: 10pt;	
  	margin-top: 10px;
  	color: #666;
+ 	top: -25px;
+ 	z-index: 10;
 }
 .time-mark {
 	font-size: 30px;
-	left: -10px;
+	left: -12px;
 	position: absolute;
 	top: -15px;
+	border: 2px solid #666;
+	border-radius: 5px;
+	width: 20px;
+	height: 20px;
+
 }
 
 .timeLineGradLabel {

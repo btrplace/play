@@ -30,16 +30,17 @@ function makeAction(unit, lbl, start, end, h){
 
 function makeTimeline(unit, h) {
 	var timeline = $("<div></div>").addClass("graduations");
-	timeline.append($("<div></div>").addClass("actionLine"));
+	//timeline.append($("<div></div>").addClass("actionLine"));
 	for (var i = 0; i <= h; i++) {
 		var x = (i + 1) * unit;
 		var g = $("<div></div>").addClass("timestamp");			
 		var m = $("<div>" + i + "</div>").addClass("timemark");			
 		g.css({left:x});		
 		m.css({left:x});	
-		timeline.append(g).append(m);				
+		timeline.append(m);/*.append(g);				*/
 	}	
 
+//	timeline.append(cursor);
 	return timeline;
 }
 
@@ -90,10 +91,10 @@ function createPlayer(plan, to) {
 		+ "<a class='btn btn-default btn-green' onclick='ffwd()'><i class='fa fa-fast-forward'></i></a>"
 		+ "</div>";
 	div.append(controler);				
+	div.append(makeTimeline(unit,h));
 	div.append(actions);
-	div.append(makeTimeline(unit,h));		
 	var cursor = $("<div></div>").addClass("cursor").css("left", unit);
-	cursor.append($("<div>&diamondsuit;</div>").addClass("time-mark"));
+	cursor.append($("<div></div>").addClass("time-mark"));	
 	actions.append(cursor);
 	div.append();
 	schedule = prepareReconfiguration(plan.actions, h);
