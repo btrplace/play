@@ -3,7 +3,7 @@ var paused = true;
 var schedule;
 
 var now;
-
+var unit = 150;
 var SPEED = 1000;
 function makeSpan(actions) {
 	var h = 0;
@@ -78,8 +78,7 @@ function createPlayer(plan, to) {
 	});
 	var div = $("#"+to);
 	div.html("");	
-	var h = makeSpan(plan.actions);
-	var unit = 150;
+	var h = makeSpan(plan.actions);	
 	var actions = $("<div></div>").addClass("actionLines"); 
 	plan.actions.forEach(function (a) {
 		var lbl = label(vmNs, nodeNs, a);
@@ -123,6 +122,17 @@ function playPause(btn) {
 	}	
 }
 
+function animateCursor(acc, step) {
+	var to = (now + step) * unit;	
+	var d = $.Deferred();
+	var duration = SPEED * acc;
+	$(".cursor").animate({left: to + "px"}, duration, "linear")
+	setTimeout(function() {
+  		d.resolve();
+ 	}, duration);
+ 	return d.promise();
+}
+
 function run(n, speed) {
 	if (paused) {
 		return;
@@ -133,6 +143,8 @@ function run(n, speed) {
 	schedule[n].forEach(function (a) {
 		deferreds.push(apply(a, speed));		
 	})
+	//the cursor
+	deferreds.push(animateCursor(1,1));
 	$.when.apply($, deferreds).then(
 		function () {
 			console.log("Group done");

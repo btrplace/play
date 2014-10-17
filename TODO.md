@@ -10,7 +10,7 @@
 
 ## visualization
 
-- [ ] timeline
+- [x] timeline
 - [ ] play
 - [ ] pauseable play
 - [ ] ffwd
