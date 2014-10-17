@@ -300,6 +300,15 @@ function show(target, other) {
 		}
 	}
 }
+
+function hide(ids) {
+	ids.forEach(function (id) {
+		var d = $("#" + id);
+		if (d.is(":visible")) {
+			d.hide("slide", {direction: "down"}, 200);		
+		}		
+	});
+}
 function solve() {		
 	var s = $("#solution");
 	var e = $("#error");	

@@ -4,9 +4,10 @@
 
 - [x] load experiment from URL
 - [x] load JSON model
-- [ ] customize mode
-- [ ] share
-- [ ] store/edit use cases
+- [x] customize mode
+- [ ] store custom
+- [ ] share custom
+- [ ] edit custom
 
 ## visualization
 
@@ -15,4 +16,4 @@
 - [x] pauseable play
 - [x] ffwd
 - [x] reset
-
+- [ ] close bottom slider
