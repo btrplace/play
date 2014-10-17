@@ -11,7 +11,7 @@
 ## visualization
 
 - [x] timeline
-- [ ] play
+- [x] play
 - [ ] pauseable play
 - [ ] ffwd
 - [ ] reset

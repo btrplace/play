@@ -73,27 +73,4 @@ function Configuration (ns,vs) {
         	}
         	return "VM"+candidate;
     }
-
-    this.toStorage = function(){
-    	var result = [],
-    		nodes = [];
-    	result.push(nodes);
-    	result.push(editor.getValue());
-    	for(var i in this.nodes){
-            nodes.push(this.nodes[i].toStorage());
-    	}
-    	return result ;
-    }
-
-    this.fromStorage = function(configData){
-    	this.nodes = [];
-    	this.vms = [];
-    	for(var i in configData[0]){
- 			var nodeData = configData[0][i],
-    			node = createNodeFromStorage(nodeData);
-    		this.nodes.push(node);
-    	}
-		editor.setValue(configData[1]);
-		drawConfiguration("canvas");
-    }
 }
