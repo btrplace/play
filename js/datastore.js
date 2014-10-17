@@ -32,10 +32,10 @@ function loadUseCase(uc) {
 	if (k == "_") {		
 		editor.setReadOnly(false);		
 		canEdit = true;
-		$("#custom-tip").show();			
+		$(".custom").show();			
 		$("#description").html(desc);
 	} else {
-		$("#custom-tip").hide();
+		$(".custom").hide();
 		var promise = $.ajax({
   			type: "GET",  		
   			url: entry_point + "/store/" + k
