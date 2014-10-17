@@ -31,6 +31,11 @@ p {
     line-height: 1.5;
 }
 
+ul {
+    margin-left: 30px;
+}
+
+
 @media(min-width:767px) {
     p {
         margin: 1em 0 1em 35px;
@@ -102,10 +107,6 @@ a:focus {
 
 .controler .btn {
     margin: 2px;
-}
-
-#description ul {
-    margin-left: 30px;
 }
 
 #editor {         
@@ -265,4 +266,12 @@ a:focus {
 #solve {
     position: absolute;
     right: 15px;
+}
+
+.custom-tip {
+    display: none;
+    font-size: 9pt;
+    line-height: 1.5em;
+    margin-bottom: 1em;
+    margin-left: 1em;
 }
