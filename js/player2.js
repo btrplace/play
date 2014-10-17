@@ -3,7 +3,7 @@ var paused = true;
 var schedule;
 
 var now;
-var unit = 150;
+var unit = 140;
 var SPEED = 1000;
 function makeSpan(actions) {
 	var h = 0;
@@ -98,6 +98,7 @@ function createPlayer(plan, to) {
 	div.append();
 	schedule = prepareReconfiguration(plan.actions, h);
 	now = 0;
+	paused = true;
 }
 
 function ffwd() {

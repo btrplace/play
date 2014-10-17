@@ -22,32 +22,40 @@
     line-height: 14pt;
 }
 
-#output {
+/*#output {
     height: 300px;
     position: fixed;    
     width: 100%;    
-    bottom: 0;
-    z-index: 5;
+    bottom: 0;    
+}*/
+
+.output {
+    height: 300px;
+    position: fixed;    
+    width: 100%;    
+    bottom: 0;    
 }
 
-#solution {
-    display: none;
-    background-color: rgb(223, 240, 216);
-    height: 100%;
-    color: #5cb85c;
-    font-size: 10pt;
-}
-#slides {
-    margin-left: 1em;
-    margin-right: 1em;
-}
 #error {
     display: none;
     background-color: #f2dede;
     border: solid #ebccd1 1px;
-    color: #a94442; 
-    height: 100%;
+    color: #a94442;         
 }
+
+#solution {
+    display: none;
+    background-color: rgb(223, 240, 216);    
+    color: #5cb85c;
+    font-size: 10pt;    
+}
+
+#slides {
+    margin-left: 1em;
+    margin-right: 1em;
+    z-index: 5;
+}
+
 
 #error p {
     margin-top: 3em;

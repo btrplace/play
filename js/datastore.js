@@ -21,6 +21,11 @@ function loadUseCases(id, uc) {
 
 function loadUseCase(uc) {
 	var k = uc;
+	//hide solution panel if needed
+	var p = $("#solution");
+	if (p.is(":visible")) {
+		p.hide("slide", {direction: "down"}, 200);
+	}
 	if (k == undefined) {		
 		k = $("#use-cases").val();
 	}
