@@ -1,3 +1,51 @@
+function JSON2Model(js) {
+    //extract the views
+    var vmNs, nodeNs, cpu, mem;
+    console.log(js);
+    js.views.forEach(function (v) {
+        if (v.id == "shareableResource") {
+            if (v.rcId == "cpu") {cpu = v;}
+            else if (v.rcId == "mem") {mem = v;}            
+        } else if (v.id =="ns") {
+            if (v.type == "vm") {vmNs = v;}
+            else if (v.type == "node") {nodeNs = v;}         
+        }
+    });
+    var c = new Configuration();
+    Object.keys(nodeNs.map).forEach(function (name) {
+        var nid = nodeNs.map[name];
+        var n = new Node(name, cpu.nodes[nid], mem.nodes[nid]);
+        c.nodes[nid] = n;
+        n.online = js.mapping.offlineNodes.indexOf(nid) <= 0;
+        if (n.online) {
+            var inside = js.mapping.onlineNodes[nid];
+            inside.runningVMs.forEach(function (vid) {
+                var vmName = nameFromId(vmNs, vid);
+                var vm = new VirtualMachine(vmName, cpu.vms[vid], mem.vms[vid]);
+                c.vms[vid] = vm;
+                n.vms[vid] = vm;
+            });
+        } 
+    }); 
+    return c;
+}
+
+function nameFromId(ns, id) {
+    var name = undefined;
+    Object.keys(ns.map).forEach(function (n) {
+        if (ns.map[n] == id) {
+            if (ns.type=="vm") {
+                name = n.substring(n.indexOf(".") + 1);
+            } else {
+                name = n;    
+            }
+            
+            return true;
+        } 
+    });
+    return name;
+}
+
 function model2JSON(m) {	    
 	var mapping = {onlineNodes:{}, offlineNodes:[], readyVMs:[]};    
     m.nodes.forEach(function (n) {

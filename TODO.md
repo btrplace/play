@@ -1,14 +1,14 @@
-* TODO
+# TODO
 
-** features **
+## features
 
 - [x] load experiment from URL
-- [ ] store model
+- [x] load JSON model
 - [ ] customize mode
 - [ ] share
 - [ ] store/edit use cases
 
-** visualization **
+## visualization
 
 - [ ] timeline
 - [ ] play

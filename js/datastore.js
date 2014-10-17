@@ -41,7 +41,9 @@ function loadUseCase(uc) {
   			$("#solve").removeAttr("disabled");  		
   			editor.setValue(useCase.script);  		  		
   			editor.clearSelection();
-  			editor.setReadOnly(true);
+  			editor.setReadOnly(true);  			
+  			config = JSON2Model(JSON.parse(useCase.model)); //weird
+  			drawConfiguration("canvas");
   			canEdit = false;
   		})
   		promise.fail(function (xhr) {

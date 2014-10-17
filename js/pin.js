@@ -52,11 +52,10 @@ function randomConfiguration() {
 }
 
 function init() {        
-    var useCase = getURLParameter("uc");    
-    console.log(useCase);
+    var useCase = getURLParameter("uc");        
     editor = ace.edit("editor");
     editor.setReadOnly(true);               
     loadUseCases("use-cases", useCase);    
-    randomConfiguration();        
-    drawConfiguration("canvas");            
+/*    randomConfiguration();        
+    drawConfiguration("canvas");            */
 }
