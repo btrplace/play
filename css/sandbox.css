@@ -115,7 +115,13 @@ code {
  	margin-left:-3px; 	
  	font-size: 10pt;	
  	margin-top: 10px;
- 	color: #666 /*#5cb85c;*/
+ 	color: #666;
+}
+.time-mark {
+	font-size: 30px;
+	left: -10px;
+	position: absolute;
+	top: -15px;
 }
 
 .timeLineGradLabel {
