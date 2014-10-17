@@ -16,4 +16,4 @@
 - [x] pauseable play
 - [x] ffwd
 - [x] reset
-- [ ] close bottom slider
+- [x] close bottom slider

@@ -275,7 +275,7 @@ function showSyntaxErrors(errors) {
     });
     b += "</ul>";        
     editor.getSession().setAnnotations(anns)    
-	$("#error").html("<h4>Errors</h4>" + b);  	 			
+	$("#error-cnt").html("<h4>Errors</h4>" + b);  	 			
 }
 
 // Setup keyboard actions
