@@ -10,6 +10,11 @@
 .controler .btn {
     margin: 2px;
 }
+
+#description ul {
+    margin-left: 30px;
+}
+
 #editor {         
     height: 300px;
     width: 100%;         

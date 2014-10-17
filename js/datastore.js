@@ -28,6 +28,16 @@ function loadUseCase(uc) {
 	if (k == "_") {		
 		editor.setReadOnly(false);		
 		canEdit = true;
+		var desc = "You can now customize both the scripts and the model." +
+			"<br/>" +
+			"Keyboard shortcuts to customize the model:"+
+				"<ul>"+
+				"<li><b>&#8592;, &#8593;, &#8594;,&#8595;</b>: change the resource levels of the selected element</li>"+
+				"<li><b>N</b> : new VM (if a node is selected), or new node</li>"+
+				"<li><b>O</b> : state switch for a node (online, offline)</li>"+
+				"<li><b>D</b> : delete the selected element</li>"+
+				"</ul>";			
+		$("#description").html(desc);
 	} else {
 		var promise = $.ajax({
   			type: "GET",  		
