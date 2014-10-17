@@ -1,10 +1,14 @@
 .btn-info, .btn-default {
     border: none;
 }
-#player .controler {
-    padding-top: 0.5em;
+#player {
+    margin-top: 0.5em;
     margin-bottom: 1em;
-    text-align: center;
+}
+#player .controler {
+    margin-bottom: 1em;
+    text-align: left;
+    position: absolute;
 }
 
 .controler .btn {
@@ -22,21 +26,15 @@
     line-height: 14pt;
 }
 
-/*#output {
-    height: 300px;
-    position: fixed;    
-    width: 100%;    
-    bottom: 0;    
-}*/
-
-.output {
-    height: 300px;
+.output { 
     position: fixed;    
     width: 100%;    
     bottom: 0;    
 }
 
 #error {
+    padding-top: 1em;
+    padding-bottom: 1em;
     display: none;
     background-color: #f2dede;
     border: solid #ebccd1 1px;
@@ -68,9 +66,6 @@
 
 #error ul {
     margin-left: 150px;
-}
-.gogo {
-    margin-top: 200px;
 }
 
 h2 {
@@ -133,21 +128,6 @@ a:focus {
     color: #11505d;
 }
 
-.light {
-    font-weight: 400;
-}
-
-.logo {
-    width: 200px;
-}
-
-.btn-hg {
-    padding: 10px 16px;
-    font-size: 25px;
-    line-height: 1.5;
-    margin: 5px;
-}
-
 @-webkit-keyframes pulse {    
     0 {
         -webkit-transform: scale(1);
@@ -182,16 +162,6 @@ a:focus {
     }
 }
 
-@media(min-width:767px) {
-    .content-section {
-        padding-top: 200px;
-    }
-
-    .download-section {
-        padding: 100px 0;
-    }
-}
-
 .btn {
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -217,24 +187,4 @@ a:focus {
     background: #d2d8b1;
     border-radius: 4px;    
     color: #444;
-}
-
-::-moz-selection {
-    text-shadow: none;
-    background: #fcfcfc;
-    background: rgba(255,255,255,.2);
-}
-
-::selection {
-    text-shadow: none;
-    background: #fcfcfc;
-    background: rgba(255,255,255,.2);
-}
-
-img::selection {
-    background: 0 0;
-}
-
-img::-moz-selection {
-    background: 0 0;
 }

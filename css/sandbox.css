@@ -10,75 +10,17 @@ body {
 	min-width:950px;
 }
 
-.green_line {
-	background-color:#d2d8b1;
-}
-
-#input_zone_wrapper {
-	margin-top:10px;
-}
-
-#input_zone {
-	padding-top:10px;
-	padding-bottom:10px;
-	overflow:auto;
-}
-
-#script {
-	float:right;
-}
-
-code {
-	text-align: left;
-}
-
-#scenario li {
-	text-align: left;
-	margin-left: 80px;
-}
-
-.note {
-	font-size: 10pt;
-	text-align: left;
-	font-style: italic;
-}
-
 /* Diagram stuff */
 .actionLines {
 	position:relative;
 	margin-top: 2em;
 }
 
-#diagramWrapper {
-	float:right;
-}
-
-#diagram {
-	position:relative;
-	padding-top:15px;
-	width:600px;
-	/*float:right; */
-	margin-left:20px;
-	padding-bottom:15px;
-	padding-right:15px;
-	line-height:180%;
-}
-
-
-.disabled {
-	background-color: lightgray;
-    color: #AAA;
-}
-
-#diagram * {
-	box-sizing:border-box;
-}
-
 .cursor {
 	position:absolute;
 	border-left:3px solid rgba(20,20,20,0.5);	
-	top:-1em;
-	bottom:-1em;
+	top: -10px;
+	bottom:0;
 }
 
 .actionContainer {
@@ -92,57 +34,29 @@ code {
 }
 
 
-.graduations {
-	position:absolute;
-	width:100%;
+.graduations {		
 	height:6px;
 }
 
-.graduations .actionLine {
-	top: 10px;	
-}
-
-.timestamp {
-	position:absolute;
-	bottom:-10px;
-	height:10px;
-	border-left: 2px solid #5cb85c;	
-}
-
 .timemark {
- 	position:absolute; 	 
- 	width:4px;
- 	margin-left:-3px; 	
- 	font-size: 10pt;	
- 	margin-top: 10px;
- 	color: #666;
- 	top: -25px;
- 	z-index: 10;
+	position: absolute;
+	font-size: 10pt;
+	color: #666;
+	z-index: 10;
+	display: inline;
 }
+
 .time-mark {
 	font-size: 30px;
 	left: -12px;
 	position: absolute;
-	top: -15px;
+	top: -20px;
 	border: 2px solid #666;
 	border-radius: 5px;
 	width: 20px;
 	height: 20px;
 
 }
-
-.timeLineGradLabel {
-	position:absolute;
-	bottom:-2.5em;
-	margin-left:3px;
-	color:gray;
-}
-
-.timeLineGradLabel.withEvent {
-	color:black;
-	font-weight:bold;
-}
-
 
 .actionBar {
 	position:relative;	
@@ -154,9 +68,4 @@ code {
 	white-space: nowrap;
 	text-align: center;	
 	z-index: 1;
-}
-
-.finishedAction {
-	background-color:#222;
-	color:gray;
 }

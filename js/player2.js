@@ -29,18 +29,15 @@ function makeAction(unit, lbl, start, end, h){
 }
 
 function makeTimeline(unit, h) {
-	var timeline = $("<div></div>").addClass("graduations");
-	//timeline.append($("<div></div>").addClass("actionLine"));
+	var timeline = $("<div></div>").addClass("graduations");	
 	for (var i = 0; i <= h; i++) {
 		var x = (i + 1) * unit;
 		var g = $("<div></div>").addClass("timestamp");			
-		var m = $("<div>" + i + "</div>").addClass("timemark");			
+		var m = $("<span>" + i + "</span>").addClass("timemark");			
 		g.css({left:x});		
 		m.css({left:x});	
-		timeline.append(m);/*.append(g);				*/
+		timeline.append(m);
 	}	
-
-//	timeline.append(cursor);
 	return timeline;
 }
 
