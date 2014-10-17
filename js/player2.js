@@ -100,6 +100,8 @@ function createPlayer(plan, to) {
 	schedule = prepareReconfiguration(plan.actions, h);
 	now = 0;
 	paused = true;
+	playing = false;
+	forward = true;
 }
 
 function ffwd() {
