@@ -2,16 +2,17 @@
 
 ** features **
 
-- store model
-- customize mode
-- share
-- store/edit use cases
+- [x] load experiment from URL
+- [ ] store model
+- [ ] customize mode
+- [ ] share
+- [ ] store/edit use cases
 
 ** visualization **
 
-- timeline
-- play
-- pauseable play
-- ffwd
-- reset
+- [ ] timeline
+- [ ] play
+- [ ] pauseable play
+- [ ] ffwd
+- [ ] reset
 
