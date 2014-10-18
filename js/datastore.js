@@ -13,20 +13,18 @@ function loadUseCases(id, uc) {
   				first = false;
   			}*/
   		});
-  		buf += "<option value='_'>custom ...</custom>";
+  		buf += "<option value='_'>customize ...</custom>";
   		$("#" + id).removeAttr("disabled").html(buf);  		
   		loadUseCase(uc);
   	})
 }
 
-function editDescription() {
-	$("#input-description").val($("#description").html());
-	$("#modal-desc").modal('toggle');
+function share() {
+	$("#modal-share").modal('toggle');
 }
 
-function saveDescription() {
-	$("#description").html($("#input-description").val());
-	$("#modal-desc").modal('toggle');
+function newUseCase() {	
+	$("#modal-share").modal('toggle');
 }
 
 function loadUseCase(uc) {
@@ -40,11 +38,13 @@ function loadUseCase(uc) {
 	}
 	$("#solve").removeAttr("disabled");
 	if (k == "_") {		
-		editor.setReadOnly(false);		
+		editor.setReadOnly(false);
+		$("#description").hide();		
 		canEdit = true;
 		$(".custom").show();
 	} else {
 		$(".custom").hide();
+		$("#description").show();
 		var promise = $.ajax({
   			type: "GET",  		
   			url: entry_point + "/store/" + k
@@ -57,6 +57,8 @@ function loadUseCase(uc) {
   			config = JSON2Model(JSON.parse(useCase.model)); //weird
   			drawConfiguration("canvas");
   			canEdit = false;
+			$("#input-description").val(useCase.description);			
+			$("#input-title").val($( "#use-cases option:selected" ).text());
   		})
   		promise.fail(function (xhr) {
   			if (xhr.status == 404) {

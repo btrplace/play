@@ -42,8 +42,12 @@
         <li><b>D</b> : delete the selected element</li>
         </ul>
         </div>
-        <div id="description"><i>no description</i></div>
-        <div class="custom"><a onclick="editDescription()">edit</a></div>        
+        <div id="description"></div>
+        <div class="custom text-center">
+          <a onclick="share()" class="btn btn-success">
+          <i class="fa fa-share-alt"></i> Share
+          </a>
+        </div>        
     </div>                  
   </div>
   <div id="workspace">
@@ -79,16 +83,31 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="modal-desc" tabindex="-1" role="modal" aria-hidden="true">
+<div class="modal fade" id="modal-share" tabindex="-1" role="modal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body"> 
-      <h2>Edit description</h2>     
+      <h2>Use case description</h2>     
       <form>
-      <textarea id="input-description" class="form-control"></textarea>      
+      <div class="form-group">
+        <label>Title</label>
+        <input id="input-title" type="text" class="form-control"></form>  
+      </div>
+      <div class="form-group">
+        <label>Description (plain text)</label>
+        <textarea id="input-description" class="form-control"></textarea>      
+      </div>      
+      
       </form>
-      <p class="text-center">
-        <a class="btn btn-success" onclick="saveDescription()">save</a>
+      <p class="text-right">
+        <a class="btn btn-success" onclick="newUseCase()">
+        <i class="fa fa-check"></i>
+        share
+        </a>        
+        <a class="btn btn-default" data-dismiss="modal">
+        <i class="fa fa-close"></i>
+        later
+        </a>
       </p>
       </div>
     </div>

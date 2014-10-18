@@ -12,3 +12,23 @@
 - [ ] store custom
 - [ ] share custom
 - [ ] edit custom
+- [ ] admin dashboard to purge shared and get some statistics
+
+# Datastore
+
+- model
+- script
+- hits
+- last hit
+- key
+- indexed
+
+#workflow ?
+custom ... -> derive from the current example
+
+setting modal:
+  title
+  description
+  checkbox visibility
+
+  -> show the link 
