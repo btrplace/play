@@ -1,24 +1,3 @@
-function loadUseCases(id, uc) {
-	var promise = $.ajax({
-  		type: "GET",  		
-  		url: entry_point + "/store/"
-  	});
-  	promise.done(function (summaries) {
-  		var buf = "";  		
-  		var first = true;
-  		summaries.forEach(function (s) {
-  			buf += "<option value=\"" + s.key + "\">" + s.title + "</option>";  			
-  			/*if (first) {
-  				loadUseCase(s.key);
-  				first = false;
-  			}*/
-  		});
-  		buf += "<option value='_'>customize ...</custom>";
-  		$("#" + id).removeAttr("disabled").html(buf);  		
-  		loadUseCase(uc);
-  	})
-}
-
 function share() {
 	$("#modal-share").modal('toggle');
 }
@@ -36,7 +15,7 @@ function loadUseCase(uc) {
 	if (k == undefined) {		
 		k = $("#use-cases").val();
 	}
-	$("#solve").removeAttr("disabled");
+	$("#solve").removeAttr("disabled");    
 	if (k == "_") {		
 		editor.setReadOnly(false);
 		$("#description").hide();		
@@ -53,8 +32,8 @@ function loadUseCase(uc) {
   			$("#description").html(useCase.description);  			
   			editor.setValue(useCase.script);  		  		
   			editor.clearSelection();
-  			editor.setReadOnly(true);  			
-  			config = JSON2Model(JSON.parse(useCase.model)); //weird
+  			editor.setReadOnly(true);  			        
+  			config = JSON2Model(JSON.parse(useCase.model));
   			drawConfiguration("canvas");
   			canEdit = false;
 			$("#input-description").val(useCase.description);			

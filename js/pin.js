@@ -13,6 +13,10 @@ function error(msg) {
 function init() {        
     var useCase = getURLParameter("uc");        
     editor = ace.edit("editor");
-    editor.setReadOnly(true);               
-    loadUseCases("use-cases", useCase);    
+    editor.setReadOnly(true);       
+    if (useCase != undefined) {
+    	loadUseCase(useCase);
+    } else {
+    	loadUseCase(DEFAULT_USE_CASE);
+    }   
 }

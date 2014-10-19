@@ -29,6 +29,16 @@ custom ... -> derive from the current example
 setting modal:
   title
   description
-  checkbox visibility
 
+  valid, not yet
   -> show the link 
+
+modal UI on click on Share
+T: Share this use case
++ title
++ description
+
+[Share][Not yet]
+
+Not yet -> dismiss
+Share -> generate the link on the main page
