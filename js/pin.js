@@ -13,7 +13,7 @@ function error(msg) {
 function init() {        
     var useCase = getURLParameter("uc");        
     editor = ace.edit("editor");
-    editor.setReadOnly(true); 
+    //editor.setReadOnly(true);     
     editor.setHighlightActiveLine(false);
     editor.setHighlightGutterLine(false);
     if (useCase != undefined) {

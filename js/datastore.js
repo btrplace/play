@@ -1,10 +1,10 @@
 function share() {
-  if (canEdit) {
+  //if (canEdit) {
 	 $("#modal-share-custom").modal('show');   
-  } else {
+  /*} else {
     $("#premade-url").val(window.location.href.split("?")[0] + "?uc=" + current).focus();
     $("#modal-share-premade").modal('show');
-  }
+  }*/
 }
 
 function newUseCase() {	
@@ -37,7 +37,7 @@ function newUseCase() {
 	$("#modal-share-custom").modal('toggle');
 }
 
-function readOnly(b) {      
+/*function readOnly(b) {      
     if (b) {
       $("#description").show()      
       $(".custom").hide();    
@@ -48,12 +48,12 @@ function readOnly(b) {
     editor.clearSelection();
     editor.setReadOnly(b);
     canEdit = !b;    
-}
+}*/
 
 function randomModel() {
   var cfg = new Configuration();    
   for (var i = 1; i <= 8; i++) {
-    var n = new Node("N" + i, 6, 6);
+    var n = new Node("@N" + i, 6, 6);
     cfg.nodes.push(n);
   }
 
@@ -91,7 +91,7 @@ function randomModel() {
 }
 
 function randomScript(cfg) {
-  var buf = "namespace sandbox\n\n";
+  var buf = "namespace sandbox;\n\n";
   buf += "VM[1.." + cfg.vms.length + "]: myVMs;\n\n"
   for (var i in cfg.nodes) {
     var n = cfg.nodes[i];
@@ -106,7 +106,7 @@ function randomScript(cfg) {
     nIdx = Math.floor(Math.random() * cfg.nodes.length);  
   }  
   buf += ">>ban(" + cfg.nodes[nIdx].vms[0].id + ", " + cfg.nodes[nIdx].id + ");\n";
-  buf += ">>maxOnline(@N[0..3], 3);\n"
+  buf += ">>maxOnline(@N[1..3], 3);\n"
   return buf;
 }
 
@@ -118,6 +118,7 @@ function randomInstance() {
   var i = {};
   i.model = JSON.stringify(model2JSON(cfg));
   i.script = scr;
+  i.description = "an use-case generated automatically";  
   return i;
 }
 
@@ -126,6 +127,7 @@ function displayInstance(i) {
   config = JSON2Model(JSON.parse(i.model));
   editor.getSession().setAnnotations([]);  
   editor.setValue(i.script);
+  editor.clearSelection();
   drawConfiguration("canvas");    
   $("#input-description").val(i.description);     
   $("#input-title").val($( "#use-cases option:selected" ).text());
@@ -143,7 +145,7 @@ function loadUseCase(uc) {
 	}	
 	if (k == "_") {				
     displayInstance(randomInstance());
-    readOnly(false);
+    //readOnly(false);
 	} else {
 		var promise = $.ajax({
   			type: "GET",  		
@@ -152,7 +154,7 @@ function loadUseCase(uc) {
   		promise.done(function (useCase) {              
         current = uc;
         displayInstance(useCase);
-        readOnly(true);
+        //readOnly(true);
         //Add the custom title to the select bar if no option having the value exists
         var known = false;        
         $("#use-cases").find("option").each(function() {                    
@@ -162,7 +164,7 @@ function loadUseCase(uc) {
           }
         });        
         if (!known && current != undefined) { 
-          $("#use-cases").prepend("<option value='" + useCase.key + "' selected>" + useCase.title + "</option>");
+          $("#use-cases").prepend("<option value='" + useCase.key + "' selected> (custom) " + useCase.title + "</option>");
         }
   		})
   		promise.fail(function (xhr) {
