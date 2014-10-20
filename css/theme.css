@@ -3,7 +3,7 @@
  padding: 0;
 }
 
-.form-control {
+.flat {
     border: none;
     box-shadow: none;
 }
@@ -275,5 +275,16 @@ a:focus {
     font-size: 9pt;
     line-height: 1.5em;
     margin-bottom: 1em;
-    margin-left: 1em;
+    margin-left: 1em;    
+}
+
+/* Ace editor */
+.ace-tm .ace_scroller {
+    background-color    : #f7f7f9;
+}
+.ace_scrollbar {
+    display: none !important;
+}
+.ace_folding-enabled > .ace_gutter-cell {
+ padding-right: 2px; 
 }
