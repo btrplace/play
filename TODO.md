@@ -9,7 +9,8 @@
 - [x] ffwd
 - [x] reset
 - [x] close bottom slider
-- [ ] Random use case
+- [x] Random use case
+- [x] share premade
 - [ ] store custom
 - [ ] share custom
 

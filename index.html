@@ -45,7 +45,7 @@
         </ul>
         </div>
         <div id="description"></div>
-        <div class="custom text-center">
+        <div class="text-center">
           <a onclick="share()" class="btn btn-success">
           <i class="fa fa-share-alt"></i> Share
           </a>
@@ -79,13 +79,25 @@
       <div class="modal-body">      
       <p id="error-msg"></p>
       <p class="text-center">
-        <a class="btn btn-danger" href="index.html">Ok</a>
+        <a class="btn btn-danger btn-lg" href="index.html">Ok</a>
       </p>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="modal-share" tabindex="-1" role="modal" aria-hidden="true">
+<div class="modal fade" id="modal-share-premade" tabindex="-1" role="modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="alert alert-success">
+      <div class="modal-body">
+        <form>
+        <label>public URL</label>            
+        <input type="text" id="premade-url" class="form-control"/>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-share-custom" tabindex="-1" role="modal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body"> 

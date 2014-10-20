@@ -1,9 +1,14 @@
-function share() {
-	$("#modal-share").modal('toggle');
+function  share() {
+  if (canEdit) {
+	 $("#modal-share-custom").modal('toggle');
+  } else {
+    $("#premade-url").val(window.location.href + "?uc=" + current).focus();
+    $("#modal-share-premade").modal('toggle');
+  }
 }
 
 function newUseCase() {	
-	$("#modal-share").modal('toggle');
+	$("#modal-share-custom").modal('toggle');
 }
 
 function readOnly(b) {  
@@ -90,12 +95,12 @@ function randomInstance() {
   return i;
 }
 
-function displayInstance(i) {
+function displayInstance(i) {  
   $("#description").html(i.description);          
   config = JSON2Model(JSON.parse(i.model));
   editor.getSession().setAnnotations([]);  
   editor.setValue(i.script);
-  drawConfiguration("canvas");  
+  drawConfiguration("canvas");    
   $("#input-description").val(i.description);     
   $("#input-title").val($( "#use-cases option:selected" ).text());
   $("#solve").removeAttr("disabled");    
@@ -118,7 +123,8 @@ function loadUseCase(uc) {
   			type: "GET",  		
   			url: endPoint + "/store/" + k
   		});
-  		promise.done(function (useCase) {        
+  		promise.done(function (useCase) {              
+        current = uc;
         displayInstance(useCase);
         readOnly(true);
   		})

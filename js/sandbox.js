@@ -13,7 +13,7 @@ var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
 //var entry_point = "http://localhost:8080";
 var DEFAULT_USE_CASE = "5443ab34d973a61ece00267b";
 var selectedElement = null ;
-
+var current;
 function registerSelectedElement(element){
 	selectedElement = element;
 }
