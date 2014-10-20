@@ -1,4 +1,4 @@
-function  share() {
+function share() {
   if (canEdit) {
 	 $("#modal-share-custom").modal('toggle');
   } else {
@@ -8,6 +8,30 @@ function  share() {
 }
 
 function newUseCase() {	
+  var i = {
+    title: $("#input-title").val(),
+    description: $("#input-description").val(),
+    script: editor.getValue(),
+    model: JSON.stringify(model2JSON(config))
+  }
+  var promise = $.ajax({
+    type: "POST",      
+    url: endPoint + "/store/",
+    contentType: 'application/json',    
+    dataType: 'text',
+    data: JSON.stringify(i),    
+  });
+  promise.done(function (id, status, xhr) {      
+    $("#modal-share-custom").modal('toggle');
+    $("#premade-url").val(window.location.href + "?uc=" + id).focus();
+    $("#modal-share-premade").modal('toggle');
+  })
+  promise.fail(function (xhr) {
+    var location = xhr.getResponseHeader('Location');
+    console.log(xhr.responseText);
+  });
+
+
 	$("#modal-share-custom").modal('toggle');
 }
 
