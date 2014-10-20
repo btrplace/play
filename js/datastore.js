@@ -118,7 +118,7 @@ function randomInstance() {
   var i = {};
   i.model = JSON.stringify(model2JSON(cfg));
   i.script = scr;
-  i.description = "an use-case generated automatically";  
+  i.description = "a use-case generated automatically";  
   return i;
 }
 
