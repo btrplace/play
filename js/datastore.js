@@ -22,9 +22,9 @@ function newUseCase() {
     data: JSON.stringify(i),    
   });
   promise.done(function (id, status, xhr) {      
-    $("#modal-share-custom").modal('toggle');
+    $("#modal-share-custom").modal('hide');
     $("#premade-url").val(window.location.href + "?uc=" + id).focus();
-    $("#modal-share-premade").modal('toggle');
+    $("#modal-share-premade").modal('show');
   })
   promise.fail(function (xhr) {
     var location = xhr.getResponseHeader('Location');

@@ -9,8 +9,8 @@ var currentView = "";
 var canSubmit = true ;
 var canEdit = true ;
 
-//var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
-var endPoint = "http://localhost:8080";
+var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
+//var endPoint = "http://localhost:8080";
 var DEFAULT_USE_CASE = "5443ab34d973a61ece00267b";
 var selectedElement = null ;
 var current;
