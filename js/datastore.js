@@ -1,10 +1,5 @@
-function share() {
-  //if (canEdit) {
+function share() {  
 	 $("#modal-share-custom").modal('show');   
-  /*} else {
-    $("#premade-url").val(window.location.href.split("?")[0] + "?uc=" + current).focus();
-    $("#modal-share-premade").modal('show');
-  }*/
 }
 
 function newUseCase() {	
@@ -36,19 +31,6 @@ function newUseCase() {
 
 	$("#modal-share-custom").modal('toggle');
 }
-
-/*function readOnly(b) {      
-    if (b) {
-      $("#description").show()      
-      $(".custom").hide();    
-    } else {
-      $("#description").hide();
-      $(".custom").show();    
-    }    
-    editor.clearSelection();
-    editor.setReadOnly(b);
-    canEdit = !b;    
-}*/
 
 function randomModel() {
   var cfg = new Configuration();    
@@ -153,8 +135,7 @@ function loadUseCase(uc) {
   		});
   		promise.done(function (useCase) {              
         current = uc;
-        displayInstance(useCase);
-        //readOnly(true);
+        displayInstance(useCase);        
         //Add the custom title to the select bar if no option having the value exists
         var known = false;        
         $("#use-cases").find("option").each(function() {                    

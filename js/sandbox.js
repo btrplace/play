@@ -318,8 +318,7 @@ function solve() {
 	}	
 	var instance = instance2JSON(config, editor.getValue())
 	var promise = $.ajax({
-  		type: "POST",
-  		//url: "http://murmuring-sierra-9341/solve",
+  		type: "POST",  		
   		url: endPoint + "/solve",
   		data: JSON.stringify(instance)
   	});
@@ -330,8 +329,7 @@ function solve() {
 			show(e, s);
   		} else if (statusCode == "success") {
   			backupConfig = JSON2Model(plan.origin);  			
-  			drawConfiguration("canvas");
-  			//$("#solve").attr("disabled","disabled");
+  			drawConfiguration("canvas");  			
   			if (plan.actions.length == 0) {
   				s.html("<p>No need to reconfigure</p>");
   			} else {
