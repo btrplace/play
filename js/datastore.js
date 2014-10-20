@@ -13,12 +13,11 @@ function newUseCase() {
     description: $("#input-description").val(),
     script: editor.getValue(),
     model: JSON.stringify(model2JSON(config))
-  }
+  }  
   var promise = $.ajax({
+    cache: false,
     type: "POST",      
-    url: endPoint + "/store/",
-    contentType: 'application/json',    
-    dataType: 'text',
+    url: endPoint + "/store/",          
     data: JSON.stringify(i),
     header: {
       'Access-Control-Allow-Headers':'Content-Type, accept,'
