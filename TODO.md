@@ -11,8 +11,8 @@
 - [x] close bottom slider
 - [x] Random use case
 - [x] share premade
-- [ ] store custom
-- [ ] share custom
+- [x] store custom
+- [x] share custom
 
 # Datastore
 

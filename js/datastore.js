@@ -1,9 +1,10 @@
 function share() {
   if (canEdit) {
-	 $("#modal-share-custom").modal('toggle');
+	 $("#modal-share-custom").modal('show');
+   canEdit = false;
   } else {
-    $("#premade-url").val(window.location.href + "?uc=" + current).focus();
-    $("#modal-share-premade").modal('toggle');
+    $("#premade-url").val(window.location.href.split("?")[0] + "?uc=" + current).focus();
+    $("#modal-share-premade").modal('show');
   }
 }
 
@@ -23,7 +24,7 @@ function newUseCase() {
   });
   promise.done(function (id, status, xhr) {      
     $("#modal-share-custom").modal('hide');
-    $("#premade-url").val(window.location.href + "?uc=" + id).focus();
+    $("#premade-url").val(window.location.href.split("?")[0] + "?uc=" + id).focus();
     $("#modal-share-premade").modal('show');
   })
   promise.fail(function (xhr) {
@@ -35,7 +36,7 @@ function newUseCase() {
 	$("#modal-share-custom").modal('toggle');
 }
 
-function readOnly(b) {  
+function readOnly(b) {      
     if (b) {
       $("#description").show()      
       $(".custom").hide();    
@@ -151,6 +152,17 @@ function loadUseCase(uc) {
         current = uc;
         displayInstance(useCase);
         readOnly(true);
+        //Add the custom title to the select bar if no option having the value exists
+        var known = false;        
+        $("#use-cases").find("option").each(function() {                    
+          if (this.value == current) {                        
+            known = true;
+            return true;            
+          }
+        });        
+        if (!known && current != undefined) { 
+          $("#use-cases").prepend("<option value='" + useCase.key + "' selected>" + useCase.title + "</option>");
+        }
   		})
   		promise.fail(function (xhr) {
   			if (xhr.status == 404) {
