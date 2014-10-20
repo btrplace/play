@@ -1,7 +1,6 @@
 function share() {
   if (canEdit) {
-	 $("#modal-share-custom").modal('show');
-   canEdit = false;
+	 $("#modal-share-custom").modal('show');   
   } else {
     $("#premade-url").val(window.location.href.split("?")[0] + "?uc=" + current).focus();
     $("#modal-share-premade").modal('show');
@@ -20,7 +19,10 @@ function newUseCase() {
     url: endPoint + "/store/",
     contentType: 'application/json',    
     dataType: 'text',
-    data: JSON.stringify(i),    
+    data: JSON.stringify(i),
+    header: {
+      'Access-Control-Allow-Headers':'Content-Type, accept,'
+    }    
   });
   promise.done(function (id, status, xhr) {      
     $("#modal-share-custom").modal('hide');
