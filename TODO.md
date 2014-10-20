@@ -9,10 +9,9 @@
 - [x] ffwd
 - [x] reset
 - [x] close bottom slider
+- [ ] Random use case
 - [ ] store custom
 - [ ] share custom
-- [ ] edit custom
-- [ ] admin dashboard to purge shared and get some statistics
 
 # Datastore
 

@@ -9,6 +9,9 @@ h2 {
     padding: 0.5em 1em;
 }
 
+.rnd {
+    font-variant: italic;
+}
 body {
     width: 100%;
     height: 100%;

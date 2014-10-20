@@ -9,7 +9,7 @@ var currentView = "";
 var canSubmit = true ;
 var canEdit = true ;
 
-var entry_point = "http://murmuring-sierra-9341.herokuapp.com";
+var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
 //var entry_point = "http://localhost:8080";
 var DEFAULT_USE_CASE = "5443ab34d973a61ece00267b";
 var selectedElement = null ;
@@ -320,7 +320,7 @@ function solve() {
 	var promise = $.ajax({
   		type: "POST",
   		//url: "http://murmuring-sierra-9341/solve",
-  		url: entry_point + "/solve",
+  		url: endPoint + "/solve",
   		data: JSON.stringify(instance)
   	});
   	promise.done(function (plan, statusCode) {  	  		
