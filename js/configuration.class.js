@@ -46,7 +46,7 @@ function Configuration (ns,vs) {
     }
 
     this.getNextNodeID = function(){
-    	var candidate = 0;
+    	var candidate = 1;
     	var valid = false;
     	while (!valid) {
     		valid = true;
@@ -62,7 +62,7 @@ function Configuration (ns,vs) {
     }
 
     this.getNextVMID = function(){
-        	var candidate = 0;
+        	var candidate = 1;
         	var valid = false;
         	while (!valid) {
         		valid = true;
