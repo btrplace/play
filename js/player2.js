@@ -141,7 +141,7 @@ function playPause() {
 function animateCursor() {
 	var to = (1 + now + (forward ? 1 : -1)) * unit;		
 	var duration = SPEED / acceleration;
-	return $(".cursor").animate({left: to + "px"}, duration, "linear"/*, function () {console.log("ok cursor");}*/);
+	return $(".cursor").animate({left: to + "px"}, duration, "linear");
 }
 
 function run(to) {
@@ -157,11 +157,9 @@ function run(to) {
 	deferreds.push(animateCursor());
 	console.log(deferreds);
 	$.when.apply($, deferreds).then(
-		function () {	
-			//console.log("all done");
+		function () {				
 			playing = false;
-			now = to;
-			//updateClickBindings();
+			now = to;			
 			if (now == 0) {
 				$("#player").find(".backward").attr("disabled", "disabled");
 				$("#player").find(".forward").removeAttr("disabled");
@@ -177,9 +175,7 @@ function run(to) {
 			} else {					
 				if (!paused) {				
 					run(forward ? now + 1 : now - 1);
-				}/* else {
-					console.log("now paused");				
-				}*/
+				}
 			}
 		}
 		);
@@ -217,36 +213,28 @@ function prepareReconfiguration(actions, h) {
 }
 
 //Animation for booting a node
-function bootNode(node, duration) {
-	//console.log("boot " + node.id);
+function bootNode(node, duration) {	
 	var d1 = $.Deferred();
 	var d2 = $.Deferred();
 
-    node.boxStroke.animate({'stroke': 'black'}, duration,"<>", function() {/*console.log("ok boot stroke " + node.id); */node.online = true;d1.resolve();});
-    node.boxFill.animate({'fill': 'black'}, duration,"<>", function() {/*console.log("ok boot fill "  + node.id); */d2.resolve() });
+    node.boxStroke.animate({'stroke': 'black'}, duration,"<>", function() {node.online = true;d1.resolve();});
+    node.boxFill.animate({'fill': 'black'}, duration,"<>", function() {d2.resolve() });
     return [d1.promise(), d2.promise()];
 }
 
 // Animation for shutting down a node
 function shutdownNode(node, duration){	
 	
-
-//	console.log("shutdown " + node.id + " in " + duration);	
 	var d1 = $.Deferred();
-//	console.log("hip " + node.id);
 	var d2 = $.Deferred();
-//	console.log("hop " + node.id);
-//	console.log("here: " + node.boxStroke);
-//	console.log("here: " + node.boxFill);
-    node.boxStroke.animate({'stroke': '#bbb'}, duration,"<>", function(){/*console.log("ok sh stroke " + node.id); */node.online = false; d1.resolve();});    
-    node.boxFill.animate({'fill': '#bbb'}, duration,"<>", function() {/*console.log("ok sh fill " + node.id); */d2.resolve(); });            
+    node.boxStroke.animate({'stroke': '#bbb'}, duration,"<>", function(){node.online = false; d1.resolve();});    
+    node.boxFill.animate({'fill': '#bbb'}, duration,"<>", function() {d2.resolve(); });            
     return [d1.promise(), d2.promise()];
 }
 
 //Animation for a migrate action
 function migrate(vm, src, dst, duration) {	
-	var a = 0;
-	//console.log("migration " + vm.id + " from " + src.id + " to " + dst.id);	
+	var a = 0;	
 	//A light gray (ghost) VM is posted on the destination
 	var ghostDst = new VirtualMachine(vm.id, vm.cpu, vm.mem);
 	ghostDst.bgColor = "#eee";
@@ -282,8 +270,7 @@ function migrate(vm, src, dst, duration) {
 		src.refresh();
 		dst.refresh();		
 	}
-	var p1 = movingVM.box.animate({transform :"T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)}, duration,"<>",function(){
-			//console.log("ok migrate " + vm.id);
+	var p1 = movingVM.box.animate({transform :"T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)}, duration,"<>",function(){			
 			d.resolve();
 	    	animationEnd();	    	
 	    }
