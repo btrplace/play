@@ -14,7 +14,7 @@ function JSON2Model(js) {
         var nid = nodeNs.map[name];
         var n = new Node(name, cpu.nodes[nid], mem.nodes[nid]);
         c.nodes[nid] = n;
-        n.online = js.mapping.offlineNodes.indexOf(nid) <= 0;
+        n.online = js.mapping.offlineNodes.indexOf(nid) < 0;
         if (n.online) {
             var inside = js.mapping.onlineNodes[nid];
             inside.runningVMs.forEach(function (vid) {
