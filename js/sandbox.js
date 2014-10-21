@@ -131,7 +131,7 @@ function onKeyEvent(event){
 		}
 		// Right
 		else if (keyCode == 39) {
-			if (selectedElement instanceof Node && selectedElement.cpu < 12) {
+			if (selectedElement instanceof Node && selectedElement.cpu < 6) {
 				selectedElement.cpu++;
 			}
 			else if (selectedElement instanceof VirtualMachine) {
@@ -145,7 +145,7 @@ function onKeyEvent(event){
 		}
 		// Up
 		else if (keyCode == 38){
-			if (selectedElement instanceof Node && selectedElement.mem < 12) {
+			if (selectedElement instanceof Node && selectedElement.mem < 6) {
 				selectedElement.mem++;
 			}
 			else if (selectedElement instanceof VirtualMachine) {
