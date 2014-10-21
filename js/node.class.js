@@ -13,7 +13,7 @@ function Node(name, cpu, mem) {
     this.isSelected = false;
 
     this.boundingBox = function () {
-	    return [2 * border + unit_size * this.cpu, 2 * border + unit_size * this.mem];
+	    return [2 * border + unit_size * MAX_CPU, 2 * border + unit_size * MAX_MEM];
     };
 
     this.draw = function (canvas, x, y) {
