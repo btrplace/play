@@ -23,8 +23,7 @@ function registerSelectedElement(element){
  * Binds the click event on the newly drawn Nodes and VMs.
  */
 function updateClickBindings(){
-	$(".nodeZone, .vmZone").unbind('click').on('click',function(event){
-		console.log("Click !");
+	$(".nodeZone, .vmZone").unbind('click').on('click',function(event){		
 		if (!canEdit) return false;
 
 		var element ;
@@ -34,7 +33,6 @@ function updateClickBindings(){
 		}
 		if (this.className.baseVal == "vmZone") {
 			var vmID = this.attributes["sandboxVMID"].value;
-			//element = config.vms[vmID];
 			element = config.getVirtualMachine("VM"+vmID);
 		}
        	// Safeguard
@@ -44,8 +42,7 @@ function updateClickBindings(){
 		}
 		else {
 			event.stopPropagation();
-		}
-		console.log("Click on : ",element);
+		}		
         setSelectedElement(element);
 	});
 }
@@ -163,7 +160,6 @@ function onKeyEvent(event){
 		// Down
 		else if (keyCode == 40){
 			var minSize = -1;
-			//if ((selectedElement instanceof Node && selectedElement.canBeReduced('mem')) || selectedElement instanceof VirtualMachine) {
 			if (selectedElement instanceof Node && selectedElement.fit(new VirtualMachine("test", 0, 1))) {
 				minSize = 3;
 			}
@@ -185,8 +181,6 @@ function onKeyEvent(event){
 			else {
 				setSelectedElement(null);
 			}
-			//selectedElement.setSelected(false) ;
-			//selectedElement = null ;
 		}
 		// Delete keys : DEL, Backspace
 		else if (keyCode == 46 || keyCode == 8 || keyCode == 68) {

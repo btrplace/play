@@ -17,8 +17,6 @@ function VirtualMachine(id, cpu, mem) {
 
 	    //Bounding box
 	    this.rect = canvas.rect(x, y - this.mem * unit_size, this.cpu * unit_size,  this.mem * unit_size);
-	    //this.rect.node.setAttribute("class","vmZone");
-	    //this.rect.node.setAttribute("sandboxVMID", this.id);
 	    this.rect.attr({'fill' : this.bgColor, 'stroke' : this.strokeColor});
 	    this.box.push(this.rect);
 
