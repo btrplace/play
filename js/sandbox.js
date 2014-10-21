@@ -34,8 +34,7 @@ $(document).ready(function(){
  * @param element The element (either a Node or a VM) of the Configuration to be selected.
  */
 function setSelectedElement(element){
-	console.log(element);
-	//debugger;
+	//console.log(element);	
 	// Unselect the previously selected element.
 	if (selectedElement != null) {		
 		selectedElement.unSelect();
