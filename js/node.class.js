@@ -82,11 +82,6 @@ function Node(name, cpu, mem) {
 		});
     }
 
-	this.setSelected = function(isSelected){
-		this.isSelected = isSelected ;
-		this.updateSelectionDraw();
-	}
-
 	this.select = function() {
 			this.rect.attr({
 				'fill':'#DBDEC5',

@@ -70,8 +70,7 @@ function drawConfiguration(id) {
 	    paper.remove();
     }
 
-    paper = Raphael(id, width, height);
-    //paper.setSize('100%','100%');
+    paper = Raphael(id, width, height);    
     // emptying the paper
     paper.clear();
 
@@ -79,8 +78,6 @@ function drawConfiguration(id) {
         var n = config.nodes[i];
         n.draw(paper,n.posX,n.posY);
     }
-
-	updateClickBindings();
 }
 
 var spaceSplitter = /\s/g;

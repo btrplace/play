@@ -28,35 +28,6 @@ $(document).ready(function(){
 });
 
 /**
- * Binds the click event on the newly drawn Nodes and VMs.
- */
-function updateClickBindings(){
-	return;
-	$(".nodeZone, .vmZone").unbind('click').on('click',function(event){		
-		if (!canEdit) return false;
-
-		var element ;
-		if (this.className.baseVal == "nodeZone") {
-			var nodeID = this.attributes["sandboxNodeID"].value;
-			element = config.getNode(nodeID);
-		}
-		if (this.className.baseVal == "vmZone") {
-			var vmID = this.attributes["sandboxVMID"].value;
-			element = config.getVirtualMachine("VM"+vmID);
-		}
-       	// Safeguard
-		if( typeof(element) == "undefined" ){
-			console.error("Not a good click :(");
-			return ;
-		}
-		else {
-			event.stopPropagation();
-		}		
-        setSelectedElement(element);
-	});
-}
-
-/**
  * Set the selected element to <i>element</i>.
  * This way the element will be the target of the (relevant) keyboard actions.
  * The element will also be highlighted.
@@ -68,7 +39,6 @@ function setSelectedElement(element){
 	// Unselect the previously selected element.
 	if (selectedElement != null) {		
 		selectedElement.unSelect();
-		//selectedElement.setSelected(false);
 	}
 
 	// Update the selectedElement global variable (for keyboard actions)
@@ -77,7 +47,6 @@ function setSelectedElement(element){
 	// Mark the newly selected element itself as selected (for drawing purposes)
 	if (element != null) {		
 		element.select();
-		//element.setSelected(true) ;
 	}
 }
 

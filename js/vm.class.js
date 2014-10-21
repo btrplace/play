@@ -45,21 +45,12 @@ function VirtualMachine(id, cpu, mem) {
 	    return [this.cpu * unit_size, this.mem * unit_size];
     }
 
-    this.setSelected = function(isSelected){
-    		this.isSelected = isSelected ;
-    		this.updateSelectionDraw();
-    }
-
 	this.select = function() {
 		this.previousColor = this.rect.attr("fill");
 		this.rect.attr({'fill':'#d2d8b1'});
 	}
 	this.unSelect = function() {
 		this.rect.attr({'fill':this.bgColor});
-	}
-
-	this.toStorage = function(){
-		return [this.id, this.cpu, this.mem];
 	}
 
 	this.delete = function(doUnhost){
