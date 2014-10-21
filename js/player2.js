@@ -133,7 +133,6 @@ function playPause() {
 		$("#player").find(".backward").removeAttr("disabled");
 		run(now + 1);
 		forward = true;
-
 	} else {
 		icon.removeClass("fa-pause").addClass("fa-play");						
 	}	
@@ -162,6 +161,7 @@ function run(to) {
 			//console.log("all done");
 			playing = false;
 			now = to;
+			//updateClickBindings();
 			if (now == 0) {
 				$("#player").find(".backward").attr("disabled", "disabled");
 				$("#player").find(".forward").removeAttr("disabled");

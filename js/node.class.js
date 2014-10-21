@@ -1,9 +1,3 @@
-function createNodeFromStorage(data){
-	var node = new Node(data[0], data[1], data[2]);
-	node.populateFromStorage(data);
-	return node ;
-}
-
 function Node(name, cpu, mem) {
     this.id = name;
     this.cpu = cpu;
@@ -41,8 +35,11 @@ function Node(name, cpu, mem) {
  	    // Fill with transparent color to catch click
  	    rect.attr({'fill':'rgba(0,0,0,0)'});
  	    this.rect = rect;
-
- 	    this.updateSelectionDraw();
+ 	    var self = this;
+ 	    this.rect.click(function f(x) { 	    	
+ 	    	x.stopPropagation(); 	    	 	    
+ 	    	setSelectedElement(self); 	    			
+ 	    }); 	    
 
 	    this.boxStroke.push(rect);
 
@@ -90,16 +87,14 @@ function Node(name, cpu, mem) {
 		this.updateSelectionDraw();
 	}
 
-	this.updateSelectionDraw = function(){
-		if( this.isSelected ){
+	this.select = function() {
 			this.rect.attr({
 				'fill':'#DBDEC5',
 				'fill-opacity':'1'
-			});
-		}
-		else {
-			this.rect.attr({'fill-opacity':'0'});
-		}
+			});		
+	}
+	this.unSelect = function() {
+		this.rect.attr({'fill-opacity':'0'});
 	}
 
 	/*
@@ -169,26 +164,6 @@ function Node(name, cpu, mem) {
     		vm.delete(false);
     	}
     	config.nodes.splice(config.nodes.indexOf(this), 1);
-    }
-
-    this.toStorage = function(){
-    	var result = [this.id, this.cpu, this.mem],
-    		vms = [];
-    	result.push(vms);
-    	for(var i in this.vms){
-    		vms.push(this.vms[i].toStorage());
-    	}
-    	return result;
-    }
-
-    this.populateFromStorage = function(nodeData){
-    	// Add its VMs
-    	for(var i in nodeData[3]){
-    		var vmData = nodeData[3][i],
-    			vm = createVMFromStorage(vmData);    		
-    		this.host(vm);
-    		config.vms.push(vm);
-    	}
     }
 
     this.free = function() {

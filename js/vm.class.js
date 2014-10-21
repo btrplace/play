@@ -1,7 +1,3 @@
-function createVMFromStorage(data){
-	return new VirtualMachine(data[0], data[1], data[2]);
-}
-
 function VirtualMachine(id, cpu, mem) {
     this.id = id;
     this.cpu = cpu;
@@ -18,9 +14,13 @@ function VirtualMachine(id, cpu, mem) {
 	    //Bounding box
 	    this.rect = canvas.rect(x, y - this.mem * unit_size, this.cpu * unit_size,  this.mem * unit_size);
 	    this.rect.attr({'fill' : this.bgColor, 'stroke' : this.strokeColor});
+	    this.rec
 	    this.box.push(this.rect);
-
-	    this.updateSelectionDraw();
+	    var self = this;
+ 	    this.rect.click(function f(x) { 	    	
+ 	    	x.stopPropagation(); 	    	 	    
+ 	    	setSelectedElement(self); 	    	 	    	
+ 	    });	    
 
 	    //Identifier
 	    var t = canvas.text(x + (this.cpu * unit_size) / 2, y - ( this.mem * unit_size) / 2, this.id).attr({'font-size':'12pt'});
@@ -50,14 +50,12 @@ function VirtualMachine(id, cpu, mem) {
     		this.updateSelectionDraw();
     }
 
-	this.updateSelectionDraw = function(){
-		if( this.isSelected ){
-			this.previousColor = this.rect.attr("fill");
-			this.rect.attr({'fill':'#d2d8b1'});
-		}
-		else {
-			this.rect.attr({'fill':this.bgColor});
-		}
+	this.select = function() {
+		this.previousColor = this.rect.attr("fill");
+		this.rect.attr({'fill':'#d2d8b1'});
+	}
+	this.unSelect = function() {
+		this.rect.attr({'fill':this.bgColor});
 	}
 
 	this.toStorage = function(){

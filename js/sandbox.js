@@ -31,6 +31,7 @@ $(document).ready(function(){
  * Binds the click event on the newly drawn Nodes and VMs.
  */
 function updateClickBindings(){
+	return;
 	$(".nodeZone, .vmZone").unbind('click').on('click',function(event){		
 		if (!canEdit) return false;
 
@@ -62,17 +63,21 @@ function updateClickBindings(){
  * @param element The element (either a Node or a VM) of the Configuration to be selected.
  */
 function setSelectedElement(element){
+	console.log(element);
+	//debugger;
 	// Unselect the previously selected element.
-	if (selectedElement != null) {
-		selectedElement.setSelected(false);
+	if (selectedElement != null) {		
+		selectedElement.unSelect();
+		//selectedElement.setSelected(false);
 	}
 
 	// Update the selectedElement global variable (for keyboard actions)
 	selectedElement = element;
 
 	// Mark the newly selected element itself as selected (for drawing purposes)
-	if (element != null) {
-		element.setSelected(true) ;
+	if (element != null) {		
+		element.select();
+		//element.setSelected(true) ;
 	}
 }
 
@@ -284,7 +289,7 @@ function showSyntaxErrors(errors) {
 
 // Setup keyboard actions
 $(function() {
-    updateClickBindings();
+    //updateClickBindings();
 	$(document).keydown(function(event){
 		// Do keyboard actions only if the user is not typing in the text editor.
 		if( ! editor.isFocused() ){
