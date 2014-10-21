@@ -328,7 +328,7 @@ function solve() {
   	promise.done(function (plan, statusCode) {  	  		
   		editor.getSession().setAnnotations([]);							
   		if (statusCode == "nocontent") {  			
-			e.html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
+			$("#error-cnt").html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
 			show(e, s);
   		} else if (statusCode == "success") {
   			backupConfig = JSON2Model(plan.origin);  			
