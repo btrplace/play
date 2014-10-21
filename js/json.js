@@ -21,7 +21,8 @@ function JSON2Model(js) {
                 var vmName = nameFromId(vmNs, vid);
                 var vm = new VirtualMachine(vmName, cpu.vms[vid], mem.vms[vid]);
                 c.vms[vid] = vm;
-                n.vms[vid] = vm;
+                n.host(vm);
+                //n.vms[vid] = vm;
             });
         } 
     }); 
