@@ -223,7 +223,6 @@ function onKeyEvent(event){
 				}				
                 // Switch its state
 				selectedElement.online = ! selectedElement.online;
-
 				drawConfiguration("canvas");
 				setSelectedElement(null);
 			}
