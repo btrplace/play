@@ -17,6 +17,8 @@ function Node(name, cpu, mem) {
     };
 
     this.draw = function (canvas, x, y) {
+    	//shift y to make the node 0,0 be bottom left, similarly to the VMs.
+    	y = y + (MAX_MEM - this.mem) * unit_size
 	    this.posX = x;
 	    this.posY = y;
 

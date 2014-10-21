@@ -89,7 +89,7 @@ function onKeyEvent(event){
 	var redraw = false ;
 	if (selectedElement == null) {
 		if (keyCode == 78) {
-			if (config.nodes.length >= 8){
+			if (config.nodes.length >= MAX_NODES){
 				return ;
 			}
 			var node = new Node(config.getNextNodeID(), 3,3);
@@ -138,7 +138,7 @@ function onKeyEvent(event){
 		}
 		// Right
 		else if (keyCode == 39) {
-			if (selectedElement instanceof Node && selectedElement.cpu < 6) {
+			if (selectedElement instanceof Node && selectedElement.cpu < MAX_CPU) {
 				selectedElement.cpu++;
 			}
 			else if (selectedElement instanceof VirtualMachine) {
@@ -152,7 +152,7 @@ function onKeyEvent(event){
 		}
 		// Up
 		else if (keyCode == 38){
-			if (selectedElement instanceof Node && selectedElement.mem < 6) {
+			if (selectedElement instanceof Node && selectedElement.mem < MAX_MEM) {
 				selectedElement.mem++;
 			}
 			else if (selectedElement instanceof VirtualMachine) {

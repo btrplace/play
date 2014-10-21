@@ -1,3 +1,6 @@
+var MAX_CPU = 6;
+var MAX_MEM = 6;
+var MAX_NODES = 8;
 function Configuration (ns,vs) {
     this.vms = vs ? vs : [];
     this.nodes = ns ? ns : [];
