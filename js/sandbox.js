@@ -81,7 +81,7 @@ function onKeyEvent(event){
 	var redraw = false ;
 	if (selectedElement == null) {
 		if (keyCode == 78) {
-			if (config.nodes.length > 10){
+			if (config.nodes.length >= 8){
 				return ;
 			}
 			var node = new Node(config.getNextNodeID(), 3,3);
@@ -182,8 +182,8 @@ function onKeyEvent(event){
 				setSelectedElement(null);
 			}
 		}
-		// Delete keys : DEL, Backspace
-		else if (keyCode == 46 || keyCode == 8 || keyCode == 68) {
+		// Delete keys : 'd'
+		else if (keyCode == 68) {
 			var newSelectedElement = null ;
 			// If it's a VM select the previous one in the node.
 			if (selectedElement instanceof VirtualMachine){
