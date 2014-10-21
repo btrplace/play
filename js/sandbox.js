@@ -18,6 +18,14 @@ function registerSelectedElement(element){
 	selectedElement = element;
 }
 
+/**
+ * Click to de-select by default
+ */
+$(document).ready(function(){
+    $(document).click(function(){
+        setSelectedElement(null);
+    });
+});
 
 /**
  * Binds the click event on the newly drawn Nodes and VMs.
