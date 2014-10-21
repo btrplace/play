@@ -198,13 +198,6 @@ a:focus {
     background-color: #e7e7e7;
 }
 
-.btn-default:hover,
-.btn-default:focus {
-    outline: 0;
-    color: #000;    
-    background-color: #5cb85c;
-}
-
 .btn-green {    
     text-decoration: none;
     background: #d2d8b1;

@@ -230,9 +230,9 @@ function bootNode(node, duration) {
 
 // Animation for shutting down a node
 function shutdownNode(node, duration){	
-	//console.log("shutdown " + node.id);
+	console.log("shutdown " + node.id + " in " + duration);
     node.boxStroke.animate({'stroke': '#bbb'}, duration,"<>", function(){node.online = false;});
-    node.boxFill.animate({'fill': '#bbb'}, duration,"<>");
+    node.boxFill.animate({'fill': '#bbb'}, duration,"<>", function() {});
 }
 
 //Animation for a migrate action

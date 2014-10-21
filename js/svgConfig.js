@@ -84,20 +84,3 @@ function drawConfiguration(id) {
 }
 
 var spaceSplitter = /\s/g;
-
-/**
- * Save the configuration into SVG format.
- * It's currently not working. Will be implemented in a future release.
- */
-function saveSVG() {
-	return false ;
-    var text = $("#canvas").get()[0].innerHTML;
-        a = document.createElement('a');
-        a.download = 'configuration.svg';
-        a.type = 'image/svg+xml';
-        bb = new(window.BlobBuilder || WebKitBlobBuilder);
-        bb.append(text);
-        blob = bb.getBlob('image/svg+xml');
-        a.href = (window.URL || webkitURL).createObjectURL(blob);
-        a.click();
-    }
