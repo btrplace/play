@@ -140,30 +140,26 @@ function playPause() {
 }
 
 function animateCursor() {
-	var to = (1 + now + (forward ? 1 : -1)) * unit;	
-	var d = $.Deferred();
+	var to = (1 + now + (forward ? 1 : -1)) * unit;		
 	var duration = SPEED / acceleration;
-	$(".cursor").animate({left: to + "px"}, duration, "linear")
-	setTimeout(function() {
-  		d.resolve();
- 	}, duration);
- 	return d.promise();
+	return $(".cursor").animate({left: to + "px"}, duration, "linear"/*, function () {console.log("ok cursor");}*/);
 }
 
 function run(to) {
 	if (paused) {
 		return;
 	}
-	playing = true;
-	//console.log("run from " + now + " to " + to + " over " + schedule.length + " at speed " + acceleration);	
+	playing = true;	
 	var deferreds = [];	
 	schedule[forward ? now : (now - 1)].forEach(function (a) {
-		deferreds.push(apply(a));		
+		deferreds = deferreds.concat(apply(a));
 	})
 	//the cursor
 	deferreds.push(animateCursor());
+	console.log(deferreds);
 	$.when.apply($, deferreds).then(
 		function () {	
+			//console.log("all done");
 			playing = false;
 			now = to;
 			if (now == 0) {
@@ -190,24 +186,23 @@ function run(to) {
 }
 
 function apply(a) {	
-	var d = $.Deferred();
 	var duration = ((a.end - a.start) * SPEED) / acceleration;	
-	if (a.id == "bootNode") {
-		if (forward) {bootNode(config.nodes[a.node], duration);}
-		else {shutdownNode(config.nodes[a.node], duration);}
-	} else if (a.id == "shutdownNode") {					
-		if (forward) {shutdownNode(config.nodes[a.node], duration);}
-		else {bootNode(config.nodes[a.node], duration);}				
-	} else if (a.id == "migrateVM") {	
-		if (forward) {migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration);}
-		else {migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration);}
-	} else {
-		console.log("Unsupported action " + a.id);
+	if (["bootNode", "shutdownNode", "migrateVM"].indexOf(a.id) < 0) {
+		console.log("Unsupported action '" + a.id + "'");
+		return;
 	}
-	setTimeout(function() {		
-  		d.resolve();
- 	}, duration);
- 	return d.promise();
+	if (forward) {
+		switch(a.id) {
+			case 'bootNode': return bootNode(config.nodes[a.node], duration);
+			case 'shutdownNode': return shutdownNode(config.nodes[a.node], duration);
+			case 'migrateVM': return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration); 			
+		}				
+	}
+	switch(a.id) {
+		case 'bootNode': return shutdownNode(config.nodes[a.node], duration);
+		case 'shutdownNode': return bootNode(config.nodes[a.node], duration);
+		case 'migrateVM': return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration); 
+	}	
 }
 
 function prepareReconfiguration(actions, h) {
@@ -224,15 +219,28 @@ function prepareReconfiguration(actions, h) {
 //Animation for booting a node
 function bootNode(node, duration) {
 	//console.log("boot " + node.id);
-    node.boxStroke.animate({'stroke': 'black'}, duration,"<>", function() {node.online = true;});
-    node.boxFill.animate({'fill': 'black'}, duration,"<>", function() {});
+	var d1 = $.Deferred();
+	var d2 = $.Deferred();
+
+    node.boxStroke.animate({'stroke': 'black'}, duration,"<>", function() {/*console.log("ok boot stroke " + node.id); */node.online = true;d1.resolve();});
+    node.boxFill.animate({'fill': 'black'}, duration,"<>", function() {/*console.log("ok boot fill "  + node.id); */d2.resolve() });
+    return [d1.promise(), d2.promise()];
 }
 
 // Animation for shutting down a node
 function shutdownNode(node, duration){	
-	console.log("shutdown " + node.id + " in " + duration);
-    node.boxStroke.animate({'stroke': '#bbb'}, duration,"<>", function(){node.online = false;});
-    node.boxFill.animate({'fill': '#bbb'}, duration,"<>", function() {});
+	
+
+//	console.log("shutdown " + node.id + " in " + duration);	
+	var d1 = $.Deferred();
+//	console.log("hip " + node.id);
+	var d2 = $.Deferred();
+//	console.log("hop " + node.id);
+//	console.log("here: " + node.boxStroke);
+//	console.log("here: " + node.boxFill);
+    node.boxStroke.animate({'stroke': '#bbb'}, duration,"<>", function(){/*console.log("ok sh stroke " + node.id); */node.online = false; d1.resolve();});    
+    node.boxFill.animate({'fill': '#bbb'}, duration,"<>", function() {/*console.log("ok sh fill " + node.id); */d2.resolve(); });            
+    return [d1.promise(), d2.promise()];
 }
 
 //Animation for a migrate action
@@ -253,6 +261,7 @@ function migrate(vm, src, dst, duration) {
 	movingVM.draw(paper, vm.posX, vm.posY + vm.mem * unit_size);
 	movingVM.box.toFront();
 	
+	var d = $.Deferred();
 	var animationEnd = function() {
 		//Update vm position for reverse animation
 		vm.posX = ghostDst.posX;
@@ -271,11 +280,20 @@ function migrate(vm, src, dst, duration) {
 
 		//Refresh the nodes
 		src.refresh();
-		dst.refresh();
+		dst.refresh();		
 	}
-	movingVM.box.animate({transform :"T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)}, duration,"<>",function(){
-	    	animationEnd();
+	var p1 = movingVM.box.animate({transform :"T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)}, duration,"<>",function(){
+			//console.log("ok migrate " + vm.id);
+			d.resolve();
+	    	animationEnd();	    	
 	    }
 	);
+	return [d];
+}
+
+function doms(objs) {
+	var dom = $();
+	objs.forEach(function (o) {dom = dom.add(o.node)});
+	return dom;
 }
 

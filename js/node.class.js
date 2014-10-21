@@ -35,7 +35,7 @@ function Node(name, cpu, mem) {
 	    var bgColor = this.online ? "black" : "#bbb";
 
  	    //lightgray for the resources area
- 	    var rect = canvas.rect(x + border, y + border, box_width, box_height).attr({'stroke':bgColor});
+ 	    var rect = canvas.rect(x + border, y + border, box_width, box_height).attr({'stroke':bgColor}); 	    
  	    // Fill with transparent color to catch click
  	    rect.attr({'fill':'rgba(0,0,0,0)'});
  	    this.rect = rect;
