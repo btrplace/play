@@ -48,7 +48,7 @@ function nameFromId(ns, id) {
 function model2JSON(m) {	    
 	var mapping = {onlineNodes:{}, offlineNodes:[], readyVMs:[]};    
     m.nodes.forEach(function (n) {
-	if (n.online) {
+	if (n.online) {        
     	var x = {runningVMs : [], sleepingVMs : []};                                        
             n.vms.forEach(function (v) {                    
                 x.runningVMs.push(m.getVMIdx(v))
@@ -74,7 +74,7 @@ function model2JSON(m) {
         cpu.vms[idx] = v.cpu;
         mem.vms[idx] = v.mem;
         nsVm.map["sandbox." + v.id] = idx;
-	});        
+	});            
 	return {mapping: mapping,views: [cpu, mem, nsVm, nsNode]}    
 }
 

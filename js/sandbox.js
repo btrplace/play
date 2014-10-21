@@ -85,15 +85,14 @@ function onKeyEvent(event){
 				return ;
 			}
 			var node = new Node(config.getNextNodeID(), 3,3);
-			config.nodes.push(node);
-			if (LOG) console.log("Created a node !");
+			config.nodes.push(node);			
 			redraw = true ;
 		}
 	}
 	else if (selectedElement != null){
 		redraw = true ;
 		// N : New element (node or VM)
-		if (keyCode == 78) {
+		if (keyCode == 78) {			
 			var node = null ;
 			if (selectedElement instanceof Node) {
 				node = selectedElement;
@@ -218,9 +217,12 @@ function onKeyEvent(event){
 				}
 			}
 			selectedElement.delete();
-			if (newSelectedElement != null) {
+			if (selectedElement instanceof Node) {
+				newSelectedElement = null;
+			}			
+			//if (newSelectedElement != null) {
 				setSelectedElement(newSelectedElement);
-			}
+			//}
 		}
 		// V key : previous
 		else if (keyCode == 86){
@@ -237,8 +239,7 @@ function onKeyEvent(event){
 				if (selectedElement.vms.length != 0 ) {
 					alert("Error : a node must be empty before being turned off");
 					return false;
-				}
-				if (LOG) console.log("Switching Node online state");
+				}				
                 // Switch its state
 				selectedElement.online = ! selectedElement.online;
 

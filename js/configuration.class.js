@@ -48,14 +48,14 @@ function Configuration (ns,vs) {
     	while (!valid) {
     		valid = true;
     		for (var i in this.nodes) {
-				if ("N"+candidate == this.nodes[i].id) {
+				if ("@N"+candidate == this.nodes[i].id) {
 					valid = false;
 					candidate++;
 					break;
 				}
 			}
     	}
-    	return "N"+candidate;
+    	return "@N"+candidate;
     }
 
     this.getNextVMID = function(){
