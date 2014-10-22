@@ -154,8 +154,7 @@ function run(to) {
 		deferreds = deferreds.concat(apply(a));
 	})
 	//the cursor
-	deferreds.push(animateCursor());
-	console.log(deferreds);
+	deferreds.push(animateCursor());	
 	$.when.apply($, deferreds).then(
 		function () {				
 			playing = false;

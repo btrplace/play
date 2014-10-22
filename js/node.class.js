@@ -12,6 +12,8 @@ function Node(name, cpu, mem) {
 
     this.draw = function (canvas, x, y) {
     	//shift y to make the node 0,0 be bottom left, similarly to the VMs.
+    	this.originX = x;
+    	this.originY = y;
     	y = y + (MAX_MEM - this.mem) * unit_size
 	    this.posX = x;
 	    this.posY = y;
@@ -104,8 +106,8 @@ function Node(name, cpu, mem) {
 		return used < this[attribute] ;
 	}
 
-    this.refresh  = function() {
-		this.draw(this.canvas,this.posX,this.posY);
+    this.refresh  = function() {    	
+		this.draw(this.canvas,this.originX,this.originY);
     }
 
     this.host = function(vm) {
