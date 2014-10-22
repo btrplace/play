@@ -14,6 +14,14 @@ var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
 var DEFAULT_USE_CASE = "5443ab34d973a61ece00267b";
 var selectedElement = null ;
 var current;
+
+var KEY_N = 78;
+var KEY_O;
+var KEY_D;
+var KEY_UP;
+var KEY_DOWN;
+var KEY_LEFT;
+var KEY_RIGHT;
 function registerSelectedElement(element){
 	selectedElement = element;
 }
