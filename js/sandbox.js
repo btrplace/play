@@ -22,9 +22,6 @@ var KEY_UP;
 var KEY_DOWN;
 var KEY_LEFT;
 var KEY_RIGHT;
-function registerSelectedElement(element){
-	selectedElement = element;
-}
 
 /**
  * Click to de-select by default
@@ -90,7 +87,7 @@ function onKeyEvent(event){
 				node = config.getHoster(selectedElement.id);
 			}
 			if (node != null) {
-				var vm = new VirtualMachine(config.getNextVMID(), 1, 1);
+				var vm = new VirtualMachine(config.getNextVMID(), 1, 2);
 					config.vms.push(vm);
 				if (node.fit(vm)) {
 					node.host(vm);
@@ -171,55 +168,18 @@ function onKeyEvent(event){
 			}
 		}
 		// Delete keys : 'd'
-		else if (keyCode == 68) {
-			var newSelectedElement = null ;
-			// If it's a VM select the previous one in the node.
-			if (selectedElement instanceof VirtualMachine){
-				var vm = selectedElement ;
-				var node = config.getHoster(vm.id),
-					vmIndex = node.vms.indexOf(vm);
-				vmIndex++;
-				// Fix vm index
-				var noOver = false;
-				// If no VM over the selected one
-				if (vmIndex >= node.vms.length) {
-					// Target the VM before the selected one
-					vmIndex -= 2 ;
-					noOver = true ;
-				}
-				// If no VM under the selected one
-				if( vmIndex < 0 ){
-					// If there's also no over, select the node
-					if (noOver){
-						newSelectedElement = node ;
-					}
-					// Otherwise, select the one over :
-					vmIndex+=2;
-				}
-				// If this is the last VM of the node, select the node
-				if( node.vms.length == 1){
-					newSelectedElement = node ;
-				}
-				// If there's still some element, get the previous
-				else {
-					newSelectedElement = node.vms[vmIndex];
-				}
-			}
-			selectedElement.delete();
+		else if (keyCode == 68) {					
 			if (selectedElement instanceof Node) {
-				newSelectedElement = null;
+				if (selectedElement.vms.length > 0) {
+					alert("Error: a node must be empty to be turned off")
+				} else {
+					selectedElement.delete();
+					setSelectedElement(null);
+				}
+			} else {
+					selectedElement.delete();
+					setSelectedElement(null);				
 			}			
-			//if (newSelectedElement != null) {
-				setSelectedElement(newSelectedElement);
-			//}
-		}
-		// V key : previous
-		else if (keyCode == 86){
-			shiftSelectedElement(-1);
-		}
-		// B key : next
-		else if (keyCode == 66) {
-			shiftSelectedElement(1);
 		}
 		// O (letter, not zero) key : Switch node state.
 		else if (keyCode == 79) {
@@ -323,10 +283,12 @@ function solve() {
   			console.log("Unsupported status: " + statusCode);
   		}
   	});
-  	promise.fail(function (xhr) {  
-  		console.log("fail with " + xhr.status);  
-  		console.log(xhr.responseText);   		 		  			 	  		 
-		showSyntaxErrors(JSON.parse(xhr.responseText));  	 		
+  	promise.fail(function (xhr) {   		
+		if (xhr.status == 400) {
+  			showSyntaxErrors(JSON.parse(xhr.responseText));  	 			
+  		} else {
+  			$("#error-cnt").html("<p>" + xhr.responseText + "</p>");
+  		}  		
 		show(e, s);
 	});   	 
 }

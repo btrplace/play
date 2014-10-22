@@ -126,8 +126,7 @@ function loadUseCase(uc) {
 		k = $("#use-cases").val();
 	}	
 	if (k == "_") {				
-    displayInstance(randomInstance());
-    //readOnly(false);
+    displayInstance(randomInstance());    
 	} else {
 		var promise = $.ajax({
   			type: "GET",  		
