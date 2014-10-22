@@ -124,7 +124,8 @@ a:focus {
 .output { 
     position: fixed;    
     width: 100%;    
-    bottom: 0;    
+    bottom: 0;
+    z-index: 99;    
 }
 
 .output .close {
