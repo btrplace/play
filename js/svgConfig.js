@@ -70,7 +70,7 @@ function drawConfiguration(id) {
 	    paper.remove();
     }
 
-    paper = Raphael(id, width, height);    
+    paper = Raphael(id, 600, 300);    
     // emptying the paper
     paper.clear();
 
