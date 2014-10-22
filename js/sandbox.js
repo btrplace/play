@@ -9,8 +9,8 @@ var currentView = "";
 var canSubmit = true ;
 var canEdit = true ;
 
-var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
-//var endPoint = "http://localhost:8080";
+//var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
+var endPoint = "http://localhost:8080";
 var DEFAULT_USE_CASE = "5443ab34d973a61ece00267b";
 var selectedElement = null ;
 var current;
@@ -275,10 +275,12 @@ function solve() {
   			console.log("Unsupported status: " + statusCode);
   		}
   	});
-  	promise.fail(function (xhr) {  
-  		console.log("fail with " + xhr.status);  
-  		console.log(xhr.responseText);   		 		  			 	  		 
-		showSyntaxErrors(JSON.parse(xhr.responseText));  	 		
+  	promise.fail(function (xhr) {   		
+		if (xhr.status == 400) {
+  			showSyntaxErrors(JSON.parse(xhr.responseText));  	 			
+  		} else {
+  			$("#error-cnt").html("<p>" + xhr.responseText + "</p>");
+  		}  		
 		show(e, s);
 	});   	 
 }
