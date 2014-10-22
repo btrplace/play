@@ -79,7 +79,7 @@ function onKeyEvent(event){
 				node = config.getHoster(selectedElement.id);
 			}
 			if (node != null) {
-				var vm = new VirtualMachine(config.getNextVMID(), 1, 1);
+				var vm = new VirtualMachine(config.getNextVMID(), 1, 2);
 					config.vms.push(vm);
 				if (node.fit(vm)) {
 					node.host(vm);
