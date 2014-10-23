@@ -4,7 +4,7 @@ function Node(name, cpu, mem) {
     this.mem = mem;
     this.online = true;
     this.vms = [];
-    this.isSelected = false;
+    this.selected = false;
 
     this.boundingBox = function () {
 	    return [2 * border + unit_size * MAX_CPU, 2 * border + unit_size * MAX_MEM];
@@ -82,6 +82,11 @@ function Node(name, cpu, mem) {
 			e.node.setAttribute("class","nodeZone");
 			e.node.setAttribute("sandboxNodeID",self.id);
 		});
+
+        if (this.selected) {
+            this.select();
+        }
+
     }
 
 	this.select = function() {
@@ -89,9 +94,11 @@ function Node(name, cpu, mem) {
 				'fill':'#DBDEC5',
 				'fill-opacity':'1'
 			});		
+            this.selected = true;
 	}
 	this.unSelect = function() {
 		this.rect.attr({'fill-opacity':'0'});
+        this.selected = false;
 	}
 
 	/*
@@ -171,5 +178,67 @@ function Node(name, cpu, mem) {
             freeMem -= this.vms[v].mem;
         }
         return [freeCPU, freeMem];
+    }
+
+    this.onKeyEvent = function(k) {
+    	switch(k) {
+    		case KEY_UP: 
+    			if (this.mem < MAX_MEM) {
+    				this.mem++;
+    				this.refresh();    				
+    			}    	
+    			break;
+    		case KEY_DOWN:
+    			if (this.mem > 3 && this.free()[1] > 0) {
+    				this.mem--;
+    				this.refresh();
+    			}
+    			break;
+    		case KEY_LEFT:
+    			if (this.cpu > 3 && this.free()[0] > 0) {
+    				this.cpu--;
+    				this.refresh();
+    			}
+    			break;
+    		case KEY_RIGHT:
+    			if (this.cpu < MAX_CPU) {
+    				this.cpu++;
+    				this.refresh();
+    			}
+    			break;
+    		case KEY_D:
+    			if (this.vms.length > 0) {
+    				alert("The node is hosting VMs");    				
+    			} else {
+    				this.delete();
+                    drawConfiguration("canvas");                    
+    			}    			
+    			break;
+    		case KEY_O:
+    			if (this.online && this.vms.length > 0) {
+    				alert("The node is hosting VMs");    				
+    			} else {
+    				this.online = !this.online;
+    				this.refresh();
+    			}    		
+    			break;
+    		case KEY_N:
+    			if (this.online) {
+					var vm = new VirtualMachine(config.getNextVMID(), 1, 2);
+					if (!this.fit(vm)) {
+						vm = new VirtualMachine(config.getNextVMID(), 2, 1);
+					}
+					if (this.fit(vm)) {
+						this.host(vm);
+                        config.vms.push(vm);                        
+                        this.refresh();
+                        setSelectedElement(vm);                        
+					} else {
+                        alert("No enough space");
+                    }
+    			} else {
+                    alert("An offline node cannot host VMs");
+                }    			
+    	}
     }
 }

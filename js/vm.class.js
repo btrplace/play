@@ -5,6 +5,8 @@ function VirtualMachine(id, cpu, mem) {
 
     this.bgColor = "#bbb";
     this.strokeColor = "black";
+    this.selected = false;
+
     this.draw = function(canvas, x, y) {
 		if( this.box != undefined ) {
 			this.box.remove();
@@ -13,8 +15,7 @@ function VirtualMachine(id, cpu, mem) {
 
 	    //Bounding box
 	    this.rect = canvas.rect(x, y - this.mem * unit_size, this.cpu * unit_size,  this.mem * unit_size);
-	    this.rect.attr({'fill' : this.bgColor, 'stroke' : this.strokeColor});
-	    this.rec
+	    this.rect.attr({'fill' : this.bgColor, 'stroke' : this.strokeColor});	    
 	    this.box.push(this.rect);
 	    var self = this;
  	    this.rect.click(function f(x) { 	    	
@@ -39,6 +40,9 @@ function VirtualMachine(id, cpu, mem) {
 		this.posY = y - this.mem * unit_size;
     	this.posX = x;
 
+    	if (this.selected) {
+    		this.select();
+    	}
     }
 
     this.boundingBox = function() {
@@ -48,9 +52,11 @@ function VirtualMachine(id, cpu, mem) {
 	this.select = function() {
 		this.previousColor = this.rect.attr("fill");
 		this.rect.attr({'fill':'#d2d8b1'});
+		this.selected = true;
 	}
 	this.unSelect = function() {
 		this.rect.attr({'fill':this.bgColor});
+		this.selected = false;
 	}
 
 	this.delete = function(doUnhost){
@@ -62,4 +68,38 @@ function VirtualMachine(id, cpu, mem) {
 		}
 		config.vms.splice(config.vms.indexOf(this), 1);
 	}	
+
+	this.onKeyEvent = function(k) {
+		var host = config.getHoster(this.id);
+    	switch(k) {
+    		case KEY_UP:
+    			if (host.free()[1] > 0) {
+    				this.mem++;
+    				host.refresh();
+    			} 
+    			break;
+    		case KEY_DOWN:
+    			if ((this.mem == 2 && this.cpu != 1) || this.mem > 2) {
+    				this.mem--;
+    				host.refresh();
+    			}
+    			break;
+    		case KEY_LEFT:
+    			if ((this.cpu == 2 && this.mem != 1) || this.cpu > 2) {
+    				this.cpu--;
+    				host.refresh();
+    			}
+    			break;
+    		case KEY_RIGHT:
+    			if (host.free()[0] > 0) {
+    				this.cpu++;
+    				host.refresh();
+    			}
+    			break;
+    		case KEY_D:
+    			this.delete();
+    			host.refresh();
+    			break;   			
+    	}
+    }
 }

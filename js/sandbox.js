@@ -16,12 +16,12 @@ var selectedElement = null ;
 var current;
 
 var KEY_N = 78;
-var KEY_O;
-var KEY_D;
-var KEY_UP;
-var KEY_DOWN;
-var KEY_LEFT;
-var KEY_RIGHT;
+var KEY_O = 79;
+var KEY_D = 68;
+var KEY_UP = 38;
+var KEY_DOWN = 40;
+var KEY_LEFT = 37;
+var KEY_RIGHT = 39;
 
 /**
  * Click to de-select by default
@@ -38,8 +38,7 @@ $(document).ready(function(){
  * The element will also be highlighted.
  * @param element The element (either a Node or a VM) of the Configuration to be selected.
  */
-function setSelectedElement(element){
-	//console.log(element);	
+function setSelectedElement(element){	
 	// Unselect the previously selected element.
 	if (selectedElement != null) {		
 		selectedElement.unSelect();
@@ -54,151 +53,15 @@ function setSelectedElement(element){
 	}
 }
 
-// CPU_UNIT and MEM_UNIT are only tool elements, used for the validation of the keyboard action.
-var CPU_UNIT = new VirtualMachine("CPU_UNIT", 1, 0),
-	MEM_UNIT = new VirtualMachine("MEM_UNIT", 0, 1);
-
 function onKeyEvent(event){
 	var keyCode = event.which;
-
 	if (!canEdit) {
-		return false ;
+		return false;
 	}
-	var redraw = false ;
-	if (selectedElement == null) {
-		if (keyCode == 78) {
-			if (config.nodes.length >= MAX_NODES){
-				return ;
-			}
-			var node = new Node(config.getNextNodeID(), 3,3);
-			config.nodes.push(node);			
-			redraw = true ;
-		}
-	}
-	else if (selectedElement != null){
-		redraw = true ;
-		// N : New element (node or VM)
-		if (keyCode == 78) {			
-			var node = null ;
-			if (selectedElement instanceof Node) {
-				node = selectedElement;
-			}
-			else if (selectedElement instanceof VirtualMachine){
-				node = config.getHoster(selectedElement.id);
-			}
-			if (node != null) {
-				var vm = new VirtualMachine(config.getNextVMID(), 1, 2);
-					config.vms.push(vm);
-				if (node.fit(vm)) {
-					node.host(vm);
-					drawConfiguration('canvas');
-					redraw = false;
-					setSelectedElement(vm);
-				}
-			}
-		}
-		// Left
-		if (keyCode == 37) {
-			var minSize = -1;
-			if (selectedElement instanceof Node && selectedElement.fit(CPU_UNIT)){
-				minSize = 3;
-			}
-			if (selectedElement instanceof VirtualMachine) {
-				minSize = 1;
-			}
-
-			// Modify the selected element only if the new value is valid.
-			if (minSize != -1 && selectedElement.cpu > minSize) {
-				selectedElement.cpu--;
-			}
-			// Prevent the page from scrolling
-			event.preventDefault();
-		}
-		// Right
-		else if (keyCode == 39) {
-			if (selectedElement instanceof Node && selectedElement.cpu < MAX_CPU) {
-				selectedElement.cpu++;
-			}
-			else if (selectedElement instanceof VirtualMachine) {
-				var hoster = config.getHoster(selectedElement.id);
-				if (hoster.fit(CPU_UNIT)) {
-					selectedElement.cpu++;
-				}
-			}
-			// Prevent the page from scrolling
-			event.preventDefault();
-		}
-		// Up
-		else if (keyCode == 38){
-			if (selectedElement instanceof Node && selectedElement.mem < MAX_MEM) {
-				selectedElement.mem++;
-			}
-			else if (selectedElement instanceof VirtualMachine) {
-				var hoster = config.getHoster(selectedElement.id);
-				if (hoster.fit(MEM_UNIT)) {
-					selectedElement.mem++;
-				}
-			}
-			// Prevent the page from scrolling
-			event.preventDefault();
-		}
-		// Down
-		else if (keyCode == 40){
-			var minSize = -1;
-			if (selectedElement instanceof Node && selectedElement.fit(new VirtualMachine("test", 0, 1))) {
-				minSize = 3;
-			}
-			if (selectedElement instanceof VirtualMachine) {
-				minSize = 2;
-			}
-			if (minSize != -1 && selectedElement.mem > minSize) {
-				selectedElement.mem--;
-			}
-            // Prevent the page from scrolling
-			event.preventDefault();
-		}
-		// Escape
-		else if (keyCode == 27) {
-			if (selectedElement instanceof VirtualMachine) {
-				var node = config.getHoster(selectedElement.id);
-				setSelectedElement(node);
-			}
-			else {
-				setSelectedElement(null);
-			}
-		}
-		// Delete keys : 'd'
-		else if (keyCode == 68) {					
-			if (selectedElement instanceof Node) {
-				if (selectedElement.vms.length > 0) {
-					alert("Error: a node must be empty to be turned off")
-				} else {
-					selectedElement.delete();
-					setSelectedElement(null);
-				}
-			} else {
-					selectedElement.delete();
-					setSelectedElement(null);				
-			}			
-		}
-		// O (letter, not zero) key : Switch node state.
-		else if (keyCode == 79) {
-			if (selectedElement instanceof Node) {
-				// A node must be empty before being turned off
-				if (selectedElement.vms.length != 0 ) {
-					alert("Error : a node must be empty before being turned off");
-					return false;
-				}				
-                // Switch its state
-				selectedElement.online = ! selectedElement.online;
-				drawConfiguration("canvas");
-				setSelectedElement(null);
-			}
-		}
-	}
-	// Do a redraw
-	if (redraw) {
-		drawConfiguration('canvas');
+	if (selectedElement != null) {	
+		selectedElement.onKeyEvent(keyCode);
+	} else {
+		config.onKeyEvent(keyCode);
 	}
 }
 
@@ -224,7 +87,6 @@ function showSyntaxErrors(errors) {
 
 // Setup keyboard actions
 $(function() {
-    //updateClickBindings();
 	$(document).keydown(function(event){
 		// Do keyboard actions only if the user is not typing in the text editor.
 		if( ! editor.isFocused() ){

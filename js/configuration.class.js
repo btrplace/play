@@ -76,4 +76,17 @@ function Configuration (ns,vs) {
         	}
         	return "VM"+candidate;
     }
+
+    this.onKeyEvent = function(k) {
+        if (k == KEY_N) {
+            if (this.nodes.length == 8) {
+                alert("8 nodes max for the demo");
+                return;
+            }
+            var n = new Node(this.getNextNodeID(), 3, 3);
+            this.nodes.push(n);
+            drawConfiguration("canvas");            
+        }
+    }
+
 }
