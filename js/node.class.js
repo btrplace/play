@@ -101,18 +101,6 @@ function Node(name, cpu, mem) {
         this.selected = false;
 	}
 
-	/*
-	 * Returns true if the Node can be reduced by some attribute
-	 * @param attribute String 'cpu' or 'mem'
-	 */
-	this.canBeReduced = function(attribute){
-		var used = 0 ;
-		for(var i in this.vms){
-			used += this.vms[i][attribute];
-		}
-		return used < this[attribute] ;
-	}
-
     this.refresh  = function() {    	
 		this.draw(this.canvas,this.originX,this.originY);
     }
@@ -152,14 +140,6 @@ function Node(name, cpu, mem) {
 	        }
 	    }
 	    return freeMem >= 0 && freeCPU >= 0;
-    }
-
-    this.getVMsIds = function() {
-        var ids = [];
-        for (var v in this.vms) {
-            ids.push(this.vms[v].id);
-        }
-        return ids;
     }
 
     this.delete = function(){
