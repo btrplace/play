@@ -79,5 +79,3 @@ function drawConfiguration(id) {
         n.draw(paper,n.posX,n.posY);
     }
 }
-
-var spaceSplitter = /\s/g;
