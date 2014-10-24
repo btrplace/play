@@ -16,7 +16,7 @@ function init() {
     editor.setHighlightGutterLine(false);
     if (useCase != undefined) {
     	loadUseCase(useCase);
-    } else {
-    	loadUseCase(DEFAULT_USE_CASE);
+    } else {        
+    	loadUseCase($("option:first").attr("value"));
     }
 }
