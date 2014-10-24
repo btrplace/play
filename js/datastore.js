@@ -11,6 +11,10 @@ function newUseCase() {
     script: editor.getValue(),
     model: JSON.stringify(model2JSON(config))
   }
+  //To not share the resulting plan if the player was running
+  if (backupConfig) {
+    i.model = JSON.stringify(model2JSON(backupConfig));
+  }
   var promise = $.ajax({
     cache: false,
     type: "POST",
