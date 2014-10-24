@@ -40,11 +40,7 @@ function VirtualMachine(id, cpu, mem) {
         this.box.push(t);
 
         var self = this;
-        this.box.forEach(function(e) {
-            e.node.setAttribute("class", "vmZone");
-            e.node.setAttribute("sandboxVMID", self.id.substr(2));
-        });
-
+        
         //Upper left corner
         this.posY = y - this.mem * unit_size;
         this.posX = x;

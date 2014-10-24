@@ -154,7 +154,7 @@ function animateCursor() {
 	var duration = SPEED / acceleration;
 	return $(".cursor").animate({
 		left: to + "px"
-	}, duration, "linear");
+	}, duration, "linear").promise();
 }
 
 function run(to) {
@@ -168,8 +168,10 @@ function run(to) {
 	})
 	//the cursor
 	deferreds.push(animateCursor());
+	console.log(deferreds);
 	$.when.apply($, deferreds).then(
 		function() {
+			console.log("done");
 			playing = false;
 			now = to;
 			if (now == 0) {
@@ -186,6 +188,7 @@ function run(to) {
 				forward = false;
 			} else {
 				if (!paused) {
+					console.log("next");
 					run(forward ? now + 1 : now - 1);
 				}
 			}
@@ -257,15 +260,15 @@ function shutdownNode(node, duration) {
 	node.boxStroke.animate({
 		'stroke': '#bbb'
 	}, duration, "<>", function() {
-		node.online = false;
+		node.online = false;		
 		d1.resolve();
 	});
 	node.boxFill.animate({
 		'fill': '#bbb'
 	}, duration, "<>", function() {
-		d2.resolve();
-	});
-	return [d1.promise(), d2.promise()];
+		d2.resolve();		
+	});	
+	return [/*d1.promise(),*/ d2.promise()];
 }
 
 //Animation for a migrate action

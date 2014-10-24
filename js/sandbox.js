@@ -58,6 +58,9 @@ function setSelectedElement(element){
 function setReadOnly(b) {	
 	canEdit = !b;
 	editor.setReadOnly(b);
+	if (!b) {
+		backupConfig = undefined;
+	}
 }
 
 function onKeyEvent(event){

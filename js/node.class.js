@@ -77,13 +77,6 @@ function Node(name, cpu, mem) {
 		var drawingElements = $.merge(this.boxStroke, this.boxFill);
 		//var drawingElements = this.boxStroke;
 		var self = this ;
-		// Add class data foreach drawed element, to ensure to
-		// catch the click, even on the grid line.
-		drawingElements.forEach(function (e) {
-			e.node.setAttribute("class","nodeZone");
-			e.node.setAttribute("sandboxNodeID",self.id);
-		});
-
         if (this.selected) {
             this.select();
         }
