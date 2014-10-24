@@ -126,6 +126,7 @@ function displayInstance(i) {
 }
 
 function loadUseCase(uc) {
+  backupConfig = undefined;
   var k = uc;
   //hide solution panel if needed
   var p = $("#solution");

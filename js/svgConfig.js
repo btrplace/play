@@ -21,7 +21,6 @@ var animationStep;
 var pending = false;
 
 var config = new Configuration();
-var backupConfig = undefined
 
 function drawConfiguration(id) {
 	if( paper != undefined ){

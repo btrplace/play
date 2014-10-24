@@ -21,6 +21,7 @@ var KEY_DOWN = 40;
 var KEY_LEFT = 37;
 var KEY_RIGHT = 39;
 
+var backupConfig = undefined;
 /**
  * Click to de-select by default
  */
@@ -147,7 +148,7 @@ function solve() {
   			backupConfig = JSON2Model(plan.origin);  			
   			drawConfiguration("canvas");  			
   			if (plan.actions.length == 0) {
-  				s.html("<p>No need to reconfigure</p>");
+  				$("#player").html("<p>No need to reconfigure</p>");
   			} else {
 				createPlayer(plan, "player");												
 			}			
