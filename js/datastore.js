@@ -1,8 +1,10 @@
-function share() {
+function share() {  
+  setReadOnly(true);
   $("#modal-share-custom").modal('show');
 }
 
 function newUseCase() {
+  setReadOnly(false);
   var i = {
     title: $("#input-title").val(),
     description: $("#input-description").val(),
