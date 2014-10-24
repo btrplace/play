@@ -58,7 +58,6 @@ function setSelectedElement(element){
 function setReadOnly(b) {	
 	canEdit = !b;
 	editor.setReadOnly(b);
-	console.log("can edit: " + canEdit);
 }
 
 function onKeyEvent(event){
