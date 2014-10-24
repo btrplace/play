@@ -120,7 +120,7 @@ function displayInstance(i) {
   $("#input-description").val(i.description);
   $("#input-title").val($("#use-cases option:selected").text());
   $("#solve").removeAttr("disabled");
-  hide(["solution", "error"]);
+  hide("solution", "error");
 }
 
 function loadUseCase(uc) {

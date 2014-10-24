@@ -39,6 +39,9 @@ $(document).ready(function(){
  * @param element The element (either a Node or a VM) of the Configuration to be selected.
  */
 function setSelectedElement(element){	
+	if (!canEdit)  {
+		return false;
+	}
 	// Unselect the previously selected element.
 	if (selectedElement != null) {		
 		selectedElement.unSelect();
@@ -51,6 +54,12 @@ function setSelectedElement(element){
 	if (element != null) {		
 		element.select();
 	}
+}
+
+function setReadOnly(b) {	
+	canEdit = !b;
+	editor.setReadOnly(b);
+	console.log("can edit: " + canEdit);
 }
 
 function onKeyEvent(event){
@@ -96,6 +105,7 @@ $(function() {
 });
 
 function show(target, other) {	
+	setReadOnly(target.attr('id') == "solution")
 	if (other.is(":visible")) {		
 		other.hide("slide", {direction: "down", complete: function (){
 			target.show("slide", {direction: "down"}, 200);
@@ -107,8 +117,10 @@ function show(target, other) {
 	}
 }
 
-function hide(ids) {
-	ids.forEach(function (id) {
+function hide() {	
+	setReadOnly(false);
+	var args = Array.prototype.slice.call(arguments);
+	args.forEach(function (id) {
 		var d = $("#" + id);
 		if (d.is(":visible")) {
 			d.hide("slide", {direction: "down"}, 200);		
@@ -133,13 +145,14 @@ function solve() {
 			$("#error-cnt").html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
 			show(e, s);
   		} else if (statusCode == "success") {
+  			setReadOnly(true);
   			backupConfig = JSON2Model(plan.origin);  			
   			drawConfiguration("canvas");  			
   			if (plan.actions.length == 0) {
   				s.html("<p>No need to reconfigure</p>");
   			} else {
 				createPlayer(plan, "player");												
-			}
+			}			
 			show(s, e);
   		} else {
   			console.log("Unsupported status: " + statusCode);
