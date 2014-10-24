@@ -217,7 +217,7 @@ a:focus {
     position:absolute;
     border-left:3px solid rgba(20,20,20,0.5);   
     top: -10px;
-    bottom:0;
+    bottom: 5px;
 }
 
 .actionContainer {
