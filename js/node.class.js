@@ -37,11 +37,6 @@ function Node(name, cpu, mem) {
  	    // Fill with transparent color to catch click
  	    rect.attr({'fill':'rgba(0,0,0,0)'});
  	    this.rect = rect;
- 	    var self = this;
- 	    this.rect.click(function f(x) { 	    	
- 	    	x.stopPropagation(); 	    	 	    
- 	    	setSelectedElement(self); 	    			
- 	    }); 	    
 
 	    this.boxStroke.push(rect);
 
@@ -61,6 +56,12 @@ function Node(name, cpu, mem) {
 	        var pos = border + i * unit_size;
 	        this.boxStroke.push(canvas.path("M " + (x + border) + " " + (y + pos) + " l " + box_width + " 0").attr({'stroke-dasharray' : '--','stroke':bgColor}));
 	    }
+
+        var self = this;
+        this.boxStroke.click(function f(x) {             
+            x.stopPropagation();                    
+            setSelectedElement(self);                   
+        });         
 
 	    //The VMs
 	    //get the origin of the boundingBox

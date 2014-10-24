@@ -30,6 +30,10 @@ function VirtualMachine(id, cpu, mem) {
         var t = canvas.text(x + (this.cpu * unit_size) / 2, y - (this.mem * unit_size) / 2, this.id).attr({
             'font-size': '12pt'
         });
+        t.click(function f(x) {
+            x.stopPropagation();
+            setSelectedElement(self);
+        });
         if (this.cpu == 1) {
             t.rotate(-90);
         }
