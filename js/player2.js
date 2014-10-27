@@ -10,7 +10,7 @@ var acceleration = 1;
 var forward = true;
 
 function makeSpan(actions) {
-	var h = 0;
+	var h = 1;	
 	actions.forEach(function(a) {
 		if (a.end > h) {
 			h = a.end;
@@ -60,6 +60,8 @@ function label(vmNs, nodeNs, a) {
 			return "boot " + name(nodeNs, a.node);
 		case "shutdownNode":
 			return "shutdown " + name(nodeNs, a.node);
+		case "allocate":
+			return "allocate " + a.amount + " " + a.rc + " to "  + name(vmNs, a.vm);
 		default:
 			console.log("Unsupported action: " + a.id);
 	}
@@ -188,7 +190,7 @@ function run(to) {
 
 function apply(a) {
 	var duration = ((a.end - a.start) * SPEED) / acceleration;
-	if (["bootNode", "shutdownNode", "migrateVM"].indexOf(a.id) < 0) {
+	if (["bootNode", "shutdownNode", "migrateVM","allocate"].indexOf(a.id) < 0) {
 		console.log("Unsupported action '" + a.id + "'");
 		return;
 	}
@@ -198,8 +200,11 @@ function apply(a) {
 				return bootNode(config.nodes[a.node], duration);
 			case 'shutdownNode':
 				return shutdownNode(config.nodes[a.node], duration);
-			case 'migrateVM':
-				console.log(a);
+			case 'allocate':
+				var a2 = allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.amount, duration); 
+				a.old = config.vms[a.vm][a.rc];				
+				return a2;
+			case 'migrateVM':				
 				return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration, a.hooks.post);
 		}
 	}
@@ -208,6 +213,8 @@ function apply(a) {
 			return shutdownNode(config.nodes[a.node], duration);
 		case 'shutdownNode':
 			return bootNode(config.nodes[a.node], duration);
+		case 'allocate':				
+				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.old, duration);			
 		case 'migrateVM':			
 			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration, a.hooks.post);
 	}
@@ -217,8 +224,11 @@ function prepareReconfiguration(actions, h) {
 	var groups = [];
 	for (var i = 0; i < h; i++) {
 		groups[i] = [];
-	}
+	}	
 	actions.forEach(function(a) {
+		if (!groups[a.start]) {
+			groups[a.start] = [];
+		}
 		groups[a.start].push(a);
 	})
 	return groups;
@@ -234,7 +244,7 @@ function animateCursor() {
 
 //Animation for booting a node
 function bootNode(node, duration) {
-	console.log("boot " + node.id);
+	//console.log("boot " + node.id);
 	var d1 = $.Deferred();
 	var d2 = $.Deferred();
 	node.boxStroke.animate({'stroke': 'black'}, duration, "<>", function() {
@@ -266,22 +276,42 @@ function shutdownNode(node, duration) {
 	return [d1.promise(), d2.promise()];
 }
 
+function allocate(vm, src, rc, q, duration) {	
+	var d = $.Deferred();
+	setInterval(function () {
+		vm[rc] = q;
+		src.refreshVMs();
+		d.resolve();
+	}, duration);
+	return [d.promise()];
+}
+
 //Animation for a migrate action
 function migrate(vm, src, dst, duration, post) {	
 	//console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id);
 	var a = 0;
-	//A light gray (ghost) VM is posted on the destination
-	var cpu = vm.cpu;
+	//A light gray (ghost) VM is posted on the destination	
 	var mem = vm.mem;
+	var cpu = vm.cpu;
 	if (post && post.length > 0) {
 		post.forEach(function (rc) {
-			if (rc.rc=="cpu") {
-				cpu = rc.amount;
-			} else if (rc.rc =="mem") {
-				mem = rc.amount;
+			if (rc.rc == "cpu") {
+				if (forward) {
+					cpu = rc.amount;
+					if (!rc.oldCpu) {rc.oldCpu = vm.cpu;}					
+				} else {
+					cpu = rc.oldCpu;
+				}
+			} else if (rc.rc == "mem") {
+				if (forward) {
+					mem = rc.amount;
+					if (!rc.oldMem) {rc.oldMem = vm.mem;}
+				} else {
+					mem = rc.oldMem;
+				}
 			} else {
 				console.log("Unsupported resource '" +rc.type + "'");
-			}
+			}			
 		})
 	}
 	var ghostDst = new VirtualMachine(vm.id, cpu, mem);
@@ -317,9 +347,6 @@ function migrate(vm, src, dst, duration, post) {
 		//Refresh the nodes
 		src.refreshVMs();
 		dst.refreshVMs();	
-		if (post && post.length > 0) {
-			console.log(post);
-		}
 	}
 	var p1 = movingVM.box.animate({
 		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)
