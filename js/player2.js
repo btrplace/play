@@ -235,7 +235,7 @@ function prepareReconfiguration(actions, h) {
 }
 
 function animateCursor() {
-	var to = (now + (forward ? 1 : -1)) * unit;
+	var to = (1 + now + (forward ? 1 : -1)) * unit;
 	var duration = SPEED / acceleration;
 	return $(".cursor").animate({
 		left: to + "px"
