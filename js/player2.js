@@ -199,7 +199,8 @@ function apply(a) {
 			case 'shutdownNode':
 				return shutdownNode(config.nodes[a.node], duration);
 			case 'migrateVM':
-				return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration);
+				console.log(a);
+				return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration, a.hooks.post);
 		}
 	}
 	switch (a.id) {
@@ -207,8 +208,8 @@ function apply(a) {
 			return shutdownNode(config.nodes[a.node], duration);
 		case 'shutdownNode':
 			return bootNode(config.nodes[a.node], duration);
-		case 'migrateVM':
-			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration);
+		case 'migrateVM':			
+			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration, a.hooks.post);
 	}
 }
 
@@ -266,11 +267,24 @@ function shutdownNode(node, duration) {
 }
 
 //Animation for a migrate action
-function migrate(vm, src, dst, duration) {	
+function migrate(vm, src, dst, duration, post) {	
 	//console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id);
 	var a = 0;
 	//A light gray (ghost) VM is posted on the destination
-	var ghostDst = new VirtualMachine(vm.id, vm.cpu, vm.mem);
+	var cpu = vm.cpu;
+	var mem = vm.mem;
+	if (post && post.length > 0) {
+		post.forEach(function (rc) {
+			if (rc.rc=="cpu") {
+				cpu = rc.amount;
+			} else if (rc.rc =="mem") {
+				mem = rc.amount;
+			} else {
+				console.log("Unsupported resource '" +rc.type + "'");
+			}
+		})
+	}
+	var ghostDst = new VirtualMachine(vm.id, cpu, mem);
 	ghostDst.bgColor = "#eee";
 	ghostDst.strokeColor = "#ddd";
 	dst.host(ghostDst);
@@ -303,6 +317,9 @@ function migrate(vm, src, dst, duration) {
 		//Refresh the nodes
 		src.refreshVMs();
 		dst.refreshVMs();	
+		if (post && post.length > 0) {
+			console.log(post);
+		}
 	}
 	var p1 = movingVM.box.animate({
 		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)
