@@ -4,7 +4,7 @@ var schedule;
 
 var playing = false;
 var now;
-var unit = 70;
+var unit = 140;
 var SPEED = 1000;
 var acceleration = 1;
 var forward = true;
@@ -201,7 +201,7 @@ function apply(a) {
 			case 'shutdownNode':
 				return shutdownNode(config.nodes[a.node], duration);
 			case 'allocate':
-				var a2 = allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.amount, duration); 
+				var a2 = allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.amount, SPEED / acceleration); 
 				a.old = config.vms[a.vm][a.rc];				
 				return a2;
 			case 'migrateVM':				
@@ -214,7 +214,7 @@ function apply(a) {
 		case 'shutdownNode':
 			return bootNode(config.nodes[a.node], duration);
 		case 'allocate':				
-				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.old, duration);			
+				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.old, SPEED / acceleration);			
 		case 'migrateVM':			
 			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration, a.hooks.post);
 	}
