@@ -85,6 +85,9 @@ function Node(name, cpu, mem) {
 
     }
 
+    this.refresh = function() {
+        this.draw(this.canvas, this.originX, this.originY);
+    }
     this.refreshVMs = function() {
         //get the origin of the boundingBox
         var box_width = this.cpu * unit_size;
