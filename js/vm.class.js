@@ -104,7 +104,7 @@ function VirtualMachine(id, cpu, mem) {
                 break;
             case KEY_D:
                 this.delete();
-                host.refresh();
+                host.refreshVMs();
                 break;
         }
     }

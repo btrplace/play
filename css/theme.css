@@ -123,8 +123,7 @@ a:focus {
     font-family: Arial;
     text-anchor: middle;    
     width: 600px;
-    height: 300px;
-    margin-left: 20px;
+    height: 300px;    
 }
 
 #editor {         

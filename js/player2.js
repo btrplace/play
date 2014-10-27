@@ -142,25 +142,18 @@ function playPause() {
 		icon.removeClass("fa-play").addClass("fa-pause");
 		acceleration = 1;
 		$("#player").find(".backward").removeAttr("disabled");
-		run(now + 1);
 		forward = true;
+		run(now + 1);		
 	} else {
 		icon.removeClass("fa-pause").addClass("fa-play");
 	}
-}
-
-function animateCursor() {
-	var to = (1 + now + (forward ? 1 : -1)) * unit;
-	var duration = SPEED / acceleration;
-	return $(".cursor").animate({
-		left: to + "px"
-	}, duration, "linear").promise();
 }
 
 function run(to) {
 	if (paused) {
 		return;
 	}
+	//console.log("Run from " + now + " to " + to);
 	playing = true;
 	var deferreds = [];
 	schedule[forward ? now : (now - 1)].forEach(function(a) {
@@ -168,10 +161,10 @@ function run(to) {
 	})
 	//the cursor
 	deferreds.push(animateCursor());
-	console.log(deferreds);
+	//console.log(deferreds);
 	$.when.apply($, deferreds).then(
 		function() {
-			console.log("done");
+			//console.log("done");
 			playing = false;
 			now = to;
 			if (now == 0) {
@@ -187,10 +180,7 @@ function run(to) {
 				paused = true;
 				forward = false;
 			} else {
-				if (!paused) {
-					console.log("next");
 					run(forward ? now + 1 : now - 1);
-				}
 			}
 		}
 	);
@@ -233,8 +223,17 @@ function prepareReconfiguration(actions, h) {
 	return groups;
 }
 
+function animateCursor() {
+	var to = (1 + now + (forward ? 1 : -1)) * unit;
+	var duration = SPEED / acceleration;
+	return $(".cursor").animate({
+		left: to + "px"
+	}, duration, "linear");
+}
+
 //Animation for booting a node
 function bootNode(node, duration) {
+	console.log("boot " + node.id);
 	var d1 = $.Deferred();
 	var d2 = $.Deferred();
 
@@ -254,7 +253,7 @@ function bootNode(node, duration) {
 
 // Animation for shutting down a node
 function shutdownNode(node, duration) {
-
+	//console.log("shutdown " + node.id);
 	var d1 = $.Deferred();
 	var d2 = $.Deferred();
 	node.boxStroke.animate({
@@ -272,14 +271,15 @@ function shutdownNode(node, duration) {
 }
 
 //Animation for a migrate action
-function migrate(vm, src, dst, duration) {
+function migrate(vm, src, dst, duration) {	
+	//console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id);
 	var a = 0;
 	//A light gray (ghost) VM is posted on the destination
 	var ghostDst = new VirtualMachine(vm.id, vm.cpu, vm.mem);
 	ghostDst.bgColor = "#eee";
 	ghostDst.strokeColor = "#ddd";
 	dst.host(ghostDst);
-	dst.refresh();
+	dst.refreshVMs();
 
 	//A light gray VM will move from the source to the destination
 	var movingVM = new VirtualMachine(vm.id, vm.cpu, vm.mem);
@@ -306,16 +306,16 @@ function migrate(vm, src, dst, duration) {
 		ghostDst.strokeColor = "#000";
 
 		//Refresh the nodes
-		src.refresh();
-		dst.refresh();
+		src.refreshVMs();
+		dst.refreshVMs();	
 	}
 	var p1 = movingVM.box.animate({
 		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)		
-	}, duration, mina.easeinout, function() {
-		d.resolve();
+	}, duration, mina.easeinout, function() {		
 		animationEnd();
+		d.resolve();
 	});	
-	return [d];
+	return [d.promise()];
 }
 
 function doms(objs) {

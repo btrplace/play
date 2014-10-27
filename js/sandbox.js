@@ -148,7 +148,6 @@ function solve() {
   		} else if (statusCode == "success") {
   			setReadOnly(true);
   			backupConfig = JSON2Model(plan.origin);  			
-  			/*drawConfiguration("canvas");  			*/
   			if (plan.actions.length == 0) {
   				$("#player").html("<p>No need to reconfigure</p>");
   			} else {
