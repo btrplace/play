@@ -4,7 +4,7 @@ var schedule;
 
 var playing = false;
 var now;
-var unit = 140;
+var unit = 70;
 var SPEED = 1000;
 var acceleration = 1;
 var forward = true;
