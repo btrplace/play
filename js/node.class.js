@@ -11,6 +11,7 @@ function Node(name, cpu, mem) {
     };
 
     this.draw = function (canvas, x, y) {
+        console.log("draw " + this.id);
     	//shift y to make the node 0,0 be bottom left, similarly to the VMs.
     	this.originX = x;
     	this.originY = y;
@@ -18,8 +19,8 @@ function Node(name, cpu, mem) {
 	    this.posX = x;
 	    this.posY = y;
 
-	    if( this.boxStroke != undefined ) this.boxStroke.remove();
-	    if( this.boxFill != undefined ) this.boxFill.remove();
+	    if( this.boxStroke) this.boxStroke.remove();
+	    if( this.boxFill) this.boxFill.remove();
 
         this.boxStroke = canvas.set();
         this.boxFill = canvas.set();
@@ -41,22 +42,22 @@ function Node(name, cpu, mem) {
 	    this.boxStroke.push(rect);
 
 	    //labels
-        this.boxFill.push(canvas.text(x + width - border,y + height - 10,"cpu").attr({'font-size':'12pt','text-anchor':'end','baseline-shift':'0em','fill':bgColor}));
-        this.boxFill.push(canvas.text(x + 2,y + border - 7,"mem").attr({'font-size': '12pt','text-anchor':'start','baseline-shift':'0em','fill':bgColor}));
+        this.boxFill.push(canvas.text(x + width - border,y + height - 10,"cpu").attr({'font-size':'12pt','text-anchor':'end','baseline-shift':'0em'}));
+        this.boxFill.push(canvas.text(x + 2,y + border - 7,"mem").attr({'font-size': '12pt','text-anchor':'start','baseline-shift':'0em'}));
 
 	    //Node name, bottom left
-	    this.boxFill.push(canvas.text(x + 2, y + height - 10, this.id).attr({'text-anchor': 'start' ,'baseline-shift': '0em','font-size' : '12pt', 'fill' : bgColor}));
-
+	    this.boxFill.push(canvas.text(x + 2, y + height - 10, this.id).attr({'text-anchor': 'start' ,'baseline-shift': '0em','font-size' : '12pt'}));
+        this.boxFill.attr('fill',bgColor);
         //Resource grid
 	    for (var i = 1; i < this.cpu; i+=1) {
 	        var pos = border + i * unit_size;
-	        this.boxStroke.push(canvas.path("M " + (x + pos) + " " + (y + border) + " l " + " 0 " + " " + box_height).attr({'stroke-dasharray' : '--','stroke':bgColor}));
+	        this.boxStroke.push(canvas.path("M " + (x + pos) + " " + (y + border) + " l " + " 0 " + " " + box_height).attr({'stroke-dasharray' : '--'}));
 	    }
     	for (var i = 1; i < this.mem; i+=1) {
 	        var pos = border + i * unit_size;
-	        this.boxStroke.push(canvas.path("M " + (x + border) + " " + (y + pos) + " l " + box_width + " 0").attr({'stroke-dasharray' : '--','stroke':bgColor}));
+	        this.boxStroke.push(canvas.path("M " + (x + border) + " " + (y + pos) + " l " + box_width + " 0").attr({'stroke-dasharray' : '--'}));
 	    }
-
+        this.boxStroke.attr('stroke',bgColor);
         var self = this;
         this.boxStroke.click(function f(x) {             
             x.stopPropagation();                    
@@ -65,16 +66,17 @@ function Node(name, cpu, mem) {
 
 	    //The VMs
 	    //get the origin of the boundingBox
-	    var oX = this.posX + border;
+	    /*var oX = this.posX + border;
 	    var oY = this.posY + border + box_height;
 	    for (var i in this.vms) {
 	        this.vms[i].draw(canvas,oX,oY);
 	        //Update the position by the VMs bounding box
 	        oX += this.vms[i].boundingBox()[0];
 	        oY -= this.vms[i].boundingBox()[1];
-	    }
+	    }*/
+        this.refreshVMs();
 
-		var drawingElements = $.merge(this.boxStroke, this.boxFill);
+		//var drawingElements = $.merge(this.boxStroke, this.boxFill);
 		//var drawingElements = this.boxStroke;
 		var self = this ;
         if (this.selected) {
@@ -83,6 +85,19 @@ function Node(name, cpu, mem) {
 
     }
 
+    this.refreshVMs = function() {
+        //get the origin of the boundingBox
+        var box_width = this.cpu * unit_size;
+        var box_height = this.mem * unit_size;
+        var oX = this.posX + border;
+        var oY = this.posY + border + box_height;
+        for (var i in this.vms) {
+            this.vms[i].draw(this.canvas,oX,oY);
+            //Update the position by the VMs bounding box
+            oX += this.vms[i].boundingBox()[0];
+            oY -= this.vms[i].boundingBox()[1];
+        }
+    }
 	this.select = function() {
 			this.rect.attr({
 				'fill':'#DBDEC5',
@@ -94,10 +109,6 @@ function Node(name, cpu, mem) {
 		this.rect.attr({'fill-opacity':'0'});
         this.selected = false;
 	}
-
-    this.refresh  = function() {    	
-		this.draw(this.canvas,this.originX,this.originY);
-    }
 
     this.host = function(vm) {
 		this.vms.push(vm);

@@ -34,7 +34,7 @@ function VirtualMachine(id, cpu, mem) {
             x.stopPropagation();
             setSelectedElement(self);
         });
-        if (this.cpu == 1) {
+        if (this.cpu == 1) {            
             t.rotate(-90);
         }
         this.box.push(t);
@@ -107,7 +107,7 @@ function VirtualMachine(id, cpu, mem) {
                 break;
             case KEY_D:
                 this.delete();
-                host.refresh();
+                host.refreshVMs();
                 break;
         }
     }
