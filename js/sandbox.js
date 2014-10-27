@@ -10,6 +10,7 @@ var canSubmit = true ;
 var canEdit = true ;
 
 var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
+//var endPoint = "http://localhost:8080";
 var selectedElement = null ;
 var current;
 
