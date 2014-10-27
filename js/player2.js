@@ -239,14 +239,14 @@ function bootNode(node, duration) {
 	var d2 = $.Deferred();
 
 	node.boxStroke.animate({
-		'stroke': 'black'
-	}, duration, "<>", function() {
+		stroke: 'black'
+	}, duration, mina.backin, function() {
 		node.online = true;
 		d1.resolve();
 	});
 	node.boxFill.animate({
 		'fill': 'black'
-	}, duration, "<>", function() {
+	}, duration, mina.backin, function() {
 		d2.resolve()
 	});
 	return [d1.promise(), d2.promise()];
@@ -259,16 +259,16 @@ function shutdownNode(node, duration) {
 	var d2 = $.Deferred();
 	node.boxStroke.animate({
 		'stroke': '#bbb'
-	}, duration, "<>", function() {
+	}, duration, mina.linear, function() {
 		node.online = false;		
 		d1.resolve();
 	});
 	node.boxFill.animate({
 		'fill': '#bbb'
-	}, duration, "<>", function() {
+	}, duration, mina.linear, function() {
 		d2.resolve();		
 	});	
-	return [/*d1.promise(),*/ d2.promise()];
+	return [d1.promise(), d2.promise()];
 }
 
 //Animation for a migrate action
@@ -286,7 +286,7 @@ function migrate(vm, src, dst, duration) {
 	movingVM.bgColor = "#eee";
 	movingVM.strokeColor = "#ddd";
 	movingVM.draw(paper, vm.posX, vm.posY + vm.mem * unit_size);
-	movingVM.box.toFront();
+	//	movingVM.box.toFront();
 
 	var d = $.Deferred();
 	var animationEnd = function() {
@@ -310,11 +310,11 @@ function migrate(vm, src, dst, duration) {
 		dst.refresh();
 	}
 	var p1 = movingVM.box.animate({
-		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)
-	}, duration, "<>", function() {
+		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)		
+	}, duration, mina.easeinout, function() {
 		d.resolve();
 		animationEnd();
-	});
+	});	
 	return [d];
 }
 

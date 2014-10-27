@@ -64,14 +64,12 @@ function drawConfiguration(id) {
             }
         }
     }
-    //draw it
-    if (paper != undefined) {
-	    paper.remove();
-    }
 
-    paper = Raphael(id, 600, 300);    
+    //paper = Raphael(id, 600, 300);        
+    paper = Snap("#" + id);    
     // emptying the paper
-    paper.clear();
+    console.log(paper);
+    paper.clear();    
 
     for (var i in config.nodes) {
         var n = config.nodes[i];

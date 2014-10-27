@@ -8,18 +8,13 @@ function VirtualMachine(id, cpu, mem) {
     this.selected = false;
 
     this.draw = function(canvas, x, y) {
-        if (this.box != undefined) {
-            this.box.remove();
-        }
-        this.box = canvas.set();
 
         //Bounding box
         this.rect = canvas.rect(x, y - this.mem * unit_size, this.cpu * unit_size, this.mem * unit_size);
         this.rect.attr({
             'fill': this.bgColor,
             'stroke': this.strokeColor
-        });
-        this.box.push(this.rect);
+        });        
         var self = this;
         this.rect.click(function f(x) {
             x.stopPropagation();
@@ -27,18 +22,20 @@ function VirtualMachine(id, cpu, mem) {
         });
 
         //Identifier
-        var t = canvas.text(x + (this.cpu * unit_size) / 2, y - (this.mem * unit_size) / 2, this.id).attr({
-            'font-size': '12pt'
-        });
+        var t = canvas.text(x + (this.cpu * unit_size) / 2, y - (this.mem * unit_size / 2 - 5), this.id);
         t.click(function f(x) {
             x.stopPropagation();
             setSelectedElement(self);
         });
-        if (this.cpu == 1) {
-            t.rotate(-90);
+        if (this.cpu == 1) {           
+            t.attr("writing-mode","tb");            
         }
-        this.box.push(t);
-
+        
+        if (this.box != undefined) {
+            this.box.remove();
+        }
+        this.box = canvas.group();
+        this.box.add(this.rect, t);
         var self = this;
         
         //Upper left corner

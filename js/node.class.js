@@ -21,8 +21,7 @@ function Node(name, cpu, mem) {
 	    if( this.boxStroke != undefined ) this.boxStroke.remove();
 	    if( this.boxFill != undefined ) this.boxFill.remove();
 
-        this.boxStroke = canvas.set();
-        this.boxFill = canvas.set();
+        this.boxStroke = canvas.group();        
 	    this.canvas = canvas;
 	    var box_width = this.cpu * unit_size;
 	    var box_height = this.mem * unit_size;
@@ -33,30 +32,34 @@ function Node(name, cpu, mem) {
 	    var bgColor = this.online ? "black" : "#bbb";
 
  	    //lightgray for the resources area
- 	    var rect = canvas.rect(x + border, y + border, box_width, box_height).attr({'stroke':bgColor}); 	    
+ 	    var rect = canvas.rect(x + border, y + border, box_width, box_height); 	    
  	    // Fill with transparent color to catch click
  	    rect.attr({'fill':'rgba(0,0,0,0)'});
  	    this.rect = rect;
 
-	    this.boxStroke.push(rect);
+	    this.boxStroke.add(rect);
 
 	    //labels
-        this.boxFill.push(canvas.text(x + width - border,y + height - 10,"cpu").attr({'font-size':'12pt','text-anchor':'end','baseline-shift':'0em','fill':bgColor}));
-        this.boxFill.push(canvas.text(x + 2,y + border - 7,"mem").attr({'font-size': '12pt','text-anchor':'start','baseline-shift':'0em','fill':bgColor}));
+        this.boxFill = canvas.group();
+        this.boxFill.add(canvas.text(x + width - border,y + height - 7,"cpu").attr({'text-anchor':'end'}));
+        this.boxFill.add(canvas.text(x + border,y + border-3, "mem"));
 
+        
 	    //Node name, bottom left
-	    this.boxFill.push(canvas.text(x + 2, y + height - 10, this.id).attr({'text-anchor': 'start' ,'baseline-shift': '0em','font-size' : '12pt', 'fill' : bgColor}));
-
+        this.title = canvas.text(x + border, y + height - 7, this.id);
+	    this.boxFill.add(this.title);
+        this.boxFill.attr({fill: bgColor});
         //Resource grid
 	    for (var i = 1; i < this.cpu; i+=1) {
 	        var pos = border + i * unit_size;
-	        this.boxStroke.push(canvas.path("M " + (x + pos) + " " + (y + border) + " l " + " 0 " + " " + box_height).attr({'stroke-dasharray' : '--','stroke':bgColor}));
+	        this.boxStroke.add(canvas.path("M " + (x + pos) + " " + (y + border) + " l " + " 0 " + " " + box_height).attr({'stroke-dasharray' : '7 3'}));
 	    }
     	for (var i = 1; i < this.mem; i+=1) {
 	        var pos = border + i * unit_size;
-	        this.boxStroke.push(canvas.path("M " + (x + border) + " " + (y + pos) + " l " + box_width + " 0").attr({'stroke-dasharray' : '--','stroke':bgColor}));
+	        this.boxStroke.add(canvas.path("M " + (x + border) + " " + (y + pos) + " l " + box_width + " 0").attr({'stroke-dasharray' : '7 3'}));
 	    }
 
+        this.boxStroke.attr({stroke: bgColor});
         var self = this;
         this.boxStroke.click(function f(x) {             
             x.stopPropagation();                    
