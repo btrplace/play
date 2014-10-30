@@ -10,7 +10,7 @@ var acceleration = 1;
 var forward = true;
 
 function makeSpan(actions) {
-	var h = 0;
+	var h = 1;	
 	actions.forEach(function(a) {
 		if (a.end > h) {
 			h = a.end;
@@ -24,14 +24,16 @@ function makeAction(unit, lbl, start, end, h) {
 		actionLine = $("<div></div>").addClass("actionLine"),
 		actionContainer = $("<div></div>").addClass("actionContainer");
 	actionBar.html(lbl);
-	actionContainer.append(actionBar).appen
+	actionContainer.append(actionBar);
 	actionContainer.append(actionLine);
 
 	//+1 to make a space from the left border
+	var d = end - start;
+	if (d == 0) {d = 1};
 	actionBar.css({
 		left: (start + 1) * unit,
-		width: (end - start) * unit
-	});
+		width: d * unit
+	});	
 	return actionContainer;
 }
 
@@ -60,6 +62,10 @@ function label(vmNs, nodeNs, a) {
 			return "boot " + name(nodeNs, a.node);
 		case "shutdownNode":
 			return "shutdown " + name(nodeNs, a.node);
+		case "allocate":
+			var diff = a.amount - config.vms[a.vm][a.rc];
+
+			return (diff > 0 ? "+" : "") + diff + " " + a.rc + " for "  + name(vmNs, a.vm);
 		default:
 			console.log("Unsupported action: " + a.id);
 	}
@@ -96,6 +102,8 @@ function createPlayer(plan, to) {
 	div.html("");
 	var h = makeSpan(plan.actions);
 	var actions = $("<div></div>").addClass("actionLines");
+	//sort the actions
+	plan.actions.sort(function(a, b){return a.start-b.start;});
 	plan.actions.forEach(function(a) {
 		var lbl = label(vmNs, nodeNs, a);
 		actions.append(makeAction(unit, lbl, a.start, a.end, h));
@@ -121,7 +129,7 @@ function ffwd() {
 	acceleration = 5;
 	forward = true;
 	if (!playing) {
-		run(now + 1);
+		run();
 	}
 }
 
@@ -131,7 +139,7 @@ function rwd() {
 	acceleration = 5;
 	forward = false;
 	if (!playing) {
-		run(now - 1);
+		run();
 	}
 }
 
@@ -143,30 +151,27 @@ function playPause() {
 		acceleration = 1;
 		$("#player").find(".backward").removeAttr("disabled");
 		forward = true;
-		run(now + 1);		
+		run();		
 	} else {
 		icon.removeClass("fa-pause").addClass("fa-play");
 	}
 }
 
-function run(to) {
+function run() {
 	if (paused) {
+		//console.log("paused");
 		return;
-	}
-	//console.log("Run from " + now + " to " + to);
+	}	
 	playing = true;
 	var deferreds = [];
-	schedule[forward ? now : (now - 1)].forEach(function(a) {
+	schedule[forward ? now : now - 1].forEach(function(a) {
 		deferreds = deferreds.concat(apply(a));
 	})
 	//the cursor
 	deferreds.push(animateCursor());
-	//console.log(deferreds);
 	$.when.apply($, deferreds).then(
-		function() {
-			//console.log("done");
-			playing = false;
-			now = to;
+		function() {			
+			playing = false;			
 			if (now == 0) {
 				$("#player").find(".backward").attr("disabled", "disabled");
 				$("#player").find(".forward").removeAttr("disabled");
@@ -180,7 +185,7 @@ function run(to) {
 				paused = true;
 				forward = false;
 			} else {
-					run(forward ? now + 1 : now - 1);
+					run();
 			}
 		}
 	);
@@ -188,7 +193,7 @@ function run(to) {
 
 function apply(a) {
 	var duration = ((a.end - a.start) * SPEED) / acceleration;
-	if (["bootNode", "shutdownNode", "migrateVM"].indexOf(a.id) < 0) {
+	if (["bootNode", "shutdownNode", "migrateVM","allocate"].indexOf(a.id) < 0) {
 		console.log("Unsupported action '" + a.id + "'");
 		return;
 	}
@@ -198,8 +203,14 @@ function apply(a) {
 				return bootNode(config.nodes[a.node], duration);
 			case 'shutdownNode':
 				return shutdownNode(config.nodes[a.node], duration);
-			case 'migrateVM':
-				return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration);
+			case 'allocate':
+				//make it reversible
+				if (a.orig == undefined) {
+					a.orig = config.vms[a.vm][a.rc];
+				}				
+				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.amount, SPEED / acceleration);
+			case 'migrateVM':				
+				return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration, a.hooks.post);
 		}
 	}
 	switch (a.id) {
@@ -207,8 +218,10 @@ function apply(a) {
 			return shutdownNode(config.nodes[a.node], duration);
 		case 'shutdownNode':
 			return bootNode(config.nodes[a.node], duration);
-		case 'migrateVM':
-			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration);
+		case 'allocate':				
+				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.orig, SPEED / acceleration);			
+		case 'migrateVM':			
+			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration, a.hooks.post);
 	}
 }
 
@@ -216,8 +229,11 @@ function prepareReconfiguration(actions, h) {
 	var groups = [];
 	for (var i = 0; i < h; i++) {
 		groups[i] = [];
-	}
+	}	
 	actions.forEach(function(a) {
+		if (!groups[a.start]) {
+			groups[a.start] = [];
+		}
 		groups[a.start].push(a);
 	})
 	return groups;
@@ -228,12 +244,12 @@ function animateCursor() {
 	var duration = SPEED / acceleration;
 	return $(".cursor").animate({
 		left: to + "px"
-	}, duration, "linear");
+	}, duration, "linear", function() {now = now + (forward ? 1 : -1)});
 }
 
 //Animation for booting a node
 function bootNode(node, duration) {
-	console.log("boot " + node.id);
+	//console.log("boot " + node.id);
 	var d1 = $.Deferred();
 	var d2 = $.Deferred();
 
@@ -270,12 +286,39 @@ function shutdownNode(node, duration) {
 	return [d1.promise(), d2.promise()];
 }
 
+function allocate(vm, src, rc, q, duration) {	
+	var d = $.Deferred();
+	var x = setInterval(function () {
+		vm[rc] = q;
+		src.refreshVMs();
+		d.resolve();
+		clearInterval(x);
+	}, duration);
+	return [d.promise()];
+}
+
 //Animation for a migrate action
-function migrate(vm, src, dst, duration) {	
+function migrate(vm, src, dst, duration, post) {	
 	//console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id);
 	var a = 0;
-	//A light gray (ghost) VM is posted on the destination
-	var ghostDst = new VirtualMachine(vm.id, vm.cpu, vm.mem);
+	//A light gray (ghost) VM is posted on the destination	
+	var mem = vm.mem;
+	var cpu = vm.cpu;
+	if (post && post.length > 0) {
+		post.forEach(function (rc) {
+			if (rc.orig == undefined) {
+				rc.orig = config.vms[rc.vm][rc.rc];
+			}
+			if (rc.rc == "cpu") {
+				cpu = forward ? rc.amount : rc.orig;
+			} else if (rc.rc == "mem") {
+				mem = forward ? rc.amount : rc.orig;
+			} else {
+				console.log("Unsupported resource '" + rc.type + "'");
+			}			
+		})
+	}
+	var ghostDst = new VirtualMachine(vm.id, cpu, mem);
 	ghostDst.bgColor = "#eee";
 	ghostDst.strokeColor = "#ddd";
 	dst.host(ghostDst);

@@ -105,6 +105,15 @@ a:focus {
     margin-top: 0.5em;
     margin-bottom: 1em;
 }
+
+.lock {
+    background: url(../img/lock.png) center center no-repeat;
+}
+
+.ace_content .lock {
+    background-position: 50% 10px;
+}
+
 #player .controler {
     margin-bottom: 1em;
     text-align: left;

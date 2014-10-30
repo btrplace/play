@@ -10,8 +10,7 @@ function Node(name, cpu, mem) {
 	    return [2 * border + unit_size * MAX_CPU, 2 * border + unit_size * MAX_MEM];
     };
 
-    this.draw = function (canvas, x, y) {
-        console.log("draw " + this.id);
+    this.draw = function (canvas, x, y) {        
     	//shift y to make the node 0,0 be bottom left, similarly to the VMs.
     	this.originX = x;
     	this.originY = y;
@@ -88,6 +87,9 @@ function Node(name, cpu, mem) {
 
     }
 
+    this.refresh = function() {
+        this.draw(this.canvas, this.originX, this.originY);
+    }
     this.refreshVMs = function() {
         //get the origin of the boundingBox
         var box_width = this.cpu * unit_size;

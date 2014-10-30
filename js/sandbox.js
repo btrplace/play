@@ -10,6 +10,7 @@ var canSubmit = true ;
 var canEdit = true ;
 
 var endPoint = "http://murmuring-sierra-9341.herokuapp.com";
+//var endPoint = "http://localhost:8080";
 var selectedElement = null ;
 var current;
 
@@ -60,6 +61,11 @@ function setReadOnly(b) {
 	editor.setReadOnly(b);
 	if (!b) {
 		backupConfig = undefined;
+		$("#editor").find(".ace_content").removeClass("lock");
+		$("#canvas").removeClass("lock");
+	} else {
+		$("#editor").find(".ace_content").addClass("lock");
+		$("#canvas").addClass("lock");
 	}
 }
 
