@@ -13,7 +13,7 @@ function Node(name, cpu, mem) {
 	    return [2 * border + unit_size * MAX_CPU, 2 * border + unit_size * MAX_MEM];
     };
 
-    this.draw = function (canvas, x, y) {        
+    this.draw = function (canvas, x, y) {                
     	//shift y to make the node 0,0 be bottom left, similarly to the VMs.
     	this.originX = x;
     	this.originY = y;
@@ -21,8 +21,8 @@ function Node(name, cpu, mem) {
 	    this.posX = x;
 	    this.posY = y;
 
-	    if( this.boxStroke) this.boxStroke.remove();
-	    if( this.boxFill) this.boxFill.remove();
+	    //if( this.boxStroke) this.boxStroke.remove();
+	    //if( this.boxFill) this.boxFill.remove();
 
         this.boxStroke = canvas.group();        
 	    this.canvas = canvas;

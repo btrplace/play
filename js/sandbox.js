@@ -22,7 +22,8 @@ var KEY_DOWN = 40;
 var KEY_LEFT = 37;
 var KEY_RIGHT = 39;
 
-var backupConfig = undefined;
+var plan;
+
 /**
  * Click to de-select by default
  */
@@ -59,8 +60,7 @@ function setSelectedElement(element){
 function setReadOnly(b) {	
 	canEdit = !b;
 	editor.setReadOnly(b);
-	if (!b) {
-		backupConfig = undefined;
+	if (!b) {		
 		$("#editor").find(".ace_content").removeClass("lock");
 		$("#canvas").removeAttr("class");
 	} else {
@@ -126,6 +126,7 @@ function show(target, other) {
 
 function hide() {	
 	setReadOnly(false);
+	plan = undefined;
 	var args = Array.prototype.slice.call(arguments);
 	args.forEach(function (id) {
 		var d = $("#" + id);
@@ -134,26 +135,30 @@ function hide() {
 		}		
 	});
 }
-function solve() {		
-	var s = $("#solution");
-	var e = $("#error");	
-	if (backupConfig) {
-		config = backupConfig;
+function solve() {	
+	var instance = instance2JSON(config, editor.getValue())	
+	if (plan) {
+		config = JSON2Model(plan.origin);		
+		drawConfiguration("canvas");
+		instance.model = plan.origin;
 	}	
-	var instance = instance2JSON(config, editor.getValue())
 	var promise = $.ajax({
   		type: "POST",  		
   		url: endPoint + "/solve",
   		data: JSON.stringify(instance)
   	});
-  	promise.done(function (plan, statusCode) {  	  		
+	var s = $("#solution");
+	var e = $("#error");	
+  	promise.done(function (p, statusCode) {  	  		
+  		plan = p;
   		editor.getSession().setAnnotations([]);							
   		if (statusCode == "nocontent") {  			
 			$("#error-cnt").html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
 			show(e, s);
   		} else if (statusCode == "success") {
   			setReadOnly(true);
-  			backupConfig = JSON2Model(plan.origin);  			
+  			config = JSON2Model(plan.origin);  			
+  			drawConfiguration("canvas");
   			if (plan.actions.length == 0) {
   				$("#player").html("<p>No need to reconfigure</p>");
   			} else {

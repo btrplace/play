@@ -11,9 +11,8 @@ function newUseCase() {
     script: editor.getValue(),
     model: JSON.stringify(model2JSON(config))
   }
-  //To not share the resulting plan if the player was running
-  if (backupConfig) {
-    i.model = JSON.stringify(model2JSON(backupConfig));
+  if (plan) {
+    i.model = plan.origin;
   }
   var promise = $.ajax({
     cache: false,
@@ -129,8 +128,7 @@ function displayInstance(i) {
   hide("solution", "error");
 }
 
-function loadUseCase(uc) {
-  backupConfig = undefined;
+function loadUseCase(uc) {  
   var k = uc;
   //hide solution panel if needed
   var p = $("#solution");

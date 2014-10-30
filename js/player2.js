@@ -116,11 +116,11 @@ function createPlayer(plan, to) {
 	cursor.append($("<div></div>").addClass("time-mark"));
 	actions.append(cursor);
 	div.append();
-	schedule = prepareReconfiguration(plan.actions, h);
 	now = 0;
 	paused = true;
 	playing = false;
 	forward = true;
+	schedule = prepareReconfiguration(plan.actions, h);
 }
 
 function ffwd() {
@@ -129,11 +129,14 @@ function ffwd() {
 	acceleration = 5;
 	forward = true;
 	if (!playing) {
-		run();
+		run();		
 	}
 }
 
 function rwd() {
+	if (now == 0) {
+		return;
+	}
 	$("#player").find(".btn-green").attr("disabled", "disabled");
 	paused = false;
 	acceleration = 5;
@@ -145,12 +148,12 @@ function rwd() {
 
 function playPause() {
 	paused = !paused;
+	forward = true;
 	var icon = $("#play");
 	if (icon.hasClass("fa-play")) {
 		icon.removeClass("fa-play").addClass("fa-pause");
 		acceleration = 1;
-		$("#player").find(".backward").removeAttr("disabled");
-		forward = true;
+		$("#player").find(".backward").removeAttr("disabled");		
 		run();		
 	} else {
 		icon.removeClass("fa-pause").addClass("fa-play");
@@ -158,8 +161,7 @@ function playPause() {
 }
 
 function run() {
-	if (paused) {
-		//console.log("paused");
+	if (paused) {		
 		return;
 	}	
 	playing = true;
@@ -248,11 +250,9 @@ function animateCursor() {
 }
 
 //Animation for booting a node
-function bootNode(node, duration) {
-	//console.log("boot " + node.id);
+function bootNode(node, duration) {	
 	var d1 = $.Deferred();
-	var d2 = $.Deferred();
-
+	var d2 = $.Deferred();	
 	node.boxStroke.animate({
 		stroke: 'black'
 	}, duration, mina.backin, function() {

@@ -87,5 +87,4 @@ function Configuration(ns, vs) {
             drawConfiguration("canvas");
         }
     }
-
 }
