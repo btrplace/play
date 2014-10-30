@@ -66,9 +66,7 @@ function drawConfiguration(id) {
     }
 
     //paper = Raphael(id, 600, 300);        
-    paper = Snap("#" + id);    
-    // emptying the paper
-    console.log(paper);
+    paper = Snap("#" + id);        
     paper.clear();    
 
     for (var i in config.nodes) {

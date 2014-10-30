@@ -41,12 +41,12 @@
         </form>        
         <div id="description"></div>
         <div class="text-right">
-          <a id="solve" onclick="solve();" class="btn btn-success" disabled="disabled">
+          <button id="solve" onclick="solve();" class="btn btn-success" disabled="disabled">
             <i class="fa fa-gears"></i> Solve
-          </a>
-          <a onclick="share()" class="btn btn-warning">
+          </button>
+          <button onclick="share()" class="btn btn-warning">
           <i class="fa fa-share-alt"></i> Share
-          </a>
+          </button>
         </div>
         <div class="tip">Shortcuts to edit the model (8 nodes max.):
         <ul>
@@ -60,12 +60,8 @@
     </div>                  
   </div>
   <div id="workspace">
-  <div class="row">
-    <div class="col-md-5"><div id="editor"></div></div>
-    <div class="col-md-7">      
-        <svg id="canvas"></svg>      
-    </div>          
-  </div>
+  <div id="editor"></div>
+  <svg id="canvas"></svg>      
   
     <div id="error" class="output">
       <div class="close"><a onclick="hide('error')"><i class="fa fa-close"></i></a></div>

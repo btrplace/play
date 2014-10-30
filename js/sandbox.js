@@ -62,10 +62,10 @@ function setReadOnly(b) {
 	if (!b) {
 		backupConfig = undefined;
 		$("#editor").find(".ace_content").removeClass("lock");
-		$("#canvas").removeClass("lock");
+		$("#canvas").removeAttr("class");
 	} else {
 		$("#editor").find(".ace_content").addClass("lock");
-		$("#canvas").addClass("lock");
+		$("#canvas").attr("class","lock");
 	}
 }
 

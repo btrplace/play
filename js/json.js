@@ -28,7 +28,6 @@ function JSON2Model(js) {
                 var vm = new VirtualMachine(vmName, cpu.vms[vid], mem.vms[vid]);
                 c.vms[vid] = vm;
                 n.host(vm);
-                //n.vms[vid] = vm;
             });
         }
     });

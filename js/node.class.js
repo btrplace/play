@@ -1,3 +1,6 @@
+var MAX_CPU = 6;
+var MAX_MEM = 6;
+
 function Node(name, cpu, mem) {
     this.id = name;
     this.cpu = cpu;
@@ -66,20 +69,8 @@ function Node(name, cpu, mem) {
             setSelectedElement(self);                   
         });         
 
-	    //The VMs
-	    //get the origin of the boundingBox
-	    /*var oX = this.posX + border;
-	    var oY = this.posY + border + box_height;
-	    for (var i in this.vms) {
-	        this.vms[i].draw(canvas,oX,oY);
-	        //Update the position by the VMs bounding box
-	        oX += this.vms[i].boundingBox()[0];
-	        oY -= this.vms[i].boundingBox()[1];
-	    }*/
         this.refreshVMs();
 
-		//var drawingElements = $.merge(this.boxStroke, this.boxFill);
-		//var drawingElements = this.boxStroke;
 		var self = this ;
         if (this.selected) {
             this.select();
