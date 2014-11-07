@@ -21,7 +21,10 @@ function Node(name, cpu, mem) {
 	    this.posX = x;
 	    this.posY = y;
 
-	    //if( this.boxStroke) this.boxStroke.remove();
+	    if( this.boxStroke) {
+            this.boxStroke.remove();
+            this.boxFill.remove();
+        }
 	    //if( this.boxFill) this.boxFill.remove();
 
         this.boxStroke = canvas.group();        
@@ -98,11 +101,11 @@ function Node(name, cpu, mem) {
 			this.rect.attr({
 				'fill':'#DBDEC5',
 				'fill-opacity':'1'
-			});		
+			});		            
             this.selected = true;
 	}
-	this.unSelect = function() {
-		this.rect.attr({'fill-opacity':'0'});
+	this.unSelect = function() {     
+		this.rect.attr({'fill-opacity':'0'});        
         this.selected = false;
 	}
 
@@ -211,8 +214,8 @@ function Node(name, cpu, mem) {
 					}
 					if (this.fit(vm)) {
 						this.host(vm);
-                        config.vms.push(vm);                        
-                        this.refresh();
+                        config.vms.push(vm);                                           
+                        this.refresh();                        
                         setSelectedElement(vm);                        
 					} else {
                         alert("No enough space");

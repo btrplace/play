@@ -51,14 +51,14 @@ function VirtualMachine(id, cpu, mem) {
         return [this.cpu * unit_size, this.mem * unit_size];
     }
 
-    this.select = function() {
+    this.select = function() {        
         this.previousColor = this.rect.attr("fill");
         this.rect.attr({
             'fill': '#d2d8b1'
         });
         this.selected = true;
     }
-    this.unSelect = function() {
+    this.unSelect = function() {        
         this.rect.attr({
             'fill': this.bgColor
         });
