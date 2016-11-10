@@ -28,6 +28,7 @@ var plan;
  * Click to de-select by default
  */
 $(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip()
     $(document).click(function(){
         setSelectedElement(null);
     });
@@ -39,12 +40,12 @@ $(document).ready(function(){
  * The element will also be highlighted.
  * @param element The element (either a Node or a VM) of the Configuration to be selected.
  */
-function setSelectedElement(element){	
+function setSelectedElement(element){
 	if (!canEdit)  {
 		return false;
 	}
 	// Unselect the previously selected element.
-	if (selectedElement != null) {		
+	if (selectedElement != null) {
 		selectedElement.unSelect();
 	}
 
@@ -52,15 +53,15 @@ function setSelectedElement(element){
 	selectedElement = element;
 
 	// Mark the newly selected element itself as selected (for drawing purposes)
-	if (element != null) {		
+	if (element != null) {
 		element.select();
 	}
 }
 
-function setReadOnly(b) {	
+function setReadOnly(b) {
 	canEdit = !b;
 	editor.setReadOnly(b);
-	if (!b) {		
+	if (!b) {
 		$("#editor").find(".ace_content").removeClass("lock");
 		$("#canvas").removeAttr("class");
 	} else {
@@ -74,7 +75,7 @@ function onKeyEvent(event){
 	if (!canEdit) {
 		return false;
 	}
-	if (selectedElement != null) {	
+	if (selectedElement != null) {
 		selectedElement.onKeyEvent(keyCode);
 	} else {
 		config.onKeyEvent(keyCode);
@@ -84,21 +85,21 @@ function onKeyEvent(event){
 /**
  * Annotates the lines with syntax errors in the constraints script.
  */
-function showSyntaxErrors(errors) {	
-    var anns = [];    
+function showSyntaxErrors(errors) {
+    var anns = [];
     var b = "<ul>";
-    errors.forEach(function (err) {    	
+    errors.forEach(function (err) {
 		anns.push({
 			row: err.ln - 1,
             column: err.cn,
             type: "error",
-            text:err.message            
+            text:err.message
         });
         b = b + "<li>line " + err.ln + ", column " + err.cn + ": " + err.message + "</li>";
     });
-    b += "</ul>";        
-    editor.getSession().setAnnotations(anns)    
-	$("#error-cnt").html("<h4>Errors</h4>" + b);  	 			
+    b += "</ul>";
+    editor.getSession().setAnnotations(anns)
+	$("#error-cnt").html("<h4>Errors</h4>" + b);
 }
 
 // Setup keyboard actions
@@ -111,70 +112,70 @@ $(function() {
 	});
 });
 
-function show(target, other) {	
+function show(target, other) {
 	setReadOnly(target.attr('id') == "solution")
-	if (other.is(":visible")) {		
+	if (other.is(":visible")) {
 		other.hide("slide", {direction: "down", complete: function (){
 			target.show("slide", {direction: "down"}, 200);
 		}}, 200);
 	} else {
-		if (!target.is(":visible")) {			
+		if (!target.is(":visible")) {
 			target.show("slide", {direction: "down"}, 200);
 		}
 	}
 }
 
-function hide() {	
+function hide() {
 	setReadOnly(false);
 	plan = undefined;
 	var args = Array.prototype.slice.call(arguments);
 	args.forEach(function (id) {
 		var d = $("#" + id);
 		if (d.is(":visible")) {
-			d.hide("slide", {direction: "down"}, 200);		
-		}		
+			d.hide("slide", {direction: "down"}, 200);
+		}
 	});
 }
-function solve() {	
-	var instance = instance2JSON(config, editor.getValue())	
+function solve() {
+	var instance = instance2JSON(config, editor.getValue())
 	if (plan) {
-		config = JSON2Model(plan.origin);		
+		config = JSON2Model(plan.origin);
 		drawConfiguration("canvas");
 		instance.model = plan.origin;
-	}	
+	}
 	var promise = $.ajax({
-  		type: "POST",  		
+  		type: "POST",
   		url: endPoint + "/solve",
   		data: JSON.stringify(instance)
   	});
 	var s = $("#solution");
-	var e = $("#error");	
-  	promise.done(function (p, statusCode) {  	  		
+	var e = $("#error");
+  	promise.done(function (p, statusCode) {
   		plan = p;
-  		editor.getSession().setAnnotations([]);							
-  		if (statusCode == "nocontent") {  			
+  		editor.getSession().setAnnotations([]);
+  		if (statusCode == "nocontent") {
 			$("#error-cnt").html("<p>BtrPlace stated your problem has no solution.<br/>remove or simplify some constraints</p>");
 			show(e, s);
   		} else if (statusCode == "success") {
   			setReadOnly(true);
-  			config = JSON2Model(plan.origin);  			
+  			config = JSON2Model(plan.origin);
   			drawConfiguration("canvas");
   			if (plan.actions.length == 0) {
   				$("#player").html("<p>No need to reconfigure</p>");
   			} else {
-				createPlayer(plan, "player");												
-			}			
+				createPlayer(plan, "player");
+			}
 			show(s, e);
   		} else {
   			console.log("Unsupported status: " + statusCode);
   		}
   	});
-  	promise.fail(function (xhr) {   		
+  	promise.fail(function (xhr) {
 		if (xhr.status == 400) {
-  			showSyntaxErrors(JSON.parse(xhr.responseText));  	 			
+  			showSyntaxErrors(JSON.parse(xhr.responseText));
   		} else {
   			$("#error-cnt").html("<p>" + xhr.responseText + "</p>");
-  		}  		
+  		}
 		show(e, s);
-	});   	 
+	});
 }

@@ -4,13 +4,13 @@ var schedule;
 
 var playing = false;
 var now;
-var unit = 140;
+var unit = 130;
 var SPEED = 1000;
 var acceleration = 1;
 var forward = true;
 
 function makeSpan(actions) {
-	var h = 1;	
+	var h = 1;
 	actions.forEach(function(a) {
 		if (a.end > h) {
 			h = a.end;
@@ -33,7 +33,7 @@ function makeAction(unit, lbl, start, end, h) {
 	actionBar.css({
 		left: (start + 1) * unit,
 		width: d * unit
-	});	
+	});
 	return actionContainer;
 }
 
@@ -129,7 +129,7 @@ function ffwd() {
 	acceleration = 5;
 	forward = true;
 	if (!playing) {
-		run();		
+		run();
 	}
 }
 
@@ -153,17 +153,17 @@ function playPause() {
 	if (icon.hasClass("fa-play")) {
 		icon.removeClass("fa-play").addClass("fa-pause");
 		acceleration = 1;
-		$("#player").find(".backward").removeAttr("disabled");		
-		run();		
+		$("#player").find(".backward").removeAttr("disabled");
+		run();
 	} else {
 		icon.removeClass("fa-pause").addClass("fa-play");
 	}
 }
 
 function run() {
-	if (paused) {		
+	if (paused) {
 		return;
-	}	
+	}
 	playing = true;
 	var deferreds = [];
 	schedule[forward ? now : now - 1].forEach(function(a) {
@@ -172,8 +172,8 @@ function run() {
 	//the cursor
 	deferreds.push(animateCursor());
 	$.when.apply($, deferreds).then(
-		function() {			
-			playing = false;			
+		function() {
+			playing = false;
 			if (now == 0) {
 				$("#player").find(".backward").attr("disabled", "disabled");
 				$("#player").find(".forward").removeAttr("disabled");
@@ -209,9 +209,9 @@ function apply(a) {
 				//make it reversible
 				if (a.orig == undefined) {
 					a.orig = config.vms[a.vm][a.rc];
-				}				
+				}
 				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.amount, SPEED / acceleration);
-			case 'migrateVM':				
+			case 'migrateVM':
 				return migrate(config.vms[a.vm], config.nodes[a.from], config.nodes[a.to], duration, a.hooks.post);
 		}
 	}
@@ -220,9 +220,9 @@ function apply(a) {
 			return shutdownNode(config.nodes[a.node], duration);
 		case 'shutdownNode':
 			return bootNode(config.nodes[a.node], duration);
-		case 'allocate':				
-				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.orig, SPEED / acceleration);			
-		case 'migrateVM':			
+		case 'allocate':
+				return allocate(config.vms[a.vm], config.nodes[a.on], a.rc, a.orig, SPEED / acceleration);
+		case 'migrateVM':
 			return migrate(config.vms[a.vm], config.nodes[a.to], config.nodes[a.from], duration, a.hooks.post);
 	}
 }
@@ -231,7 +231,7 @@ function prepareReconfiguration(actions, h) {
 	var groups = [];
 	for (var i = 0; i < h; i++) {
 		groups[i] = [];
-	}	
+	}
 	actions.forEach(function(a) {
 		if (!groups[a.start]) {
 			groups[a.start] = [];
@@ -250,9 +250,9 @@ function animateCursor() {
 }
 
 //Animation for booting a node
-function bootNode(node, duration) {	
+function bootNode(node, duration) {
 	var d1 = $.Deferred();
-	var d2 = $.Deferred();	
+	var d2 = $.Deferred();
 	node.boxStroke.animate({
 		stroke: 'black'
 	}, duration, mina.backin, function() {
@@ -275,18 +275,18 @@ function shutdownNode(node, duration) {
 	node.boxStroke.animate({
 		'stroke': '#bbb'
 	}, duration, mina.linear, function() {
-		node.online = false;		
+		node.online = false;
 		d1.resolve();
 	});
 	node.boxFill.animate({
 		'fill': '#bbb'
 	}, duration, mina.linear, function() {
-		d2.resolve();		
-	});	
+		d2.resolve();
+	});
 	return [d1.promise(), d2.promise()];
 }
 
-function allocate(vm, src, rc, q, duration) {	
+function allocate(vm, src, rc, q, duration) {
 	var d = $.Deferred();
 	var x = setInterval(function () {
 		vm[rc] = q;
@@ -298,10 +298,10 @@ function allocate(vm, src, rc, q, duration) {
 }
 
 //Animation for a migrate action
-function migrate(vm, src, dst, duration, post) {	
+function migrate(vm, src, dst, duration, post) {
 	//console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id);
 	var a = 0;
-	//A light gray (ghost) VM is posted on the destination	
+	//A light gray (ghost) VM is posted on the destination
 	var mem = vm.mem;
 	var cpu = vm.cpu;
 	if (post && post.length > 0) {
@@ -315,7 +315,7 @@ function migrate(vm, src, dst, duration, post) {
 				mem = forward ? rc.amount : rc.orig;
 			} else {
 				console.log("Unsupported resource '" + rc.type + "'");
-			}			
+			}
 		})
 	}
 	var ghostDst = new VirtualMachine(vm.id, cpu, mem);
@@ -350,14 +350,14 @@ function migrate(vm, src, dst, duration, post) {
 
 		//Refresh the nodes
 		src.refreshVMs();
-		dst.refreshVMs();	
+		dst.refreshVMs();
 	}
 	var p1 = movingVM.box.animate({
-		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)		
-	}, duration, mina.easeinout, function() {		
+		transform: "T " + (ghostDst.posX - vm.posX) + " " + (ghostDst.posY - vm.posY)
+	}, duration, mina.easeinout, function() {
 		animationEnd();
 		d.resolve();
-	});	
+	});
 	return [d.promise()];
 }
 

@@ -20,7 +20,7 @@ body {
     font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #222;
     background-color: #fff;
-    line-height: 180%;    
+    line-height: 180%;
     min-width:950px;
 }
 
@@ -63,7 +63,7 @@ a:focus {
     color: #11505d;
 }
 
-@-webkit-keyframes pulse {    
+@-webkit-keyframes pulse {
     0 {
         -webkit-transform: scale(1);
         transform: scale(1);
@@ -80,7 +80,7 @@ a:focus {
     }
 }
 
-@-moz-keyframes pulse {    
+@-moz-keyframes pulse {
     0 {
         -moz-transform: scale(1);
         transform: scale(1);
@@ -125,29 +125,29 @@ a:focus {
 }
 
 .tb {
-    writing-mode: vertical-lr;    
+    writing-mode: vertical-lr;
 }
 #canvas {
-    font-size: 10pt;    
+    font-size: 10pt;
     font-family: Arial;
-    text-anchor: middle;    
+    text-anchor: middle;
     width: 600px;
-    height: 300px; 
-    margin-left: 300px;   
+    height: 300px;
+    margin-left: 300px;
 }
 
-#editor {         
-    height: 300px;    
+#editor {
+    height: 300px;
     width: 300px;
     font-size: 9pt;
     line-height: 14pt;
 }
 
-.output { 
-    position: fixed;    
-    width: 100%;    
+.output {
+    position: fixed;
+    width: 100%;
     bottom: 0;
-    z-index: 99;    
+    z-index: 99;
 }
 
 .output .close {
@@ -163,14 +163,14 @@ a:focus {
     display: none;
     background-color: #f2dede;
     border: solid #ebccd1 1px;
-    color: #a94442;         
+    color: #a94442;
 }
 
 #solution {
     display: none;
-    background-color: rgb(223, 240, 216);    
+    background-color: rgb(223, 240, 216);
     color: #5cb85c;
-    font-size: 10pt;    
+    font-size: 10pt;
 }
 
 #description {
@@ -191,7 +191,7 @@ a:focus {
     margin-left: 150px;
 }
 
-#wrap {    
+#wrap {
     background-color: rgb(217, 237, 247);
     border-left: solid #e0e0e0 1px;
     min-height: 100%;
@@ -221,10 +221,10 @@ a:focus {
     background-color: #e7e7e7;
 }
 
-.btn-green {    
+.btn-green {
     text-decoration: none;
     background: #d2d8b1;
-    border-radius: 4px;    
+    border-radius: 4px;
     color: #444;
 }
 
@@ -237,23 +237,23 @@ a:focus {
 
 .cursor {
     position:absolute;
-    border-left:3px solid rgba(20,20,20,0.5);   
+    border-left:3px solid rgba(20,20,20,0.5);
     top: -10px;
     bottom: 5px;
 }
 
 .actionContainer {
-    height:30px;    
+    height:30px;
 }
 
 .actionLine {
     border-top:1px solid #666;
     position:relative;
-    top:-14px;      
+    top:-14px;
 }
 
 
-.graduations {      
+.graduations {
     height:6px;
 }
 
@@ -278,14 +278,14 @@ a:focus {
 }
 
 .actionBar {
-    position:relative;  
+    position:relative;
     background-color: #5cb85c;
     border-radius:2px;
     padding-left:0px;
-    font-size: 10pt;
+    font-size: 9pt;
     color: white;
     white-space: nowrap;
-    text-align: center; 
+    text-align: center;
     z-index: 1;
 }
 
@@ -294,7 +294,7 @@ a:focus {
     font-size: 9pt;
     line-height: 1.5em;
     margin-bottom: 1em;
-    margin-left: 1em;    
+    margin-left: 1em;
 }
 
 /* Ace editor */
@@ -305,5 +305,5 @@ a:focus {
     display: none !important;
 }
 .ace_folding-enabled > .ace_gutter-cell {
- padding-right: 2px; 
+ padding-right: 2px;
 }
