@@ -119,6 +119,11 @@ function model2JSON(m) {
 function instance2JSON(m, scr) {
     return {
         model: model2JSON(m),
-        script: scr
+        script: scr,
+        params: {
+            repair : $("#repair").is(":checked"),
+            optimise : $("#optimise").is(":checked"),
+            network : $("#network").is(":checked")
+        }
     };
 }

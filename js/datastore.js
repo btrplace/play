@@ -1,4 +1,4 @@
-function share() {  
+function share() {
   setReadOnly(true);
   $("#modal-share-custom").modal('show');
 }
@@ -93,7 +93,7 @@ function randomScript(cfg) {
       break;
     }
   }
-  //One ban on the 3 first VMs that are placed, after vms[5]  
+  //One ban on the 3 first VMs that are placed, after vms[5]
   nIdx = -1;
   while (nIdx < 0 || cfg.nodes[nIdx].vms.length == 0) {
     nIdx = Math.floor(Math.random() * cfg.nodes.length);
@@ -128,7 +128,7 @@ function displayInstance(i) {
   hide("solution", "error");
 }
 
-function loadUseCase(uc) {  
+function loadUseCase(uc) {
   var k = uc;
   //hide solution panel if needed
   var p = $("#solution");
