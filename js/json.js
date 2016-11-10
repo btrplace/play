@@ -112,7 +112,7 @@ function model2JSON(m) {
     return {
         mapping: mapping,
         views: [cpu, mem, nsVm, nsNode],
-        attributes: []
+        attributes: {}
     }
 }
 
