@@ -141,7 +141,8 @@ function loadUseCase(uc) {
   } else {
     var promise = $.ajax({
       type: "GET",
-      url: endPoint + "/store/" + k
+      url: endPoint + "/store/" + k,
+      crossDomain: true
     }).done(function(useCase) {
       current = uc;
       displayInstance(useCase);
