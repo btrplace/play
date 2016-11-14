@@ -143,9 +143,6 @@ function loadUseCase(uc) {
       type: "GET",
       url: endPoint + "/store/" + k,
       crossDomain: true,
-      xhrFields: {
-        withCredentials: true
-    },
     }).done(function(useCase) {
       current = uc;
       displayInstance(useCase);
