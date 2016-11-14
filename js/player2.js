@@ -4,8 +4,9 @@ var schedule;
 
 var playing = false;
 var now;
-var unit = 130;
-var SPEED = 1000;
+//var unit = 130;
+var graduations_offset = 200;
+var SPEED = 500;
 var acceleration = 1;
 var forward = true;
 
@@ -23,15 +24,17 @@ function makeAction(unit, lbl, start, end, h) {
 	var actionBar = $("<div></div>").addClass("actionBar"),
 		actionLine = $("<div></div>").addClass("actionLine"),
 		actionContainer = $("<div></div>").addClass("actionContainer");
-	actionBar.html(lbl);
+		actionLabel = $("<div></div>").addClass("actionLabel").html(lbl);
+	actionBar.html((end - start) + " sec.");
 	actionContainer.append(actionBar);
 	actionContainer.append(actionLine);
+	actionContainer.append(actionLabel);
 
 	//+1 to make a space from the left border
 	var d = end - start;
 	if (d == 0) {d = 1};
 	actionBar.css({
-		left: (start + 1) * unit,
+		left: start * unit + graduations_offset,
 		width: d * unit
 	});
 	return actionContainer;
@@ -40,7 +43,7 @@ function makeAction(unit, lbl, start, end, h) {
 function makeTimeline(unit, h) {
 	var timeline = $("<div></div>").addClass("graduations");
 	for (var i = 0; i <= h; i++) {
-		var x = (i + 1) * unit;
+		var x = i * unit + graduations_offset;
 		var g = $("<div></div>").addClass("timestamp");
 		var m = $("<span>" + i + "</span>").addClass("timemark");
 		g.css({
@@ -101,6 +104,14 @@ function createPlayer(plan, to) {
 	var div = $("#" + to);
 	div.html("");
 	var h = makeSpan(plan.actions);
+	var width = $(document).width();
+	unit = (width - graduations_offset) / (h + 1);
+
+	SPEED = 1000; //1 sec per second
+	if (h > 10) {
+		//Avoid to take to muh time: 8 secs max
+		SPEED = 1000 / h * 10;
+	}
 	var actions = $("<div></div>").addClass("actionLines");
 	//sort the actions
 	plan.actions.sort(function(a, b){return a.start-b.start;});
@@ -112,7 +123,7 @@ function createPlayer(plan, to) {
 	div.append(controler);
 	div.append(makeTimeline(unit, h));
 	div.append(actions);
-	var cursor = $("<div></div>").addClass("cursor").css("left", unit);
+	var cursor = $("<div></div>").addClass("cursor").css("left", graduations_offset);
 	cursor.append($("<div></div>").addClass("time-mark"));
 	actions.append(cursor);
 	div.append();
@@ -161,16 +172,19 @@ function playPause() {
 }
 
 function run() {
+	//console.log("run(" + now + ")");
 	if (paused) {
 		return;
 	}
 	playing = true;
 	var deferreds = [];
+	//console.log(schedule);
 	schedule[forward ? now : now - 1].forEach(function(a) {
-		deferreds = deferreds.concat(apply(a));
+		//deferreds = deferreds.concat(apply(a));
+		apply(a);
 	})
 	//the cursor
-	deferreds.push(animateCursor());
+	deferreds.push(animateCursor(unit));
 	$.when.apply($, deferreds).then(
 		function() {
 			playing = false;
@@ -241,8 +255,8 @@ function prepareReconfiguration(actions, h) {
 	return groups;
 }
 
-function animateCursor() {
-	var to = (1 + now + (forward ? 1 : -1)) * unit;
+function animateCursor(unit) {
+	var to = graduations_offset + (now + (forward ? 1 : -1)) * unit;
 	var duration = SPEED / acceleration;
 	return $(".cursor").animate({
 		left: to + "px"
@@ -299,7 +313,7 @@ function allocate(vm, src, rc, q, duration) {
 
 //Animation for a migrate action
 function migrate(vm, src, dst, duration, post) {
-	//console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id);
+	console.log("migrate " + vm.id + " from " + src.id + " to " + dst.id + " duration= " + duration + " width= " + unit*duration);
 	var a = 0;
 	//A light gray (ghost) VM is posted on the destination
 	var mem = vm.mem;

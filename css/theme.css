@@ -115,13 +115,13 @@ a:focus {
 }
 
 #player .controler {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
     text-align: left;
     position: absolute;
 }
 
 .controler .btn {
-    margin: 2px;
+    margin: 4px;
 }
 
 .tb {
@@ -232,13 +232,13 @@ a:focus {
 /* Diagram stuff */
 .actionLines {
     position:relative;
-    margin-top: 2em;
+    margin-top: 3em;
 }
 
 .cursor {
     position:absolute;
     border-left:3px solid rgba(20,20,20,0.5);
-    top: -10px;
+    top: -25px;
     bottom: 5px;
 }
 
@@ -250,8 +250,17 @@ a:focus {
     border-top:1px solid #666;
     position:relative;
     top:-14px;
+    left: 200px;
 }
 
+.actionLabel {
+     position:relative;
+    top: -28px;
+    padding-right: 15px;
+    color: #666;
+    width: 200px;
+    text-align: right;
+}
 
 .graduations {
     height:6px;
@@ -283,10 +292,12 @@ a:focus {
     border-radius:2px;
     padding-left:0px;
     font-size: 9pt;
+    left: 200px;
     color: white;
     white-space: nowrap;
     text-align: center;
     z-index: 1;
+
 }
 
 .custom {
