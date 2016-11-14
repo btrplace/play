@@ -142,8 +142,7 @@ function loadUseCase(uc) {
     var promise = $.ajax({
       type: "GET",
       url: endPoint + "/store/" + k
-    });
-    promise.done(function(useCase) {
+    }).done(function(useCase) {
       current = uc;
       displayInstance(useCase);
       //Add the custom title to the select bar if no option having the value exists
@@ -157,8 +156,7 @@ function loadUseCase(uc) {
       if (!known && current != undefined) {
         $("#use-cases").prepend("<option value='" + useCase.key + "' selected> (custom) " + useCase.title + "</option>");
       }
-    })
-    promise.fail(function(xhr) {
+    }).fail(function(xhr) {
       if (xhr.status == 404) {
         error("Use case '" + uc + "' not found");
       } else {
