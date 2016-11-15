@@ -4,7 +4,6 @@ var schedule;
 
 var playing = false;
 var now;
-//var unit = 130;
 var graduations_offset = 200;
 var SPEED = 500;
 var acceleration = 1;
@@ -60,7 +59,7 @@ function makeTimeline(unit, h) {
 function label(vmNs, nodeNs, a) {
 	switch (a.id) {
 		case "migrateVM":
-			return "migrate " + name(vmNs, a.vm) + " to " + name(nodeNs, a.to);
+			return "migrate " + name(vmNs, a.vm) + " from " + name(vmNs, a.from) + " to " + name(nodeNs, a.to);
 		case "bootNode":
 			return "boot " + name(nodeNs, a.node);
 		case "shutdownNode":
@@ -283,7 +282,6 @@ function bootNode(node, duration) {
 
 // Animation for shutting down a node
 function shutdownNode(node, duration) {
-	//console.log("shutdown " + node.id);
 	var d1 = $.Deferred();
 	var d2 = $.Deferred();
 	node.boxStroke.animate({
@@ -343,7 +341,6 @@ function migrate(vm, src, dst, duration, post) {
 	movingVM.bgColor = "#eee";
 	movingVM.strokeColor = "#ddd";
 	movingVM.draw(paper, vm.posX, vm.posY + vm.mem * unit_size);
-	//	movingVM.box.toFront();
 
 	var d = $.Deferred();
 	var animationEnd = function() {

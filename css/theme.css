@@ -256,10 +256,11 @@ a:focus {
 .actionLabel {
      position:relative;
     top: -28px;
-    padding-right: 15px;
+    padding-right: 10px;
     color: #666;
     width: 200px;
     text-align: right;
+    font-size: 11px;
 }
 
 .graduations {

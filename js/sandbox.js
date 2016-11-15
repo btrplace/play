@@ -150,6 +150,7 @@ function solve() {
   	});
 	var s = $("#solution");
 	var e = $("#error");
+	hide("solution", "error");
   	promise.done(function (p, statusCode) {
   		plan = p;
   		editor.getSession().setAnnotations([]);
@@ -171,7 +172,7 @@ function solve() {
   		}
   	});
   	promise.fail(function (xhr) {
-		if (xhr.status == 400) {
+		if (xhr.status == 406) {
   			showSyntaxErrors(JSON.parse(xhr.responseText));
   		} else {
   			$("#error-cnt").html("<p>" + xhr.responseText + "</p>");
