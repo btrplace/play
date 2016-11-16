@@ -59,7 +59,7 @@ function makeTimeline(unit, h) {
 function label(vmNs, nodeNs, a) {
 	switch (a.id) {
 		case "migrateVM":
-			return "migrate " + name(vmNs, a.vm) + " from " + name(vmNs, a.from) + " to " + name(nodeNs, a.to);
+			return "migrate " + name(vmNs, a.vm) + " from " + name(nodeNs, a.from) + " to " + name(nodeNs, a.to);
 		case "bootNode":
 			return "boot " + name(nodeNs, a.node);
 		case "shutdownNode":
