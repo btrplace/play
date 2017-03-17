@@ -24,6 +24,26 @@ var KEY_RIGHT = 39;
 
 var plan;
 
+
+function favorites() {
+	return $.get(endPoint + "/store");
+}
+
+
+function displayFavorites(ucs) {
+	var useCase = getURLParameter("uc");
+	var buf = "";
+	ucs.forEach(function (uc) {
+		buf += "<option value='" + uc.key + "'>" + uc.title + "</option>";
+	});
+	buf += "<option value='_' class='rnd'>random ...</option>";
+	$("option").replaceWith(buf);	
+    if (useCase != undefined) {	
+    	loadUseCase(useCase);
+    } else {        
+    	loadUseCase($("option:first").attr("value"));
+    }
+}
 /**
  * Click to de-select by default
  */
